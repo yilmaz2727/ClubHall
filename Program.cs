@@ -1,7 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using OgrenciKulupSistemi.Data;
+using OgrenciKulupSistemi.Models;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDbContext>();
+/* 
+AddEntityFrameworkStores<ApplicationDbContext>() -->
+
+Identity verilerinin (kullanıcılar, roller, şifreler, vs.) Entity Framework Core ile veritabanında saklanmasını sağlar.
+ApplicationDbContext sınıfı, bu verilerin tutulacağı DbContext’tir.
+*/
+
 
 var app = builder.Build();
 
@@ -15,8 +30,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapStaticAssets();
 
