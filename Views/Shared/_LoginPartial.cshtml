@@ -1,0 +1,58 @@
+@using Microsoft.AspNetCore.Identity
+@using OgrenciKulupSistemi.Models
+@using System.Security.Claims
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+
+@*
+@User Neyi Temsil Eder? 
+Bu, ASP.NET Core'un tüm Razor sayfalarında (ve Controller'larda) otomatik olarak erişilebilir kıldığı özel bir özelliktir. 
+Bu, ClaimsPrincipal türünde bir nesnedir ve o anda siteye giriş yapmış olan kullanıcıyı temsil eder. Bu, sizin oluşturduğunuz 
+bir model değildir; bunu size ASP.NET Core'un kendisi verir.
+
+User.Identity Neyi Temsil Eder? Bu, User nesnesinin (yani giriş yapmış kullanıcının) kimlik bilgilerini 
+(IIdentity arayüzü, genellikle ClaimsIdentity) içeren özelliğidir.
+
+Giriş yaptığınızda (SignInManager.SignInAsync çalıştığında), ASP.NET Core güvenli bir "cookie" (çerez) oluşturur ve 
+bunu tarayıcınıza gönderir. Siteye yaptığınız her sonraki istekte, tarayıcı bu çerezi sunucuya geri gönderir. 
+ASP.NET Core middleware'i bu çerezi okur, şifresini çözer ve o anki istek için bu @User nesnesini otomatik olarak oluşturup doldurur.
+*@
+
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    var firstName = User.FindFirst(ClaimTypes.GivenName)?.Value;
+    var lastName = User.FindFirst(ClaimTypes.Surname)?.Value;
+    
+    string welcomeMessage = User.Identity.Name;
+    
+    if (!string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName))
+    {
+        welcomeMessage = $"{firstName} {lastName}";
+    }
+    
+    
+    <li class="nav-item">
+        <a id="manage" class="nav-link text-dark" asp-controller="Profile" asp-action="Index" title="Manage">Hello @welcomeMessage</a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>

@@ -1,0 +1,12 @@
+public class Club
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string? LogoImageUrl { get; set; }
+    public string? CoverPhotoUrl { get; set; }
+
+
+    public ICollection<Event> Events { get; set; } // --> NAvigation prop. bir kulübün birden çok etkinliği olabilir. events tablosuna bir FK ekleyecek
+
+}
