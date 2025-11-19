@@ -1,15 +1,26 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Microsoft.EntityFrameworkCore;
+using OgrenciKulupSistemi.Data;
 
 namespace OgrenciKulupSistemi.Controllers
 {
-
     public class ClubController : Controller
     {
+        private readonly ApplicationDbContext _context;
 
-        public IActionResult Index()
+        public ClubController(ApplicationDbContext context)
         {
-            return View();
+            _context = context;
         }
+        // GET : Clubs
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Clubs.ToListAsync());
+        }
+
+        // GET : Club/Details/
 
 
 
