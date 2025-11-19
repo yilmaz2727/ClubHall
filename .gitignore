@@ -419,3 +419,9 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# SQLite Veritabanı Dosyaları
+# Bu satırlar, .db, .sqlite veya .sqlite3 uzantılı tüm dosyaları ignore eder.
+*.db
+*.sqlite
+*.sqlite3
