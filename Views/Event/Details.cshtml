@@ -1,0 +1,37 @@
+@model Event
+
+<!-- Header that shows main information about event -->
+<div class="card text-center">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title </h5>
+        <p class="card-text">@Model.EventDate</p>
+        <a href="#" class="btn btn-primary">Join Event</a>
+  </div>
+</div>
+
+<!-- Main image and text -->
+<div>
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.EventPhotoUrl" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text">@Model.Description</p>
+            <p class="card-text"><small class="text-muted">@Model.EventDate</small></p>
+        </div>
+</div>
+
+<!-- Main image and text -->
+<div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Event start date: @Model.EventDate</li>
+      <li class="list-group-item">Event finish date: ?</li>
+      <li class="list-group-item">Event Type: ?</li>
+      <li class="list-group-item">Event location: @Model.Location</li>
+      <li class="list-group-item">Number of attendance: ?</li>
+      <li class="list-group-item">Last application: ?</li>
+    </ul>
+</div>
+
+</div>

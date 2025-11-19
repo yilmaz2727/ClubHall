@@ -19,6 +19,21 @@ namespace OgrenciKulupSistemi.Controllers
             return View(events);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if(id == null) {
+                return NotFound();
+            }
+            
+            var _event = await _context.Events
+                .FirstOrDefaultAsync(i => i.Id == id);
+            if (_event == null ) {
+                return NotFound();
+            }
+
+            return View(_event);
+        }
+
     }
 
 }
