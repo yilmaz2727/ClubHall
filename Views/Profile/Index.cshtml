@@ -1,20 +1,50 @@
-burasi profile index, bu sayfada kısaca kullanıcı bilgilerini göstereceğiz (ad, soyad, email, phone)
-kullanıcı aşağıdaki linklere tıkladığında kayıt olduğu kulüpler, daha önceden kayıt olduğu etkinlikler gösterileeck
+@using Microsoft.AspNetCore.Identity
+@model ApplicationUser
 
-<div>
-    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="">Hesap Ayarları</a> <!-- burası şuan çalışıyor. -->
+
+
+  
+
+
+<div class="container my-5">
+    <div class="profile-card shadow-sm mx-auto">
+
+        <!-- Üst mavi alan -->
+        <div class="profile-cover"></div>
+
+        <!-- Profil avatarı -->
+        <div class="profile-avatar">
+            <div class="avatar-circle d-flex align-items-center justify-content-center">
+            </div>
+        </div>
+
+        <!-- Alt beyaz içerik + Ayar ikonunun doğru yeri -->
+        <div class="profile-body d-flex align-items-center justify-content-between">
+
+            <!-- Sol taraf: Kullanıcı adı -->
+            <div>
+                <div class="profile-name">@Model.FirstName @Model.LastName</div>
+                <div class="profile-location">Maltepe, İstanbul</div>
+            </div>
+
+            <!-- Sağ taraf: Ayar Butonu -->
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="settings-icon">
+                <i class="bi bi-gear"></i>
+            </a>
+
+        </div>
+
+    </div>
 </div>
 
 
+
 <div>
-    <a href="#" class="">Üyeliklerim</a> <!-- ileride kullanıcı kulüplere kayıt olabildiğinde bu kısımları güncelleyeceğiz. şuanlık burada yapılacak bir şey yok. -->
+    <a asp-action="MyEvents" asp-controller=profile"" class="">Etkinlikelrim</a> <!-- ileride kullanıcı kulüplere kayıt olabildiğinde bu kısımları güncelleyeceğiz. şuanlık burada yapılacak bir şey yok. -->
 </div>
 
 <div>
-    <a href="#" class="">Etkinliklerim</a>
+    <a asp-action="MyMemberships" asp-controller="profile" class="">Üyeliklerim</a>
 </div>
 
-<div>
-    <a href="#">Profili Düzenle</a> <!-- burada Profile/Edit sayfasına yönelndirmelisin. kullanıcı firstname lastname gibi bilgilerni düzenleyebilmeli -->
-</div>
 
