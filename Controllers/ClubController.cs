@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using ClubHall.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,24 @@ namespace OgrenciKulupSistemi.Controllers
         // GET : Clubs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clubs.ToListAsync());
+            var clubs = await _context.Clubs.ToListAsync();
+            return View(clubs);
         }
 
         // GET : Club/Details/
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var club = await _context.Clubs.Include(c=>c.Events).FirstOrDefaultAsync(m => m.Id == id);
+            if (club == null)
+            {
+                return NotFound();
+            }
+            return View(club);
+        }
 
 
 
