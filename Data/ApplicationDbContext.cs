@@ -1,3 +1,4 @@
+using ClubHall.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OgrenciKulupSistemi.Models;
@@ -8,7 +9,7 @@ namespace OgrenciKulupSistemi.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
