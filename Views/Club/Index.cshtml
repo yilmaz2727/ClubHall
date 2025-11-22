@@ -1,21 +1,20 @@
-burasi club index
+@using ClubHall.Models
+@model List<Club>
 
-
-burada bootstrap kart düzeniyle kulüpler listelenecek, yapısı şu şekilde olmalı:
-
-foto
-kulüp adı
-kısa açıklama
-
-kartın üzerine tıklandığında kulübün detay sayfasına yönlendirecek (Club/Details)
-
-detay sayfasında 
-hakkımızda ve etkinlikler butonları seçenekleri olmalı.
-
-!!! etkinlikler butonuna tıklandığında ilgili kulübün düzenlemiş olduğu etkinlikler listelenmeli
-
-bir etkinliğin üzerine tıklandığında o etkinliğin detay sayfasına yönlendirmeli (Event/Details)
-
-katıl butonu oluştur, şuanlık çalışmayacak.
-
-
+<div class="text-center">
+    <div class="row">
+        @foreach (var e in Model)
+        {
+            <div class="col-md-4 mb-3 d-flex">
+                <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
+                    @* <img class="card-img-top" src="@e.LogoImageUrl" alt="Card image cap"> Buraya ClubPhoto gelecek*@
+                    <div class="card-body">
+                        <h5 class="card-title">@e.Name</h5>
+                        <p class="card-text">@e.Description</p>
+                        <a asp-controller="Club" asp-action="Details" asp-route-id="@e.Id" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
