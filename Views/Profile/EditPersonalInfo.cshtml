@@ -1,0 +1,43 @@
+@model PersonalInfoViewModel
+
+<div class="container mt-4 info-card">
+    <h3>Kişisel Bilgileri Düzenle</h3>
+
+    <form asp-action="EditProfile" method="post">
+
+        <div class="row mt-3">
+
+            <div class="col-md-6 mb-3">
+                <label>Yaşadığı Yer</label>
+                <input asp-for="City" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Doğum Tarihi</label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Doğum Yeri</label>
+                <input asp-for="BirthPlace" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Cinsiyet</label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="Erkek">Erkek</option>
+                    <option value="Kadın">Kadın</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Kaydet</button>
+
+    </form>
+</div>

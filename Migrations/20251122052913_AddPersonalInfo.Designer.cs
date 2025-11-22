@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OgrenciKulupSistemi.Data;
 
@@ -10,9 +11,11 @@ using OgrenciKulupSistemi.Data;
 namespace OgrenciKulupSistemi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251122052913_AddPersonalInfo")]
+    partial class AddPersonalInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -278,10 +281,6 @@ namespace OgrenciKulupSistemi.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("BirthPlace")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
