@@ -28,10 +28,10 @@ namespace OgrenciKulupSistemi.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            var model = new PersonalInfoViewModel
+            var model = new ApplicationUser
             {
                 City = user.City,
-                Phone = user.PhoneNumber,
+                PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 BirthPlace = user.BirthPlace,
                 BirthDate = user.BirthDate,
