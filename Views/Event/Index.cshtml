@@ -1,5 +1,18 @@
 @model List<Event>
 
+<form asp-action="Index" method="get" class="mb-3 d-flex gap-2">
+
+    <!-- movie search text box -->
+    <input type="search"
+           name="-"
+           value="@ViewData["-"]"
+           class="form-control"
+           placeholder="Search events" />
+
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+</form>
+
 <div class="text-center">
     <div class="row">
     @foreach(var e in Model)
