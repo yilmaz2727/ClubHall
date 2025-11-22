@@ -13,8 +13,8 @@ namespace OgrenciKulupSistemi.Controllers
         {
             _userManager = userManager;
         }
-       
-        
+
+
 
         public async Task<IActionResult> Index()
         {
@@ -23,8 +23,8 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
 
-[HttpGet]
- public async Task<IActionResult> EditPersonalInfo()
+        [HttpGet]
+        public async Task<IActionResult> EditPersonalInfo()
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -41,43 +41,27 @@ namespace OgrenciKulupSistemi.Controllers
 
             return View(model);
         }
-            [HttpPost]
-    public async Task<IActionResult> EditProfile(PersonalInfoViewModel model)
-    {
-        if (!ModelState.IsValid)
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(ApplicationUser model)
         {
-            return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+
+            user.City = model.City;
+            user.PhoneNumber = model.PhoneNumber;
+            user.Email = model.Email;
+            user.BirthPlace = model.BirthPlace;
+            user.BirthDate = model.BirthDate;
+            user.Gender = model.Gender;
+
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction("Index");
         }
-
-        var user = await _userManager.GetUserAsync(User);
-
-        user.City = model.City;
-        user.PhoneNumber = model.Phone;
-        user.Email = model.Email;
-        user.BirthPlace = model.BirthPlace;
-        user.BirthDate = model.BirthDate;
-        user.Gender = model.Gender;
-
-        await _userManager.UpdateAsync(user);
-
-        return RedirectToAction("Index");
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public IActionResult MyEvents()
