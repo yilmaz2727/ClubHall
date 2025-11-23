@@ -1,37 +1,93 @@
 @model Event
 
-<!-- Header that shows main information about event -->
-<div class="card text-center">
+<div class="card mb-4"> 
     <div class="card-header">
     </div>
-    <div class="card-body">
-        <h5 class="card-title">@Model.Title </h5>
-        <p class="card-text">@Model.EventDate</p>
-        <a href="#" class="btn btn-primary">Join Event</a>
-  </div>
-</div>
-
-<!-- Main image and text -->
-<div>
-    <div class="card mb-3">
-        <img class="card-img-top" src="@Model.EventPhotoUrl" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Title</h5>
-            <p class="card-text">@Model.Description</p>
-            <p class="card-text"><small class="text-muted">@Model.EventDate</small></p>
+    
+    <div class="card-body d-flex justify-content-between align-items-center">
+        
+        <div>
+            <h5 class="card-title mb-1">@Model.Title</h5>
+            <p class="card-text mb-0">@Model.EventDate</p>
         </div>
+
+        <a href="#" class="btn btn-primary">Join Event</a>
+        
+    </div>
 </div>
 
-<!-- Main image and text -->
-<div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Event start date: @Model.EventDate</li>
-      <li class="list-group-item">Event finish date: ?</li>
-      <li class="list-group-item">Event Type: ?</li>
-      <li class="list-group-item">Event location: @Model.Location</li>
-      <li class="list-group-item">Number of attendance: ?</li>
-      <li class="list-group-item">Last application: ?</li>
-    </ul>
-</div>
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-7">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@Model.EventPhotoUrl" alt="Event image">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Title</h5>
+                    <p class="card-text">@Model.Description</p>
+                    <p class="card-text"><small class="text-muted">@Model.EventDate</small></p>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-5">
+            <h4 class="mb-3">Detaylar</h4> <div class="card mb-3">
+                
+                <ul class="list-group list-group-flush">
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-calendar"></i> 
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">ETKİNLİK BAŞLANGIÇ</span>
+                            <span class="detail-data">@Model.EventDate</span>
+                        </div>
+                    </li>
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">ETKİNLİK BİTİŞ</span>
+                            <span class="detail-data">[Missing End Date Property]</span>
+                        </div>
+                    </li>
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">ETKİNLİK TÜRÜ</span>
+                            <span class="detail-data">[Missing Type Property]</span>
+                        </div>
+                    </li>
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">KATILIMCI SAYISI</span>
+                            <span class="detail-data">[Missing Attendance Property]</span>
+                        </div>
+                    </li>
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">SON BAŞVURU</span>
+                            <span class="detail-data">[Missing Last Application Property]</span>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
 </div>
