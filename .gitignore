@@ -423,5 +423,7 @@ FodyWeavers.xsd
 # SQLite Veritabanı Dosyaları
 # Bu satırlar, .db, .sqlite veya .sqlite3 uzantılı tüm dosyaları ignore eder.
 *.db
+*.db-shm
+*.db-wal
 *.sqlite
 *.sqlite3

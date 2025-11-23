@@ -38,3 +38,48 @@ body {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
         }
+
+.list-group-item.detail-item {
+  /* Ensure proper spacing and border control */
+  padding: 1.2rem 1rem; /* Adjust padding for height */
+  border-left: none;
+  border-right: none;
+  
+  /* Flex container for Icon and Text Content */
+  display: flex;
+  align-items: flex-start; /* Aligns items to the top (Icon and Text block) */
+}
+
+.detail-item .icon-box {
+  /* Fixed space for the icon */
+  flex-shrink: 0; 
+  width: 30px; 
+  text-align: center;
+  margin-right: 15px;
+  font-size: 1.25rem; 
+  color: #0d6efd; /* Use Bootstrap's primary color for the icon */
+  margin-top: 2px; /* Slight adjustment to align with the first line of text */
+}
+
+.detail-item .content-stack {
+  /* Vertical stack for the title and data */
+  display: flex;
+  flex-direction: column;
+}
+
+.content-stack .detail-title {
+  /* Style matching "ETKİNLİK BAŞLANGIÇ" */
+  font-weight: 500;
+  color: #6c757d; /* Muted gray color */
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.content-stack .detail-data {
+  /* Style matching "02 December 2025 Tue 11:00" */
+  font-weight: 600; /* Bolder */
+  color: #343a40; /* Darker text */
+  font-size: 0.95rem;
+}
