@@ -1,3 +1,5 @@
+namespace ClubHall.Models;
+
 public class Club
 {
     public int Id { get; set; }

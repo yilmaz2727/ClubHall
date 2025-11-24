@@ -1,0 +1,77 @@
+@using ClubHall.Models
+@model Club
+
+<link rel="stylesheet" href="~/css/club.css">
+
+
+
+<div class="cover-container-fixed">
+    <img src="@Model.CoverPhotoUrl" />
+</div>
+
+<div class="club-header-fixed">
+    <div class="club-info-fixed">
+        <img src="@Model.LogoImageUrl" class="club-logo-fixed" />
+        <div class="club-texts">
+            <div class="club-name-fixed">@Model.Name</div>
+        </div>
+    </div>
+    <a class="join-btn-fixed">Katıl</a>
+</div>
+
+<div class="menu-tabs">
+    <div id="tabAbout" class="tab-item active" onclick="showTab('about')">Hakkımızda</div>
+    <div id="tabEvents" class="tab-item" onclick="showTab('events')">Etkinlikler</div>
+    <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Etkinlik Oluştur</div>
+    <div id="tabMembers" class="tab-item" onclick="showTab('members')">Üyeler</div>
+</div>
+
+<div id="about-section" class="content-area">
+    <div class="about-section">
+        <div class="about-title">Kısaca Biz</div>
+        <div class="about-text">
+            @Model.Description
+        </div>
+    </div>
+</div>
+
+<div id="events-section" class="content-area" style="display:none;">
+    <div class="about-section">
+        <div class="about-title">Etkinlikler</div>
+        @if (Model.Events == null || !Model.Events.Any())
+        {
+            <p>Bu kulübe ait etkinlik bulunmamaktadır.</p>
+        }
+        else
+        {
+            <div class="event-grid">
+                @foreach (var ev in Model.Events)
+                {
+                    <div class="event-card">
+                        <img src="@ev.EventPhotoUrl" />
+                        <div class="event-title">@ev.Title</div>
+                        <div class="event-desc">
+                            @(ev.Description?.Length > 80
+                                                ? ev.Description.Substring(0, 80) + "..."
+                                                : ev.Description)
+                        </div>
+                        <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="event-details-btn">
+                            Detaylara Git
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<div id="createEvent-section" class="content-area" style="display: none;">
+
+
+</div>
+<div id="members-section" class="content-area" style="display: none;">
+
+
+</div>
+
+<script src="~/js/club.js"></script>
