@@ -39,6 +39,124 @@ body {
             box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
         }
 
+<<<<<<< HEAD
+  /*  profile */
+.profile-wrapper {
+    background-color: #f3f2f7;
+}
+
+/* Kapak alanı */
+.profile-cover-mine {
+    height: 210px;
+    background: radial-gradient(circle at 0% 0%, #fce3ff 0, transparent 50%),
+                radial-gradient(circle at 100% 0%, #e4f0ff 0, transparent 50%),
+                radial-gradient(circle at 0% 100%, #f9f0ff 0, transparent 50%),
+                linear-gradient(135deg, #d6e3ff, #fbe6ff);
+    position: relative;
+}
+
+/* “Kapak Fotoğrafı Düzenle” butonu */
+.cover-edit-btn {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    font-size: 0.85rem;
+    border-radius: 999px;
+}
+
+/* Alt beyaz kutu */
+.profile-main-box {
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    margin-top: -60px;     /* kapaktan taşıyor */
+    padding-bottom: 0.5rem;
+}
+
+/* Avatar + isim satırı */
+.profile-header-row {
+    margin-top: -40px;     /* avatarın kapağa oturması için */
+}
+
+/* Avatar */
+.profile-avatar-big {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    background-color: #e5e7eb;
+    flex-shrink: 0;
+}
+
+.profile-avatar-big img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Avatar düzenle butonu */
+.avatar-edit-btn {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    border-radius: 999px;
+}
+
+/* İsim */
+.profile-name-text {
+    font-weight: 700;
+}
+
+/* Sekmeler */
+.profile-tabs .nav-link {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.1rem;
+    color: #4b5563;
+}
+
+.profile-tabs .nav-link.active {
+    color: #2563eb;
+    font-weight: 600;
+    border-color: #2563eb #2563eb #fff;
+}
+
+.profile-tab-content {
+    font-size: 0.9rem;
+}
+/*  kişisel bilgi css  */
+.info-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    margin-top: 1rem;
+}
+
+.info-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.info-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.info-value {
+    margin-top: 2px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111827;
+}
+  
+=======
 .list-group-item.detail-item {
   /* Ensure proper spacing and border control */
   padding: 1.2rem 1rem; /* Adjust padding for height */
@@ -83,3 +201,4 @@ body {
   color: #343a40; /* Darker text */
   font-size: 0.95rem;
 }
+>>>>>>> develop
