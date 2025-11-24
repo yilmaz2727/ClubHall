@@ -9,7 +9,7 @@ namespace OgrenciKulupSistemi.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -78,13 +78,19 @@ namespace OgrenciKulupSistemi.Data
             );
 
 
+            modelBuilder.Entity<ClubPhoto>().HasData(
+                new ClubPhoto { Id = 1, ClubId = 1, ImageUrl = "https://placehold.co/600x400" },
+                new ClubPhoto { Id = 2, ClubId = 1, ImageUrl = "https://placehold.co/600x400" }
+            );
+
+
         }
 
 
 
         public DbSet<Club> Clubs => Set<Club>();
         public DbSet<Event> Events => Set<Event>();
-
+        public DbSet<ClubPhoto> Photos => Set<ClubPhoto>();
 
     }
 }
