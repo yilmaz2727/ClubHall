@@ -8,7 +8,7 @@
         
         <div>
             <h5 class="card-title mb-1">@Model.Title</h5>
-            <p class="card-text mb-0">@Model.EventDate</p>
+            <p class="card-text mb-0">@Model.StartDate</p>
         </div>
 
         <a href="#" class="btn btn-primary">Join Event</a>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@Model.Title</h5>
                     <p class="card-text">@Model.Description</p>
-                    <p class="card-text"><small class="text-muted">@Model.EventDate</small></p>
+                    <p class="card-text"><small class="text-muted">@Model.StartDate</small></p>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="content-stack">
                             <span class="detail-title">ETKİNLİK BAŞLANGIÇ</span>
-                            <span class="detail-data">@Model.EventDate</span>
+                            <span class="detail-data">@Model.StartDate</span>
                         </div>
                     </li>
                     
@@ -51,7 +51,7 @@
                         </div>
                         <div class="content-stack">
                             <span class="detail-title">ETKİNLİK BİTİŞ</span>
-                            <span class="detail-data">[Missing End Date Property]</span>
+                            <span class="detail-data">@Model.EndDate</span>
                         </div>
                     </li>
                     
@@ -61,7 +61,7 @@
                         </div>
                         <div class="content-stack">
                             <span class="detail-title">ETKİNLİK TÜRÜ</span>
-                            <span class="detail-data">[Missing Type Property]</span>
+                            <span class="detail-data">@Model.EventType</span>
                         </div>
                     </li>
                     
@@ -71,7 +71,7 @@
                         </div>
                         <div class="content-stack">
                             <span class="detail-title">KATILIMCI SAYISI</span>
-                            <span class="detail-data">[Missing Attendance Property]</span>
+                            <span class="detail-data">@Model.NumberOfAttendance</span>
                         </div>
                     </li>
                     
@@ -81,7 +81,7 @@
                         </div>
                         <div class="content-stack">
                             <span class="detail-title">SON BAŞVURU</span>
-                            <span class="detail-data">[Missing Last Application Property]</span>
+                            <span class="detail-data">@Model.RegistrationDeadline</span>
                         </div>
                     </li>
                     

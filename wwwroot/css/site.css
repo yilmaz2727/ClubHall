@@ -39,7 +39,6 @@ body {
             box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
         }
 
-<<<<<<< HEAD
   /*  profile */
 .profile-wrapper {
     background-color: #f3f2f7;
@@ -156,7 +155,6 @@ body {
     color: #111827;
 }
   
-=======
 .list-group-item.detail-item {
   /* Ensure proper spacing and border control */
   padding: 1.2rem 1rem; /* Adjust padding for height */
@@ -201,4 +199,3 @@ body {
   color: #343a40; /* Darker text */
   font-size: 0.95rem;
 }
->>>>>>> develop
