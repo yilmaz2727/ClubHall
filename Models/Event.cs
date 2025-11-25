@@ -5,7 +5,13 @@ public class Event
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
-    public DateTime EventDate { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public DateTime RegistrationDeadline { get; set; }
+
+
+    public int NumberOfAttendance { get; set; }
+    public string EventType { get; set; }
     public string Location { get; set; }
     public string? EventPhotoUrl { get; set; }
 

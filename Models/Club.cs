@@ -1,3 +1,5 @@
+using OgrenciKulupSistemi.Models;
+
 namespace ClubHall.Models;
 
 public class Club
@@ -10,5 +12,7 @@ public class Club
 
 
     public ICollection<Event> Events { get; set; } // --> NAvigation prop. bir kulübün birden çok etkinliği olabilir. events tablosuna bir FK ekleyecek
+
+    public ICollection<ClubPhoto> Photos { get; set; }
 
 }
