@@ -44,10 +44,6 @@ namespace OgrenciKulupSistemi.Controllers
             //Gets the selected event type by User 
             ViewData["SelectedEventType"] = eventType;
 
-            if (eventType != null)
-                events = events.Where(e => e.EventType == eventType);
-
-
             //Gets all clubs
             ViewData["Clubs"] = _context.Clubs
                                         .Select(c => c.Name)
