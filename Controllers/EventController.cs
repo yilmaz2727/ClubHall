@@ -26,7 +26,10 @@ namespace OgrenciKulupSistemi.Controllers
 
             if (!string.IsNullOrEmpty(eventSearchString))
             {
-                events = events.Where(e => e.Title.Contains(eventSearchString) || e.Description.Contains(eventSearchString));
+                string searchStringLower = eventSearchString.ToLower();
+
+                events = events.Where(e => e.Title.ToLower().Contains(searchStringLower) ||
+                                           e.Description.ToLower().Contains(searchStringLower));
             }
 
             ViewData["EventSearchString"] = eventSearchString;
