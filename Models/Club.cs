@@ -1,3 +1,5 @@
+using OgrenciKulupSistemi.Models;
+
 namespace ClubHall.Models;
 
 public class Club
