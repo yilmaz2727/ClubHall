@@ -42,7 +42,7 @@ namespace OgrenciKulupSistemi.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditProfile(ApplicationUser model)
+        public async Task<IActionResult> EditPersonalInfo(ApplicationUser model)
         {
             if (!ModelState.IsValid)
             {
