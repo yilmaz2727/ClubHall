@@ -7,6 +7,9 @@ namespace OgrenciKulupSistemi.Controllers
 
     public class ProfileController : Controller
     {
+
+
+        // UserManager her zaman veritabanı asıl sınıfı (ApplicationUser) ile çalışır.
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ProfileController(UserManager<ApplicationUser> userManager)
@@ -28,7 +31,8 @@ namespace OgrenciKulupSistemi.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            var model = new ApplicationUser
+            // Veritabanından (ApplicationUser) -> Ekrana (UserEditViewModel) dönüştürüyoruz
+            var model = new UserEditViewModel
             {
                 City = user.City,
                 PhoneNumber = user.PhoneNumber,
@@ -41,16 +45,20 @@ namespace OgrenciKulupSistemi.Controllers
 
             return View(model);
         }
+
+
         [HttpPost]
-        public async Task<IActionResult> EditProfile(ApplicationUser model)
+        public async Task<IActionResult> EditProfile(UserEditViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("EditPersonalInfo", model);
             }
 
             var user = await _userManager.GetUserAsync(User);
 
+
+            // Ekrandan gelen verileri (ViewModel) -> Veritabanı nesnesine (ApplicationUser) aktarıyoruz
             user.City = model.City;
             user.PhoneNumber = model.PhoneNumber;
             user.Email = model.Email;
