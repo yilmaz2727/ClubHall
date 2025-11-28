@@ -111,6 +111,27 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Phone]
+            [Display(Name = "Telefon Numarası")]
+            public string PhoneNumber { get; set; }
+
+
+            [Display(Name = "Birth Place")]
+            public string BirthPlace { get; set; }
+
+
+            [Display(Name = "Birth Date")]
+            [DataType(DataType.Date)]
+            public DateTime BirthDate { get; set; }
+
+            [Required]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
+
+            [Display(Name = "City")]
+            public string City { get; set; }
+
         }
 
 
@@ -130,6 +151,11 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
 
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+                user.BirthPlace = Input.BirthPlace;
+                user.BirthDate = Input.BirthDate;
+                user.City = Input.City;
+                user.Gender = Input.Gender;
+                user.PhoneNumber = Input.PhoneNumber;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
