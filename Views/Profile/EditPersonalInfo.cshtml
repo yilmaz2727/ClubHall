@@ -1,4 +1,4 @@
-@model ApplicationUser
+@model UserEditViewModel
 
 <div class="container mt-4 info-card">
     <h3>Kişisel Bilgileri Düzenle</h3>
@@ -30,8 +30,8 @@
             <div class="col-md-6 mb-3">
                 <label>Cinsiyet</label>
                 <select asp-for="Gender" class="form-control">
-                    <option value="Erkek">Erkek</option>
-                    <option value="Kadın">Kadın</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                 </select>
             </div>
 
