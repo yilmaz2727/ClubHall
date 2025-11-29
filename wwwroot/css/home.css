@@ -1,0 +1,46 @@
+.profile-sidebar-card {
+    background-color: #f3f6ff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.profile-sidebar-header {
+    padding-bottom: 8px;
+}
+
+.profile-avatar-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8f94fb, #4e54c8);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.profile-sidebar-stats .stat-number {
+    font-weight: 600;
+}
+
+.profile-sidebar-stats .stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.sidebar-links li + li {
+    margin-top: 6px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.sidebar-links a:hover {
+    color: #0d6efd;
+}

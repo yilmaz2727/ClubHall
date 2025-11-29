@@ -39,10 +39,26 @@ button.accept-policy {
   line-height: inherit;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+.clubhall-footer {
+    background-color: #1d1f27;
 }
+
+.footer-link {
+    text-decoration: none;
+    color: #bfc4cc;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+}
+
+.footer-social {
+    font-size: 1.3rem;
+    color: #bfc4cc;
+    transition: 0.2s;
+}
+
+.footer-social:hover {
+    color: #ffffff;
+}
+
