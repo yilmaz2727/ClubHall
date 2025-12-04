@@ -1,6 +1,4 @@
-using OgrenciKulupSistemi.Models;
-
-namespace ClubHall.Models;
+namespace OgrenciKulupSistemi.Models;
 
 public class Club
 {
@@ -11,8 +9,16 @@ public class Club
     public string? CoverPhotoUrl { get; set; }
 
 
+    // İlişkiler
+
+    public string? AdminId { get; set; }
+    public ApplicationUser Admin { get; set; } // navigation prop
+
+
     public ICollection<Event> Events { get; set; } // --> NAvigation prop. bir kulübün birden çok etkinliği olabilir. events tablosuna bir FK ekleyecek
 
     public ICollection<ClubPhoto> Photos { get; set; }
+
+    public ICollection<ClubMembership> Memberships { get; set; }
 
 }

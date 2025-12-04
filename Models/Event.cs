@@ -1,4 +1,4 @@
-using ClubHall.Models;
+using OgrenciKulupSistemi.Models;
 
 public class Event
 {
@@ -26,6 +26,10 @@ public class Event
         event.Club ise  Id=5, Name="Satranç Kulübü" vb. tüm bilgileri içeren ilgili Club nesnesinin tamamını verir
 
     */
+
+    public ICollection<EventAttendee> Attendees { get; set; }
+
+
 
 
 }
