@@ -1,4 +1,3 @@
-using ClubHall.Models;
 
 namespace OgrenciKulupSistemi.Models
 {
