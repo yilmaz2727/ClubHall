@@ -3,6 +3,8 @@ namespace OgrenciKulupSistemi.Models
     public class ClubMembership
     {
 
+
+        // club ile applicationuser arasında many to many ilişki var. bu ise ara tablomuz.
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

@@ -19,6 +19,6 @@ public class Club
 
     public ICollection<ClubPhoto> Photos { get; set; }
 
-    public ICollection<ClubMembership> Memberships { get; set; }
+    public ICollection<ClubMembership> Memberships { get; set; } // club ile applciationuser modeli arasında bir clubmembership sayesinde ilişki kurar
 
 }
