@@ -40,12 +40,12 @@ button.accept-policy {
 }
 
 .clubhall-footer {
-    background-color: #1d1f27;
+    background-color:   #264653;
 }
 
 .footer-link {
     text-decoration: none;
-    color: #bfc4cc;
+    color: #ffffff;
 }
 
 .footer-link:hover {
@@ -54,11 +54,14 @@ button.accept-policy {
 
 .footer-social {
     font-size: 1.3rem;
-    color: #bfc4cc;
+    color:#15D18A;
     transition: 0.2s;
 }
 
 .footer-social:hover {
-    color: #ffffff;
+    color: #15D18A;
+}
+.fw-bold{
+  color:#3ee0a2;
 }
 

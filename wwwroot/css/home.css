@@ -44,3 +44,10 @@
 .sidebar-links a:hover {
     color: #0d6efd;
 }
+.Hero-Bannerr{
+    height: 300px;
+   width: 100%px; ;
+    position: fixed;
+    overflow: hidden;
+
+}
