@@ -17,6 +17,14 @@ namespace OgrenciKulupSistemi.Models
         public DateTime? BirthDate { get; set; }
         public string? Gender { get; set; }
         public string? City { get; set; }
+
+
+        // ilişkiler
+
+        public ICollection<ClubMembership> ClubMemberShips { get; set; } // üye olduğu kulüpler
+        public ICollection<EventAttendee> EventAttendees { get; set; } // üye olduğu etkinlikler
+
+
     }
 
 }

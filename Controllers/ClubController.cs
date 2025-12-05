@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using ClubHall.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +28,7 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return NotFound();
             }
-            var club = await _context.Clubs.Include(c=>c.Events).FirstOrDefaultAsync(m => m.Id == id);
+            var club = await _context.Clubs.Include(c => c.Events).FirstOrDefaultAsync(m => m.Id == id);
             if (club == null)
             {
                 return NotFound();
