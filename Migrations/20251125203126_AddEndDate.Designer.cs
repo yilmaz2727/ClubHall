@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OgrenciKulupSistemi.Data;
 
@@ -10,12 +11,65 @@ using OgrenciKulupSistemi.Data;
 namespace OgrenciKulupSistemi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251125203126_AddEndDate")]
+    partial class AddEndDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
+
+            modelBuilder.Entity("ClubHall.Models.Club", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CoverPhotoUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LogoImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clubs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CoverPhotoUrl = "",
+                            Description = "Kampüsün ritmini biz belirleriz. Müzik ve eğlence burada.",
+                            LogoImageUrl = "",
+                            Name = "SAÜ Rock Topluluğu"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CoverPhotoUrl = "",
+                            Description = "Yazılım ve teknoloji meraklılarının buluşma noktası.",
+                            LogoImageUrl = "",
+                            Name = "Saü Bilgisayar Topluluğu"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CoverPhotoUrl = "",
+                            Description = "Erasmus Student Network of ESN Sakarya University The Official Page of ESN SAKARYA",
+                            LogoImageUrl = "",
+                            Name = "SAÜ ESN"
+                        });
+                });
 
             modelBuilder.Entity("Event", b =>
                 {
@@ -324,87 +378,6 @@ namespace OgrenciKulupSistemi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.Club", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AdminId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CoverPhotoUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LogoImageUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdminId");
-
-                    b.ToTable("Clubs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CoverPhotoUrl = "",
-                            Description = "Kampüsün ritmini biz belirleriz. Müzik ve eğlence burada.",
-                            LogoImageUrl = "",
-                            Name = "SAÜ Rock Topluluğu"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CoverPhotoUrl = "",
-                            Description = "Yazılım ve teknoloji meraklılarının buluşma noktası.",
-                            LogoImageUrl = "",
-                            Name = "Saü Bilgisayar Topluluğu"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CoverPhotoUrl = "",
-                            Description = "Erasmus Student Network of ESN Sakarya University The Official Page of ESN SAKARYA",
-                            LogoImageUrl = "",
-                            Name = "SAÜ ESN"
-                        });
-                });
-
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.ClubMembership", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ClubId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("JoinDate")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("ClubId");
-
-                    b.ToTable("ClubMemberships");
-                });
-
             modelBuilder.Entity("OgrenciKulupSistemi.Models.ClubPhoto", b =>
                 {
                     b.Property<int>("Id")
@@ -439,34 +412,9 @@ namespace OgrenciKulupSistemi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.EventAttendee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("RegisterDate")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventAttendees");
-                });
-
             modelBuilder.Entity("Event", b =>
                 {
-                    b.HasOne("OgrenciKulupSistemi.Models.Club", "Club")
+                    b.HasOne("ClubHall.Models.Club", "Club")
                         .WithMany("Events")
                         .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -526,79 +474,18 @@ namespace OgrenciKulupSistemi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.Club", b =>
-                {
-                    b.HasOne("OgrenciKulupSistemi.Models.ApplicationUser", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminId");
-
-                    b.Navigation("Admin");
-                });
-
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.ClubMembership", b =>
-                {
-                    b.HasOne("OgrenciKulupSistemi.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ClubMemberShips")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OgrenciKulupSistemi.Models.Club", "Club")
-                        .WithMany("Memberships")
-                        .HasForeignKey("ClubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Club");
-                });
-
             modelBuilder.Entity("OgrenciKulupSistemi.Models.ClubPhoto", b =>
                 {
-                    b.HasOne("OgrenciKulupSistemi.Models.Club", null)
+                    b.HasOne("ClubHall.Models.Club", null)
                         .WithMany("Photos")
                         .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.EventAttendee", b =>
-                {
-                    b.HasOne("OgrenciKulupSistemi.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("EventAttendees")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Event", "Event")
-                        .WithMany("Attendees")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("Event", b =>
-                {
-                    b.Navigation("Attendees");
-                });
-
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("ClubMemberShips");
-
-                    b.Navigation("EventAttendees");
-                });
-
-            modelBuilder.Entity("OgrenciKulupSistemi.Models.Club", b =>
+            modelBuilder.Entity("ClubHall.Models.Club", b =>
                 {
                     b.Navigation("Events");
-
-                    b.Navigation("Memberships");
 
                     b.Navigation("Photos");
                 });
