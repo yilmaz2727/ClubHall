@@ -1,4 +1,5 @@
 @using OgrenciKulupSistemi.Models
+@using System.Security.Claims
 @model List<Club>
 
 <div class="text-center">
@@ -16,5 +17,12 @@
                 </div>
             </div>
         }
+
+
+
+        @if (User.Identity.IsAuthenticated) {
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Club">Create Club</a> @* bunun tasarımını ve konumunu değiştirmeliyiz *@
+        }
+
     </div>
 </div>
