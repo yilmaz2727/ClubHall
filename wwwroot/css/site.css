@@ -25,7 +25,9 @@ body {
     font-size: 16px;
     font-weight: 500;
     line-height: 1.428571429;
-    overflow-x: hidden
+    overflow-x: hidden;
+    
+    
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -273,7 +275,7 @@ body {
 }
 .hero-banner {
    -webkit-align-items: center;
-    background: url(../images/Banner.png) no-repeat 100%/ cover;
+   background: url('../images/Banner.png') no-repeat center center / cover;
     display: flex;
     height: 600px;
      min-height: 450px; 
@@ -299,6 +301,7 @@ body {
     font-size: 2rem;
     opacity: 0.9;
     margin: 0 auto 24px auto;
+   
     color: #0097ee;
 }
 
@@ -315,7 +318,7 @@ body {
     padding: 10px 26px;
     border-radius: 999px;
     background: #ffffff;
-    color: #0159d9;
+    color: #0097ee;
     font-weight: 600;
     text-decoration: none;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
@@ -332,8 +335,8 @@ body {
 
 .h-Club-top {
     background: #ffff;
-    padding-bottom: 45px;
-    padding-top: 60px;
+    padding-bottom: auto;
+    padding-top: auto;
     width: 100%;
 }
 
@@ -341,8 +344,14 @@ body {
 .Club-Add {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 705px;
-    padding-right: 705px;
+    padding-left: auto;
+    padding-right: auto;
 text-align: center;
 }
 
+/* MyEvents  */
+.TittleEvent{
+    text-align: center;
+    color: #0097ee;
+    
+}
