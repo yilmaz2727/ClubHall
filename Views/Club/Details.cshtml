@@ -1,5 +1,11 @@
 @using OgrenciKulupSistemi.Models
+@using System.Security.Claims
+@using SQLitePCL
 @model Club
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var isAdmin = currentUserId == Model.AdminId;
+}
 
 <link rel="stylesheet" href="~/css/club.css">
 
@@ -16,14 +22,25 @@
             <div class="club-name-fixed">@Model.Name</div>
         </div>
     </div>
-    <a class="join-btn-fixed">Katıl</a>
+    <div class="club-buttons">
+        @if (isAdmin && !(Model.AdminId == null))
+        {
+            <a class="edit-btn-fixed">Edit</a>
+        }
+        <a class="join-btn-fixed">Katıl</a>
+    </div>
+
 </div>
 
 <div class="menu-tabs">
     <div id="tabAbout" class="tab-item active" onclick="showTab('about')">Hakkımızda</div>
     <div id="tabEvents" class="tab-item" onclick="showTab('events')">Etkinlikler</div>
-    <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Etkinlik Oluştur</div>
-    <div id="tabMembers" class="tab-item" onclick="showTab('members')">Üyeler</div>
+    @if (isAdmin && !(Model.AdminId == null))
+    {
+        <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Etkinlik Oluştur</div>
+        <div id="tabMembers" class="tab-item" onclick="showTab('members')">Üyeler</div>
+    }
+
 </div>
 
 <div id="about-section" class="content-area">
@@ -65,12 +82,83 @@
     </div>
 </div>
 
-<div id="createEvent-section" class="content-area" style="display: none;">
+<div id="createEvent-section" class="content-area" style="display:none;">
 
+    <h3 class="mb-3">Yeni Etkinlik Oluştur</h3>
+
+    <form asp-action="CreateEvent" asp-controller="Club" asp-route-id="@Model.Id" method="post"
+        enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="ClubId" value="@Model.Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Etkinlik Başlığı</label>
+            <input type="text" name="Title" class="form-control" placeholder="Etkinlik adını yazın" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Açıklama</label>
+            <textarea name="Description" class="form-control" rows="4" placeholder="Etkinlik açıklamasını giriniz"
+                required></textarea>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Başlangıç Tarihi</label>
+                <input type="datetime-local" name="StartDate" class="form-control" required />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Bitiş Tarihi</label>
+                <input type="datetime-local" name="EndDate" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Son Başvuru Tarihi</label>
+            <input type="datetime-local" name="RegistrationDeadline" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Etkinlik Türü</label>
+            <select name="EventType" class="form-select" required>
+                <option value="">Seçiniz</option>
+                <option value="Education">Eğitim</option>
+                <option value="Entertainment">Eğlence</option>
+                <option value="Workshop">Workshop</option>
+                <option value="Seminar">Seminer</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Konum</label>
+            <input type="text" name="Location" class="form-control" placeholder="Etkinlik yeri" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Katılımcı Sayısı</label>
+            <input type="number" name="NumberOfAttendance" class="form-control" min="0" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Etkinlik Fotoğrafı</label>
+            <input type="file" name="EventPhoto" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
 
 </div>
-<div id="members-section" class="content-area" style="display: none;">
 
+<div id="members-section" class="content-area" style="display: none;">
+    <ul>
+        @foreach (var member in Model.Memberships)
+        {
+            <li>@member.ApplicationUser.FirstName @member.ApplicationUser.LastName</li>
+        }
+    </ul>
 
 </div>
 

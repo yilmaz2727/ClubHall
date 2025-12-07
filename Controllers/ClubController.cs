@@ -16,11 +16,13 @@ namespace OgrenciKulupSistemi.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ClubController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public ClubController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IWebHostEnvironment env)
         {
             _userManager = userManager;
             _context = context;
+            _env = env;
         }
 
 
@@ -114,6 +116,62 @@ namespace OgrenciKulupSistemi.Controllers
             return RedirectToAction("Details", new { id = newClub.Id });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent(int id, Event model, IFormFile EventPhoto)
+        {
+            model.Id = 0;
+            model.ClubId = id;
+
+            // Navigation property'lerin validasyondan çıkarılması
+            ModelState.Remove("Club");
+            ModelState.Remove("Attendees");
+            ModelState.Remove("EventPhoto");
+
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("ModelState HATALI -> " +
+                    string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)));
+
+                return RedirectToAction("Details", new { id = model.ClubId });
+            }
+
+            // Güvenlik kontrolü
+            var currentUserId = _userManager.GetUserId(User);
+            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == model.ClubId);
+
+            if (club == null)
+                return NotFound();
+
+            if (club.AdminId != currentUserId)
+                return Unauthorized();
+
+            // Fotoğraf yükleme
+            if (EventPhoto != null)
+            {
+                var wwwroot = _env.WebRootPath;
+                var filename = Guid.NewGuid() + Path.GetExtension(EventPhoto.FileName);
+                var path = Path.Combine(wwwroot, "eventPhotos", filename);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await EventPhoto.CopyToAsync(stream);
+                }
+
+                model.EventPhotoUrl = "/eventPhotos/" + filename;
+            }
+
+            // Veritabanına kaydet
+            _context.Events.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = model.ClubId });
+        }
+
+
+
+
 
 
 
@@ -127,7 +185,7 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return NotFound();
             }
-            var club = await _context.Clubs.Include(c => c.Events).FirstOrDefaultAsync(m => m.Id == id);
+            var club = await _context.Clubs.Include(c => c.Events).Include(c => c.Memberships).ThenInclude(m => m.ApplicationUser).FirstOrDefaultAsync(m => m.Id == id);
             if (club == null)
             {
                 return NotFound();
