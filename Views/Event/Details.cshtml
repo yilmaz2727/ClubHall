@@ -1,24 +1,44 @@
+@using Microsoft.CodeAnalysis.CSharp.Syntax
 @model Event
 
-<div class="card mb-4"> 
+<div class="card mb-4">
     <div class="card-header">
     </div>
-    
+
     <div class="card-body d-flex justify-content-between align-items-center">
-        
+
         <div>
             <h5 class="card-title mb-1">@Model.Title</h5>
             <p class="card-text mb-0">@Model.StartDate</p>
         </div>
+        <!--////////////////////////////////////////////////////////////////////-->
+        <form asp-controller="Event" asp-action="Join" method="post">
+            <input type="hidden" name="eventId" value="@Model.Id" />
+            <button type="submit" class="btn btn-primary">
+                Join
+            </button>
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Message"]
+                </div>
 
-        <a href="#" class="btn btn-primary">Join Event</a>
-        
+            }
+            else if (TempData["Message2"] != null)
+            {
+                <div class="alert alert-primary">
+                    @TempData["Message2"]
+                </div>
+            }
+        </form>
+        <!--////////////////////////////////////////////////////////////////////-->
+
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        
+
         <div class="col-md-7">
             <div class="card mb-3">
                 <img class="card-img-top" src="@Model.EventPhotoUrl" alt="Event image">
@@ -31,20 +51,21 @@
         </div>
 
         <div class="col-md-5">
-            <h4 class="mb-3">Detaylar</h4> <div class="card mb-3">
-                
+            <h4 class="mb-3">Detaylar</h4>
+            <div class="card mb-3">
+
                 <ul class="list-group list-group-flush">
-                    
+
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
-                            <i class="bi bi-calendar"></i> 
+                            <i class="bi bi-calendar"></i>
                         </div>
                         <div class="content-stack">
                             <span class="detail-title">ETKİNLİK BAŞLANGIÇ</span>
                             <span class="detail-data">@Model.StartDate</span>
                         </div>
                     </li>
-                    
+
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
                             <i class="bi bi-calendar-check"></i>
@@ -54,7 +75,7 @@
                             <span class="detail-data">@Model.EndDate</span>
                         </div>
                     </li>
-                    
+
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
                             <i class="bi bi-chat-dots"></i>
@@ -64,7 +85,7 @@
                             <span class="detail-data">@Model.EventType</span>
                         </div>
                     </li>
-                    
+
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
                             <i class="bi bi-people"></i>
@@ -74,7 +95,7 @@
                             <span class="detail-data">@Model.NumberOfAttendance</span>
                         </div>
                     </li>
-                    
+
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
                             <i class="bi bi-clock"></i>
@@ -84,10 +105,10 @@
                             <span class="detail-data">@Model.RegistrationDeadline</span>
                         </div>
                     </li>
-                    
+
                 </ul>
             </div>
         </div>
-        
+
     </div>
 </div>
