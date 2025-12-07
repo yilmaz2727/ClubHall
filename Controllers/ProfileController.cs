@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OgrenciKulupSistemi.Models;
-
+using OgrenciKulupSistemi.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 namespace OgrenciKulupSistemi.Controllers
 {
 
@@ -11,10 +14,11 @@ namespace OgrenciKulupSistemi.Controllers
 
         // UserManager her zaman veritabanı asıl sınıfı (ApplicationUser) ile çalışır.
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public ProfileController(UserManager<ApplicationUser> userManager)
+        private readonly ApplicationDbContext _context;
+        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _context=context;
         }
 
 
@@ -87,14 +91,32 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
 
-        public IActionResult MyEvents()
-        {
-            return View();
-        }
+      public IActionResult MyEvents()
+{
+
+    var userId = _userManager.GetUserId(User);
+    
+    var events = _context.EventAttendees
+        .Where(ea => ea.ApplicationUserId == userId)
+        .Include(ea => ea.Event)
+        .Select(ea => ea.Event)
+        .ToList();   // Include Köprüye select ise Evente eriştirir.
+
+         var now = DateTime.Now;
+         var UpCaming =  events.Where(e => e.StartDate >= now).ToList();
+      return View(UpCaming);
+}
 
         public IActionResult MyMemberShips()
         {
-            return View();
+                var userId = _userManager.GetUserId(User);
+    
+    var Clubs = _context.ClubMemberships
+        .Where(ea => ea.ApplicationUserId == userId)
+        .Include(ea => ea.Club)
+        .Select(ea => ea.Club)
+        .ToList();   // Include Köprüye select ise Evente eriştirir.
+      return View(Clubs);
         }
 
     }

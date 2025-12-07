@@ -17,8 +17,17 @@ html {
   min-height: 100%;
 }
 
+
 body {
-  margin-bottom: 60px;
+    background-color: #f7faff;
+    color: #333;
+    font-family: Lexend Deca,sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.428571429;
+    overflow-x: hidden;
+    
+    
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -68,13 +77,13 @@ body {
     background: #fff;
     border-radius: 0 0 16px 16px;
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-    margin-top: -60px;     /* kapaktan taşıyor */
+    margin-top: -60px;   
     padding-bottom: 0.5rem;
 }
 
 /* Avatar + isim satırı */
 .profile-header-row {
-    margin-top: -40px;     /* avatarın kapağa oturması için */
+    margin-top: -40px;   
 }
 
 /* Avatar */
@@ -198,4 +207,151 @@ body {
   font-weight: 600; /* Bolder */
   color: #343a40; /* Darker text */
   font-size: 0.95rem;
+}
+/*    Home Index   */
+/* Sol profil kartı */
+.profile-sidebar-card {
+    background-color: #f3f6ff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.profile-sidebar-header {
+    padding-bottom: 8px;
+}
+
+.profile-avatar-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #424249, #202027);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.profile-sidebar-stats .stat-number {
+    font-weight: 600;
+}
+
+.profile-sidebar-stats .stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.sidebar-links li + li {
+    margin-top: 6px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.sidebar-links a:hover {
+    color: #0d6efd;
+}
+
+/* Orta ve sağ kartlar */
+.main-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+/* HERO BANNER */
+
+@media (max-width: 991px) {
+    .c-main-header {
+        margin-top: 0 !important;
+        padding: 25px 0;
+    }
+}
+.hero-banner {
+   -webkit-align-items: center;
+   background: url('../images/Banner.png') no-repeat center center / cover;
+    display: flex;
+    height: 600px;
+     min-height: 450px; 
+    position: relative;
+    width: 100%;
+    -ms-flex-align: center;
+    align-items: center;
+     padding: 120px 0 950px;
+     overflow: visible;  
+
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #8D39FA  ;
+}
+
+.hero-subtitle {
+    max-width: 560px;
+    font-size: 2rem;
+    opacity: 0.9;
+    margin: 0 auto 24px auto;
+   
+    color: #0097ee;
+}
+
+@media (min-width: 992px) {
+    .hero-subtitle {
+        margin-left: 0;
+    }
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 26px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #0097ee;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hero-btn:hover {
+    color: #013f99;
+    text-decoration: none;
+}
+
+
+
+
+
+.h-Club-top {
+    background: #ffff;
+    padding-bottom: auto;
+    padding-top: auto;
+    width: 100%;
+}
+
+
+.Club-Add {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: auto;
+    padding-right: auto;
+text-align: center;
+}
+
+/* MyEvents  */
+.TittleEvent{
+    text-align: center;
+    color: #0097ee;
+    
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OgrenciKulupSistemi.Data;
 
@@ -10,63 +11,14 @@ using OgrenciKulupSistemi.Data;
 namespace OgrenciKulupSistemi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251206100218_UpdateHasDataEventDate2")]
+    partial class UpdateHasDataEventDate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
-
-            modelBuilder.Entity("Club", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("CoverPhotoUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LogoImageUrl")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clubs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CoverPhotoUrl = "",
-                            Description = "Kampüsün ritmini biz belirleriz. Müzik ve eğlence burada.",
-                            LogoImageUrl = "",
-                            Name = "SAÜ Rock Topluluğu"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CoverPhotoUrl = "",
-                            Description = "Yazılım ve teknoloji meraklılarının buluşma noktası.",
-                            LogoImageUrl = "",
-                            Name = "Saü Bilgisayar Topluluğu"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CoverPhotoUrl = "",
-                            Description = "Erasmus Student Network of ESN Sakarya University The Official Page of ESN SAKARYA",
-                            LogoImageUrl = "",
-                            Name = "SAÜ ESN"
-                        });
-                });
 
             modelBuilder.Entity("Event", b =>
                 {
