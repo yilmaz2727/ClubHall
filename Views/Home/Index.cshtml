@@ -1,8 +1,100 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model ApplicationUser
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+
+@if (Model != null)
+{
+    <!-- SOL PROFİL KARTI -->
+    <div class="col-lg-3 mb-4">
+        <div class="profile-sidebar-card">
+            <div class="profile-sidebar-header text-center">
+
+                <div class="profile-avatar-circle mx-auto mb-2">
+                    <!-- Profil foto -->
+                    <span>@Model.FirstName?.Substring(0, 1)@Model.LastName?.Substring(0, 1)</span>
+                </div>
+
+                <div>@Model.FirstName @Model.LastName</div>
+                <div>
+                    <a asp-controller="Profile" asp-action="Index" class="small text-muted">See Profile </a>
+                </div>
+                <div class="profile-sidebar-stats d-flex justify-content-around text-center mt-3">
+                    <div>
+                        <div class="stat-number">@ViewBag.ClubCount</div>
+                        <div class="stat-label">Memberships</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">@ViewBag.EventCount</div>
+                        <div class="stat-label">Events</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ORTA İÇERİK -->
+    <div class="col-lg-6 mb-4">
+        <div class="main-card">
+            <div class="col-lg-6 mb-4">
+                <div class="main-card">
+                    <img src="~/images/Cover.png" style="height: 10; width: 100%;  ">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- SAĞ TARAF (opsiyonel) -->
+    <div class="col-lg-3 mb-4">
+        <div class="main-card mb-3">
+            <h6>The Clubs that follow</h6>
+            <!--buraya takip ettiği kulüpler gelcek
+                            <ul>
+                            <li>   
+                
+                
+                            </ul> -->
+            <p class="small text-muted mb-0">Rack</p>
+        </div>
+
+
+    </div>
+}
+else
+{
+    <!-- HERO BANNER -->
+
+    @section Hero {
+        <section class="hero-banner u-text-center">
+            <div class="container h-100">
+                <div class="row align-items-center h-100">
+                    <div class="col-lg-8 text-center text-lg-start hero-text">
+                        <h1 class="hero-title">
+                            More from <br />     Campus Life
+                        </h1>
+                        <p class="hero-subtitle">
+                         Discover clubs, attend events, meet new people, and create opportunities for yourself.
+                        </p>
+                        <a asp-controller="Event" asp-action="Index" class="hero-btn">
+                           LET'S START
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <div class="h-Club-top">
+        <div class="Club-Add">
+            <h2>Discover Clubs</h2>
+            <h6>
+                Discover more than 2 clubs you'd like to join, meet their teams, experience their culture and take your
+                career journey to the next level.</h6>
+        </div>
+
+    </div>
+    <!-- BURAYA         -->
+
+
+}
