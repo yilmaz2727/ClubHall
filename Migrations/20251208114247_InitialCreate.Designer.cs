@@ -11,8 +11,8 @@ using OgrenciKulupSistemi.Data;
 namespace OgrenciKulupSistemi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251206100218_UpdateHasDataEventDate2")]
-    partial class UpdateHasDataEventDate2
+    [Migration("20251208114247_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,50 +65,6 @@ namespace OgrenciKulupSistemi.Migrations
                     b.HasIndex("ClubId");
 
                     b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClubId = 2,
-                            Description = "Takımını oluştur, becerilerini göster!",
-                            EndDate = new DateTime(2027, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventPhotoUrl = "",
-                            EventType = "Workshop",
-                            Location = "Bilgisayar ve Bilişim Bilimleri Fakültesi 1109",
-                            NumberOfAttendance = 27,
-                            RegistrationDeadline = new DateTime(2025, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2025, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "ASP.NET Core Hackathon"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClubId = 1,
-                            Description = "Tiyatro Topluluğu’nun düzenlemiş olduğu 1. Tiyatro Günleri’nde biz de SaüRock olarak sahnedeyiz! ",
-                            EndDate = new DateTime(2027, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventPhotoUrl = "",
-                            EventType = "Entartainment",
-                            Location = "Turgut Özal Kültür ve Kongre Merkezi",
-                            NumberOfAttendance = 42,
-                            RegistrationDeadline = new DateTime(2025, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2026, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "SAÜ Rock The Band Sahnede"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClubId = 3,
-                            Description = "Practice Engilsh and Meet with new people!",
-                            EndDate = new DateTime(2028, 11, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EventPhotoUrl = "",
-                            EventType = "Cultural",
-                            Location = "Saü Taş Kafe",
-                            NumberOfAttendance = 34,
-                            RegistrationDeadline = new DateTime(2025, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2027, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Spekaing CLub First Meeting"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -272,14 +228,12 @@ namespace OgrenciKulupSistemi.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Gender")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -355,32 +309,6 @@ namespace OgrenciKulupSistemi.Migrations
                     b.HasIndex("AdminId");
 
                     b.ToTable("Clubs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CoverPhotoUrl = "",
-                            Description = "Kampüsün ritmini biz belirleriz. Müzik ve eğlence burada.",
-                            LogoImageUrl = "",
-                            Name = "SAÜ Rock Topluluğu"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CoverPhotoUrl = "",
-                            Description = "Yazılım ve teknoloji meraklılarının buluşma noktası.",
-                            LogoImageUrl = "",
-                            Name = "Saü Bilgisayar Topluluğu"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CoverPhotoUrl = "",
-                            Description = "Erasmus Student Network of ESN Sakarya University The Official Page of ESN SAKARYA",
-                            LogoImageUrl = "",
-                            Name = "SAÜ ESN"
-                        });
                 });
 
             modelBuilder.Entity("OgrenciKulupSistemi.Models.ClubMembership", b =>
@@ -426,20 +354,6 @@ namespace OgrenciKulupSistemi.Migrations
                     b.HasIndex("ClubId");
 
                     b.ToTable("Photos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClubId = 1,
-                            ImageUrl = "https://placehold.co/600x400"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClubId = 1,
-                            ImageUrl = "https://placehold.co/600x400"
-                        });
                 });
 
             modelBuilder.Entity("OgrenciKulupSistemi.Models.EventAttendee", b =>
