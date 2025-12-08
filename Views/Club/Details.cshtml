@@ -21,28 +21,34 @@
         </div>
     </div>
     <div class="club-buttons">
-    @if(isAdmin && !(Model.AdminId == null)){<a class="edit-btn-fixed">Edit</a>}
-    <form asp-controller="Club" asp-action="ClubJoin" method="post">
-        <input type="hidden" name="clubId" value="@Model.Id" />
-        <button type="submit" class="btn btn-primary">
-            Join
-        </button>
-        @if (TempData["Message"] != null)
+        @if (isAdmin && !(Model.AdminId == null))
         {
-            <div class="alert alert-danger">
-                @TempData["Message"]
-            </div>
+            <button type="submit" class="edit-btn-fixed"> Edit</button>
+        }
 
-        }
-        else if (TempData["Message2"] != null)
-        {
-            <div class="alert alert-primary">
-                @TempData["Message2"]
-            </div>
-        }
-    </form>
+        <form asp-controller="Club" asp-action="ClubJoin" method="post">
+            <input type="hidden" name="clubId" value="@Model.Id" />
+            <button type="submit" class="join-btn-fixed">
+                Join
+            </button>
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Message"]
+                </div>
+
+            }
+            else if (TempData["Message2"] != null)
+            {
+                <div class="alert alert-primary">
+                    @TempData["Message2"]
+                </div>
+            }
+        </form>
+
+
     </div>
-    
+
 </div>
 
 <div class="menu-tabs">
@@ -61,6 +67,7 @@
         <div class="about-title">Kısaca Biz</div>
         <div class="about-text">
             @Model.Description
+            @Model.Photos
         </div>
     </div>
 </div>
