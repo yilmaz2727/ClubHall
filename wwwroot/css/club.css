@@ -40,15 +40,26 @@
         font-weight: 700;
         margin-top: 50px;
     }
+    .edit-btn-fixed {
+        padding: 10px 25px;
+        background: #007bff;
+        color: white;
+        border-radius: 6px;
+        border : none;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 50px;
+    }
+
     .join-btn-fixed {
         padding: 10px 25px;
         background: #007bff;
         color: white;
         border-radius: 6px;
+        border : none;
         text-decoration: none;
         font-weight: 600;
         margin-top: 50px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
     .menu-tabs {
         display: flex;
@@ -125,3 +136,9 @@
         text-decoration: none;
         font-size: 14px;
     }
+    .club-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    }
+
