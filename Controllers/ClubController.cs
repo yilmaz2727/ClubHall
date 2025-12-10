@@ -124,12 +124,17 @@ namespace OgrenciKulupSistemi.Controllers
             model.ClubId = id;
 
             // Navigation property'lerin validasyondan çıkarılması
-            ModelState.Remove("Club");
-            ModelState.Remove("Attendees");
+            ModelState.Remove("Event.Club");
+            ModelState.Remove("Event.Attendees");
             ModelState.Remove("EventPhoto");
 
             if (!ModelState.IsValid)
             {
+
+
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["Message"] = "Hata oluştu: " + string.Join(", ", errors);
+
                 Console.WriteLine("ModelState HATALI -> " +
                     string.Join(" | ", ModelState.Values
                     .SelectMany(v => v.Errors)
@@ -151,16 +156,7 @@ namespace OgrenciKulupSistemi.Controllers
             // Fotoğraf yükleme
             if (EventPhoto != null)
             {
-                var wwwroot = _env.WebRootPath;
-                var filename = Guid.NewGuid() + Path.GetExtension(EventPhoto.FileName);
-                var path = Path.Combine(wwwroot, "eventPhotos", filename);
-
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await EventPhoto.CopyToAsync(stream);
-                }
-
-                model.EventPhotoUrl = "/eventPhotos/" + filename;
+                model.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
             }
 
             // Veritabanına kaydet
@@ -183,7 +179,11 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return NotFound();
             }
-            var club = await _context.Clubs.Include(c => c.Events).Include(c => c.Memberships).ThenInclude(m => m.ApplicationUser).FirstOrDefaultAsync(m => m.Id == id);
+            var club = await _context.Clubs.Include(c => c.Events)
+                                           .Include(c => c.Memberships)
+                                           .ThenInclude(m => m.ApplicationUser)
+                                           .Include(c => c.Photos)
+                                           .FirstOrDefaultAsync(m => m.Id == id);
 
             if (club == null)
             {

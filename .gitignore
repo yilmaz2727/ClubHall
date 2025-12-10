@@ -430,4 +430,7 @@ FodyWeavers.xsd
 
 
 wwwroot/img/clubs/
+wwwroot/img/club-gallery/
+wwwroot/img/events/
 !wwwroot/img/clubs/.gitkeep
+wwwroot/eventPhotos/
