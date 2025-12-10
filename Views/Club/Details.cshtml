@@ -53,19 +53,19 @@
 </div>
 
 <div class="menu-tabs">
-    <div id="tabAbout" class="tab-item active" onclick="showTab('about')">Hakkımızda</div>
-    <div id="tabEvents" class="tab-item" onclick="showTab('events')">Etkinlikler</div>
+    <div id="tabAbout" class="tab-item active" onclick="showTab('about')">About</div>
+    <div id="tabEvents" class="tab-item" onclick="showTab('events')">Events</div>
     @if (isAdmin && !(Model.Club.AdminId == null))
     {
-        <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Etkinlik Oluştur</div>
-        <div id="tabMembers" class="tab-item" onclick="showTab('members')">Üyeler</div>
+        <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an EVent</div>
+        <div id="tabMembers" class="tab-item" onclick="showTab('members')">Members</div>
     }
 
 </div>
 
 <div id="about-section" class="content-area">
     <div class="about-section">
-        <div class="about-title">Kısaca Biz</div>
+        <div class="about-title">About Us</div>
         <div class="about-text">
             @Model.Club.Description
             @foreach (var photo in Model.Club.Photos) {
@@ -77,10 +77,10 @@
 
 <div id="events-section" class="content-area" style="display:none;">
     <div class="about-section">
-        <div class="about-title">Etkinlikler</div> @* kulübe ait bütün etkinlikler listelenecek *@
+        <div class="about-title">Events</div> @* kulübe ait bütün etkinlikler listelenecek *@
         @if (Model.Club.Events == null || !Model.Club.Events.Any())
         {
-            <p>Bu kulübe ait etkinlik bulunmamaktadır.</p>
+            <p>This club has no events.</p>
         }
         else
         {
@@ -96,7 +96,7 @@
                                                 : ev.Description)
                         </div>
                         <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="event-details-btn">
-                            Detaylara Git
+                            Details
                         </a>
                     </div>
                 }
@@ -107,7 +107,7 @@
 
 <div id="createEvent-section" class="content-area" style="display:none;">
 
-    <h3 class="mb-3">Yeni Etkinlik Oluştur</h3>
+    <h3 class="mb-3">Create an Event</h3>
 
     <form asp-action="CreateEvent" asp-controller="Club" asp-route-id="@Model.Club.Id" method="post"
         enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
@@ -117,26 +117,26 @@
         <input type="hidden" name="ClubId" value="@Model.Club.Id" />
 
         <div class="mb-3">
-            <label class="form-label">Etkinlik Başlığı</label>
+            <label class="form-label">Title</label>
             <input type="text" asp-for="@Model.Event.Title" class="form-control" placeholder="Etkinlik adını yazın" required />
             <span asp-validation-for="@Model.Event.Title" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Açıklama</label>
+            <label class="form-label">Description</label>
             <textarea asp-for="@Model.Event.Description" class="form-control" rows="4" placeholder="Etkinlik açıklamasını giriniz" required></textarea>
             <span asp-validation-for="@Model.Event.Description" class="text-danger"></span>
         </div>
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label class="form-label">Başlangıç Tarihi</label>
+                <label class="form-label">Start Date</label>
                 <input type="datetime-local" asp-for="@Model.Event.StartDate" class="form-control" required />
                 <span asp-validation-for="@Model.Event.StartDate" class="text-danger"></span>
             </div>
 
             <div class="col-md-6 mb-3">
-                <label class="form-label">Bitiş Tarihi</label>
+                <label class="form-label">End Date</label>
                 <input type="datetime-local" asp-for="@Model.Event.EndDate" class="form-control" required />
                 <span asp-validation-for="@Model.Event.EndDate" class="text-danger"></span>
             </div>
@@ -144,24 +144,26 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Son Başvuru Tarihi</label>
+            <label class="form-label">Deadline</label>
             <input type="datetime-local" asp-for="@Model.Event.RegistrationDeadline" class="form-control" required />
             <span asp-validation-for="@Model.Event.RegistrationDeadline" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Etkinlik Türü</label>
+            <label class="form-label">Event Type</label>
             <select asp-for="@Model.Event.EventType" class="form-select" required>
                 <option value="">Seçiniz</option>
-                <option value="Education">Eğitim</option>
-                <option value="Entertainment">Eğlence</option>
+                <option value="Education">Education</option>
+                <option value="Entertainment">Entertainment</option>
                 <option value="Workshop">Workshop</option>
-                <option value="Seminar">Seminer</option>
+                <option value="Seminar">Seminar</option>
             </select>
+            <span asp-validation-for="@Model.Event.EventType" class="text-danger"></span>
+
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Konum</label>
+            <label class="form-label">Location</label>
             <input type="text" asp-for="@Model.Event.Location" class="form-control" placeholder="Etkinlik yeri" required />
             <span asp-validation-for="@Model.Event.Location" class="text-danger"></span>
         </div>
@@ -172,11 +174,11 @@
         </div> *@
 
         <div class="mb-3">
-            <label class="form-label">Etkinlik Fotoğrafı</label>
+            <label class="form-label">Event Photo</label>
             <input type="file" asp-for="@Model.Event.EventPhotoUrl"" class="form-control" />
         </div>
 
-        <button type="submit" class="btn btn-primary">Kaydet</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 
 </div>

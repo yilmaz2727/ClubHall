@@ -113,8 +113,13 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(int id, Event model, IFormFile EventPhoto)
+        public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
         {
+
+            /* 
+            Eğer bir View'de birden fazla model kullanılıyorsa, bu modellerin birbirinden ayrılması için prefix kullanılır.
+            Event modeline ait verilerin doğru şekilde bağlanması için
+            */
             model.Id = 0;
             model.ClubId = id;
 
