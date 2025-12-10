@@ -431,3 +431,4 @@ FodyWeavers.xsd
 
 wwwroot/img/clubs/
 !wwwroot/img/clubs/.gitkeep
+wwwroot/eventPhotos/

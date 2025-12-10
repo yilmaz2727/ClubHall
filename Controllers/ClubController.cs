@@ -17,11 +17,13 @@ namespace OgrenciKulupSistemi.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ClubController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public ClubController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IWebHostEnvironment env)
         {
             _userManager = userManager;
             _context = context;
+            _env = env;
         }
 
 
@@ -110,6 +112,60 @@ namespace OgrenciKulupSistemi.Controllers
             return RedirectToAction("Details", new { id = newClub.Id });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
+        {
+
+            /* 
+            Eğer bir View'de birden fazla model kullanılıyorsa, bu modellerin birbirinden ayrılması için prefix kullanılır.
+            Event modeline ait verilerin doğru şekilde bağlanması için
+            */
+            model.Id = 0;
+            model.ClubId = id;
+
+            // Navigation property'lerin validasyondan çıkarılması
+            ModelState.Remove("Event.Club");
+            ModelState.Remove("Event.Attendees");
+            ModelState.Remove("EventPhoto");
+
+            if (!ModelState.IsValid)
+            {
+
+
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                TempData["Message"] = "Hata oluştu: " + string.Join(", ", errors);
+
+                Console.WriteLine("ModelState HATALI -> " +
+                    string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)));
+
+                return RedirectToAction("Details", new { id = model.ClubId });
+            }
+
+            // Güvenlik kontrolü
+            var currentUserId = _userManager.GetUserId(User);
+            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == model.ClubId);
+
+            if (club == null)
+                return NotFound();
+
+            if (club.AdminId != currentUserId)
+                return Unauthorized();
+
+            // Fotoğraf yükleme
+            if (EventPhoto != null)
+            {
+                model.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
+            }
+
+            // Veritabanına kaydet
+            _context.Events.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = model.ClubId });
+        }
+
 
 
 
@@ -123,12 +179,24 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return NotFound();
             }
-            var club = await _context.Clubs.Include(c => c.Events).FirstOrDefaultAsync(m => m.Id == id);
+            var club = await _context.Clubs.Include(c => c.Events)
+                                           .Include(c => c.Memberships)
+                                           .ThenInclude(m => m.ApplicationUser)
+                                           .Include(c => c.Photos)
+                                           .FirstOrDefaultAsync(m => m.Id == id);
+
             if (club == null)
             {
                 return NotFound();
             }
-            return View(club);
+
+            var viewModel = new ClubDetailsViewModel
+            {
+                Club = club, // yukarıda sorguda elde ettiğimiz db'den gelen kulüp nesnesi
+                Event = new Event() // etkinlik oluştur formu için boş bir event nesnesi
+            };
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> ClubJoin(int clubId)
@@ -138,10 +206,10 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return Challenge(new AuthenticationProperties// kullanıcı → login ekranına yönlendir daha sornasında detaile gönderir
                 {
-                    RedirectUri= Url.Action("Details",new {id=clubId}) 
+                    RedirectUri = Url.Action("Details", new { id = clubId })
                 });
-            }   
-            bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId  == clubId && x.ApplicationUserId == userId);
+            }
+            bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId == clubId && x.ApplicationUserId == userId);
             if (alreadyJoined)
             {
                 TempData["alreadyJoined"] = "You already join this Club";
@@ -160,35 +228,6 @@ namespace OgrenciKulupSistemi.Controllers
  
             return RedirectToAction("Details", new { id = clubId });
         }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
