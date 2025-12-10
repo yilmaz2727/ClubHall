@@ -171,9 +171,6 @@ namespace OgrenciKulupSistemi.Controllers
 
 
 
-
-
-
         // GET : Club/Details/
         public async Task<IActionResult> Details(int? id)
         {
@@ -182,11 +179,19 @@ namespace OgrenciKulupSistemi.Controllers
                 return NotFound();
             }
             var club = await _context.Clubs.Include(c => c.Events).Include(c => c.Memberships).ThenInclude(m => m.ApplicationUser).FirstOrDefaultAsync(m => m.Id == id);
+
             if (club == null)
             {
                 return NotFound();
             }
-            return View(club);
+
+            var viewModel = new ClubDetailsViewModel
+            {
+                Club = club, // yukarıda sorguda elde ettiğimiz db'den gelen kulüp nesnesi
+                Event = new Event() // etkinlik oluştur formu için boş bir event nesnesi
+            };
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> ClubJoin(int clubId)
@@ -196,15 +201,15 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return Challenge(new AuthenticationProperties// kullanıcı → login ekranına yönlendir daha sornasında detaile gönderir
                 {
-                    RedirectUri= Url.Action("Details",new {id=clubId}) 
+                    RedirectUri = Url.Action("Details", new { id = clubId })
                 });
-            }   
-            bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId  == clubId && x.ApplicationUserId == userId);
+            }
+            bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId == clubId && x.ApplicationUserId == userId);
             if (alreadyJoined)
             {
                 TempData["Message"] = "You already join this Club";
-               return RedirectToAction("Details", new { id = clubId });
-             
+                return RedirectToAction("Details", new { id = clubId });
+
             }
             var registration = new ClubMembership
             {
@@ -214,39 +219,10 @@ namespace OgrenciKulupSistemi.Controllers
             };
             _context.ClubMemberships.Add(registration);
             await _context.SaveChangesAsync();
-             TempData["Message2"] = "You successfully join this Club.";
- 
+            TempData["Message2"] = "You successfully join this Club.";
+
             return RedirectToAction("Details", new { id = clubId });
         }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
