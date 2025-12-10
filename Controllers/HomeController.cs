@@ -30,8 +30,16 @@ public class HomeController : Controller
         eventCount = await _context.EventAttendees.CountAsync(ea => ea.ApplicationUserId == userId);
         membershipsCount = await _context.ClubMemberships.CountAsync(ea => ea.ApplicationUserId == userId);
     }
-     ViewBag.ClubCount = membershipsCount;
+    ViewBag.ClubCount = membershipsCount;
     ViewBag.EventCount = eventCount;
+
+     ViewBag.UpcomingEvents = await _context.Events
+        .OrderBy(e => e.StartDate)
+        .Take(4)
+        .ToListAsync();
+
+
+
        return View(user);
     }
 

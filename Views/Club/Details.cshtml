@@ -16,25 +16,32 @@
             <div class="club-name-fixed">@Model.Name</div>
         </div>
     </div>
-     <form asp-controller="Club" asp-action="ClubJoin" method="post">
-            <input type="hidden" name="clubId" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary">
-                Join
-            </button>
-            @if (TempData["Message"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["Message"]
-                </div>
+    <form asp-controller="Club" asp-action="ClubJoin" method="post">
+        <input type="hidden" name="clubId" value="@Model.Id" />
 
-            }
-            else if (TempData["Message2"] != null)
-            {
-                <div class="alert alert-primary">
-                    @TempData["Message2"]
-                </div>
-            }
-        </form>
+        <button type="submit" class="btn btn-primary">
+            Join
+        </button>
+    </form>
+
+    @if (TempData["alreadyJoined"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
+            });
+        </script>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showJoinToast("@TempData["Success"]", "#048023"); 
+            });
+        </script>
+    }
+
 </div>
 
 <div class="menu-tabs">

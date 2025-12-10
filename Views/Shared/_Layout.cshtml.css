@@ -69,3 +69,29 @@ button.accept-policy {
 .list-unstyled{
   color:#000000;
 }
+/*Toast*/
+.custom-toast {
+    border-radius: 18px !important;
+    padding: 0 !important;
+    border: none !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+.custom-toast .toast-header {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom: none !important;
+    background: #fff !important;
+}
+
+.custom-toast .toast-body {
+    padding: 16px 20px !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.custom-toast .btn-close {
+    filter: invert(1);
+}

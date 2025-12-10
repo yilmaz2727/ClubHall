@@ -17,19 +17,24 @@
             <button type="submit" class="btn btn-primary">
                 Join
             </button>
-            @if (TempData["Message"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["Message"]
-                </div>
+            @if (TempData["alreadyJoined"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
+            });
+        </script>
+    }
 
-            }
-            else if (TempData["Message2"] != null)
-            {
-                <div class="alert alert-primary">
-                    @TempData["Message2"]
-                </div>
-            }
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showJoinToast("@TempData["Success"]", "#048023"); 
+            });
+        </script>
+    }
+
         </form>
         <!--////////////////////////////////////////////////////////////////////-->
 

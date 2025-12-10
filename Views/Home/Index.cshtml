@@ -95,6 +95,20 @@ else
 
     </div>
     <!-- BURAYA         -->
+     <h1> Etkinlikler</h1>  
+    @if(true){
+    var events = ViewBag.UpcomingEvents as List<Event>;
+    
+    @foreach (var ev in events)
+{
+    <div>@ev.Title -aaa- @ev.StartDate</div>
+   
+}
+}
 
+
+
+       
 
 }
+asdasdasdasd
