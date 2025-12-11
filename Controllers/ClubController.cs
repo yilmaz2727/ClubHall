@@ -180,6 +180,7 @@ namespace OgrenciKulupSistemi.Controllers
                 return NotFound();
             }
             var club = await _context.Clubs.Include(c => c.Events)
+                                           .ThenInclude(c => c.Attendees)
                                            .Include(c => c.Memberships)
                                            .ThenInclude(m => m.ApplicationUser)
                                            .Include(c => c.Photos)
@@ -198,6 +199,39 @@ namespace OgrenciKulupSistemi.Controllers
 
             return View(viewModel);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveMember(int membershipId, int clubId)
+        {
+            // İlgili kulübü üyeliklerle birlikte çek
+            var club = await _context.Clubs
+                .Include(c => c.Memberships)
+                .FirstOrDefaultAsync(c => c.Id == clubId);
+
+            if (club == null)
+                return NotFound();
+
+            // Sadece kulüp admini silebilsin
+            var currentUserId = _userManager.GetUserId(User);
+            if (club.AdminId != currentUserId)
+                return Forbid();  // yetkisiz
+
+            // Silinecek membership'i bul
+            var membership = club.Memberships.FirstOrDefault(m => m.Id == membershipId);
+            if (membership == null)
+                return NotFound();
+
+            // Admin olan kullanıcıyı silmeye çalışma (opsiyonel ama mantıklı)
+            if (membership.ApplicationUserId == club.AdminId)
+                return BadRequest("Admin kulüpten kaldırılamaz.");
+
+            _context.ClubMemberships.Remove(membership);
+            await _context.SaveChangesAsync();
+
+            // Tekrar kulüp detayına dön
+            return RedirectToAction("Details", new { id = clubId });
+        }
+
 
         public async Task<IActionResult> ClubJoin(int clubId)
         {

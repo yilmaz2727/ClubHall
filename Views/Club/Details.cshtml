@@ -54,7 +54,7 @@
     <div id="tabEvents" class="tab-item" onclick="showTab('events')">Events</div>
     @if (isAdmin && !(Model.Club.AdminId == null))
     {
-        <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an EVent</div>
+        <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an Event</div>
         <div id="tabMembers" class="tab-item" onclick="showTab('members')">Members</div>
     }
 
@@ -174,11 +174,6 @@
             <span asp-validation-for="@Model.Event.Location" class="text-danger"></span>
         </div>
 
-        @* <div class="mb-3">
-            <label class="form-label">Katılımcı Sayısı</label>
-            <input type="number" name="NumberOfAttendance" class="form-control" min="0" />
-        </div> *@
-
         <div class="mb-3">
             <label class="form-label">Event Photo</label>
             <input type="file" name="EventPhoto" class="form-control" />
@@ -190,13 +185,60 @@
 </div>
 
 <div id="members-section" class="content-area" style="display: none;">
-    <ul>
-        @foreach (var member in Model.Club.Memberships)
-        {
-            <li>@member.ApplicationUser.FirstName @member.ApplicationUser.LastName</li>
-        }
-    </ul>
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Member</th>
+                <th>Number of Events</th>
+                <th>Participation Date</th>
+                @if (isAdmin)
+                {
+                    <th class="text-end">Actions</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var member in Model.Club.Memberships)
+            {
+                var eventCount = Model.Club.Events
+                .Count(e => e.Attendees.Any(a => a.ApplicationUserId == member.ApplicationUserId));
+
+                <tr>
+                    <td>
+                        <img src="https://ui-avatars.com/api/?name=@member.ApplicationUser.FirstName+@member.ApplicationUser.LastName"
+                            class="rounded-circle me-2" width="35" />
+                        @member.ApplicationUser.FirstName @member.ApplicationUser.LastName
+                    </td>
+
+                    <td>@eventCount</td>
+
+                    <td>@member.JoinDate.ToString("dd.MM.yyyy")</td>
+
+                    @if (isAdmin)
+                    {
+                        <td class="text-end">
+                            @* Admin kendini silemesin *@
+                            @if (member.ApplicationUserId != Model.Club.AdminId)
+                            {
+                                <form asp-action="RemoveMember" asp-controller="Club" method="post" class="d-inline">
+                                    <input type="hidden" name="membershipId" value="@member.Id" />
+                                    <input type="hidden" name="clubId" value="@Model.Club.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Bu üyeyi kulüpten çıkarmak istediğine emin misin?');">
+                                        Remove
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 
 </div>
+
 
 <script src="~/js/club.js"></script>

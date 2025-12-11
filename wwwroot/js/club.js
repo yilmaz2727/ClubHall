@@ -40,20 +40,4 @@ function showTab(tab) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("JS YÜKLENDİ");
-
-    const form = document.querySelector("#createEvent-section form");
-
-    if (!form) {
-        console.log("FORM BULUNAMADI");
-        return;
-    }
-
-    console.log("FORM BULUNDU");
-
-    form.addEventListener("submit", () => {
-        console.log("FORM SUBMITTED — gönderiliyor...");
-    });
-});
 
