@@ -1,114 +1,99 @@
-﻿@model ApplicationUser
+﻿@using System.Security.Cryptography
+@model OgrenciKulupSistemi.Models.HomeIndexViewModel
 
 
-
-
-@if (Model != null)
-{
-    <!-- SOL PROFİL KARTI -->
-    <div class="col-lg-3 mb-4">
-        <div class="profile-sidebar-card">
-            <div class="profile-sidebar-header text-center">
-
-                <div class="profile-avatar-circle mx-auto mb-2">
-                    <!-- Profil foto -->
-                    <span>@Model.FirstName?.Substring(0, 1)@Model.LastName?.Substring(0, 1)</span>
-                </div>
-
-                <div>@Model.FirstName @Model.LastName</div>
-                <div>
-                    <a asp-controller="Profile" asp-action="Index" class="small text-muted">See Profile </a>
-                </div>
-                <div class="profile-sidebar-stats d-flex justify-content-around text-center mt-3">
-                    <div>
-                        <div class="stat-number">@ViewBag.ClubCount</div>
-                        <div class="stat-label">Memberships</div>
-                    </div>
-                    <div>
-                        <div class="stat-number">@ViewBag.EventCount</div>
-                        <div class="stat-label">Events</div>
-                    </div>
+@section Hero {
+    <section class="hero-banner u-text-center">
+        <div class="container h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-lg-8 text-center text-lg-start hero-text">
+                    <h1 class="hero-title">
+                        More from <br /> Campus Life
+                    </h1>
+                    <p class="hero-subtitle">
+                        Discover clubs, attend events, meet new people, and create opportunities for yourself.
+                    </p>
+                    <a asp-controller="Event" asp-action="Index" class="hero-btn">
+                        LET'S START
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <!-- ORTA İÇERİK -->
-    <div class="col-lg-6 mb-4">
-        <div class="main-card">
-            <div class="col-lg-6 mb-4">
-                <div class="main-card">
-                    <img src="~/images/Cover.png" style="height: 10; width: 100%;  ">
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <!-- SAĞ TARAF (opsiyonel) -->
-    <div class="col-lg-3 mb-4">
-        <div class="main-card mb-3">
-            <h6>The Clubs that follow</h6>
-            <!--buraya takip ettiği kulüpler gelcek
-                            <ul>
-                            <li>   
-                
-                
-                            </ul> -->
-            <p class="small text-muted mb-0">Rack</p>
-        </div>
-
-
-    </div>
+    </section>
 }
-else
-{
-    <!-- HERO BANNER -->
 
-    @section Hero {
-        <section class="hero-banner u-text-center">
-            <div class="container h-100">
-                <div class="row align-items-center h-100">
-                    <div class="col-lg-8 text-center text-lg-start hero-text">
-                        <h1 class="hero-title">
-                            More from <br />     Campus Life
-                        </h1>
-                        <p class="hero-subtitle">
-                         Discover clubs, attend events, meet new people, and create opportunities for yourself.
-                        </p>
-                        <a asp-controller="Event" asp-action="Index" class="hero-btn">
-                           LET'S START
-                        </a>
+<section class="discover-section">
+    <div class="container">
+        <div class="discover-card">
+            <h2 class="discover-title">Discover Clubs</h2>
+            <p class="discover-text">
+                Discover more than 2 clubs you'd like to join, meet their teams, experience their culture
+                and take your career journey to the next level.
+            </p>
+        </div>
+
+        <br>
+        @if (Model.ShowClub != null && Model.ShowClub.Any())
+        {
+            <div class="row">
+                @foreach (var e in Model.ShowClub)
+                {
+                    <div class="col-md-4 mb-3 d-flex">
+                        <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
+                            @* <img class="card-img-top" src="@e.LogoImageUrl" alt="Card image cap"> Buraya ClubPhoto gelecek*@
+                            <div class="card-body">
+                                <h5 class="card-title">@e.Name</h5>
+                                <p class="card-text">@e.Description</p>
+                                <a asp-controller="Club" asp-action="Details" asp-route-id="@e.Id" class="stretched-link"></a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
+
             </div>
-        </section>
-    }
-
-    <div class="h-Club-top">
-        <div class="Club-Add">
-            <h2>Discover Clubs</h2>
-            <h6>
-                Discover more than 2 clubs you'd like to join, meet their teams, experience their culture and take your
-                career journey to the next level.</h6>
-        </div>
-
+        }
+                <div class="text-center my-4">
+    <a asp-action="Index" asp-controller="Club" class="buttonActivities">
+        Review All Club
+    </a>    
+</div>
     </div>
-    <!-- BURAYA         -->
-     <h1> Etkinlikler</h1>  
-    @if(true){
-    var events = ViewBag.UpcomingEvents as List<Event>;
-    
-    @foreach (var ev in events)
-{
-    <div>@ev.Title -aaa- @ev.StartDate</div>
-   
-}
-}
+</section>
 
 
 
-       
 
-}
-asdasdasdasd
+<section class="eventlist-for-home">
+    <div class="container">
+        <div class="discover-card">
+            <h2 class="eventlist-title">Upcoming Events</h2>
+        </div>
+        <br>
+        @if (Model.UpcomingEvents != null && Model.UpcomingEvents.Any())
+        {
+            <div class="row">
+                @foreach (var ev in Model.UpcomingEvents)
+                {
+                    <div class="col-md-4 mb-3 d-flex">
+                        <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
+                            <img class="card-img-top" src="@ev.EventPhotoUrl" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@ev.Title</h5>
+                                <p class="card-text">@ev.Description</p>
+                                <p class="card-text">Event Date: @ev.StartDate</p>
+                                <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <h1> Etkinlik ekle loo</h1>
+        }
+        <a asp-action="Index" asp-controller="Event" class="buttonActivities">
+            Review All Activities
+        </a>
+    </div>
+</section>

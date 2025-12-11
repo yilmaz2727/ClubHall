@@ -104,6 +104,7 @@ namespace OgrenciKulupSistemi.Controllers
 
          var now = DateTime.Now;
          var UpCaming =  events.Where(e => e.StartDate >= now).ToList();
+
       return View(UpCaming);
 }
 
