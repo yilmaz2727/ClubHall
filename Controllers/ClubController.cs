@@ -212,9 +212,9 @@ namespace OgrenciKulupSistemi.Controllers
             bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId == clubId && x.ApplicationUserId == userId);
             if (alreadyJoined)
             {
-                TempData["Message"] = "You already join this Club";
-                return RedirectToAction("Details", new { id = clubId });
-
+                TempData["alreadyJoined"] = "You already join this Club";
+               return RedirectToAction("Details", new { id = clubId });
+             
             }
             var registration = new ClubMembership
             {
@@ -224,8 +224,8 @@ namespace OgrenciKulupSistemi.Controllers
             };
             _context.ClubMemberships.Add(registration);
             await _context.SaveChangesAsync();
-            TempData["Message2"] = "You successfully join this Club.";
-
+             TempData["Success"] = "You successfully join this Club.";
+ 
             return RedirectToAction("Details", new { id = clubId });
         }
 

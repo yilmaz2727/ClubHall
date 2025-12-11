@@ -99,7 +99,7 @@ namespace OgrenciKulupSistemi.Controllers
             bool alreadyJoined = await _context.EventAttendees.AnyAsync(x => x.EventId  == eventId && x.ApplicationUserId == userId);
             if (alreadyJoined)
             {
-                TempData["Message"] = "You already join this event";
+                TempData["alreadyJoined"] = "You already join this event";
                return RedirectToAction("Details", new { id = eventId });
              
             }
@@ -111,7 +111,7 @@ namespace OgrenciKulupSistemi.Controllers
             };
             _context.EventAttendees.Add(registration);
             await _context.SaveChangesAsync();
-             TempData["Message2"] = "You successfully join this event.";
+             TempData["Success"] = "You successfully join this event.";
  
             return RedirectToAction("Details", new { id = eventId });
         }

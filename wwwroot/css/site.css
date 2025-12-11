@@ -1,5 +1,103 @@
-html {
-  font-size: 14px;
+.body {
+   display: block;
+}
+
+a {
+  color: #0077cc;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* navbar */
+
+   .navbar-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin-left: 150px;
+}
+
+/* NAVBAR GENEL STİLİ */
+.navbar-custom {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* NAV-LINK TASARIMI */
+.navbar-custom .nav-link {
+    color: #4a5568;
+    font-weight: 500;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+/* HOVER EFEKTİ */
+.navbar-custom .nav-link:hover {
+    color: #667eea;
+}
+
+/* AKTİF SAYFA RENK */
+.navbar-custom .nav-link.active {
+    color: #667eea !important;
+}
+
+/* ALTTAN ÇİZGİ – HOVER & ACTIVE BAR */
+.navbar-custom .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover::after,
+.navbar-custom .nav-link.active::after {
+    width: 100%;
+}
+
+/* TOGGLER BUTON (MOBIL) */
+.navbar-toggler {
+    border: none !important;
+    padding: 6px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* HAMBURGER ICON RENK DEĞİŞTİRME */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(102, 126, 234, 1)' stroke-linecap='round' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 @media (min-width: 768px) {
@@ -264,6 +362,53 @@ body {
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.04);
 }
+/*///////////////////////DISCOVER////////////////////////////*/
+.discover-section {
+    padding: 60px 0 50px;         
+    background: #f7faff;        
+}
+
+.discover-card {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 24px;           
+    padding: 32px 40px;
+    box-shadow: 0 18px 45px rgba(15, 52, 96, 0.08); 
+    border: 1px solid rgba(141, 57, 250, 0.06);    
+}
+
+.discover-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #5fa3f0, #7619ef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;             
+}
+
+.discover-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #4c4f5a;              
+    margin: 0;
+}
+.eventlist-for-home{
+        padding: 60px 0 80px;         
+    background: #f7faff;    
+    text-align: center;
+}
+.eventlist-title{
+     font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #5fa3f0, #7619ef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
 /* HERO BANNER */
 
@@ -303,6 +448,20 @@ body {
     margin: 0 auto 24px auto;
    
     color: #0097ee;
+}
+.buttonActivities {
+    display: inline-block;
+
+    padding: 10px 24px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #4d9fff, #8d39fa);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.buttonActivities:hover {
+    opacity: .9;
 }
 
 @media (min-width: 992px) {
@@ -349,9 +508,65 @@ body {
 text-align: center;
 }
 
+
 /* MyEvents  */
 .TittleEvent{
     text-align: center;
     color: #0097ee;
     
+}
+/*Toast*/
+.custom-toast {
+    border-radius: 18px !important;
+    padding: 0 !important;
+    border: none !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+.custom-toast .toast-header {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom: none !important;
+    background: #fff !important;
+}
+
+.custom-toast .toast-body {
+    padding: 16px 20px !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.custom-toast .btn-close {
+    filter: invert(1);
+}
+/*footer*/
+.clubhall-footer {
+    background-color:   #ffffff;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.footer-link:hover {
+    color: #2f404a;
+}
+
+.footer-social {
+    font-size: 1.3rem;
+    color:#1b6ec2;
+    transition: 0.2s;
+}
+
+.footer-social:hover {
+    color: #8D39FA;
+}
+.fw-bold{
+  color:#8D39FA;
+}
+.list-unstyled{
+  color:#000000;
 }

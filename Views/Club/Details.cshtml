@@ -26,28 +26,25 @@
         {
             <button type="submit" class="edit-btn-fixed"> Edit</button>
         }
-
+     @if(!isAdmin){
         <form asp-controller="Club" asp-action="ClubJoin" method="post">
             <input type="hidden" name="clubId" value="@Model.Club.Id" />
             <button type="submit" class="join-btn-fixed">
                 Join
             </button>
-            @if (TempData["Message"] != null)
+            @if (TempData["alreadyJoined"] != null)
             {
-                <div class="alert alert-danger">
-                    @TempData["Message"]
-                </div>
-
+                <script> document.addEventListener("DOMContentLoaded", function () {
+                        showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C");}); </script>
             }
-            else if (TempData["Message2"] != null)
+            else if (TempData["Success"] != null)
             {
-                <div class="alert alert-primary">
-                    @TempData["Message2"]
-                </div>
+                <script> document.addEventListener("DOMContentLoaded", function () {
+                     showJoinToast("@TempData["Success"]", "#048023"); }); </script>
             }
         </form>
 
-
+}
     </div>
 
 </div>
@@ -68,13 +65,15 @@
         <div class="about-title">About Us</div>
         <div class="about-text">
             @Model.Club.Description
-            @if (Model.Club.Photos != null && Model.Club.Photos.Any()) {
+            @if (Model.Club.Photos != null && Model.Club.Photos.Any())
+            {
                 <div class="photo-gallery">
-                    @foreach (var photo in Model.Club.Photos) {
+                    @foreach (var photo in Model.Club.Photos)
+                    {
                         <img src="@photo.ImageUrl" alt="Club Photo" />
                     }
                 </div>
-            } 
+            }
         </div>
     </div>
 </div>
@@ -122,13 +121,15 @@
 
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input type="text" asp-for="@Model.Event.Title" class="form-control" placeholder="Etkinlik adını yazın" required />
+            <input type="text" asp-for="@Model.Event.Title" class="form-control" placeholder="Etkinlik adını yazın"
+                required />
             <span asp-validation-for="@Model.Event.Title" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea asp-for="@Model.Event.Description" class="form-control" rows="4" placeholder="Etkinlik açıklamasını giriniz" required></textarea>
+            <textarea asp-for="@Model.Event.Description" class="form-control" rows="4"
+                placeholder="Etkinlik açıklamasını giriniz" required></textarea>
             <span asp-validation-for="@Model.Event.Description" class="text-danger"></span>
         </div>
 
@@ -168,7 +169,8 @@
 
         <div class="mb-3">
             <label class="form-label">Location</label>
-            <input type="text" asp-for="@Model.Event.Location" class="form-control" placeholder="Etkinlik yeri" required />
+            <input type="text" asp-for="@Model.Event.Location" class="form-control" placeholder="Etkinlik yeri"
+                required />
             <span asp-validation-for="@Model.Event.Location" class="text-danger"></span>
         </div>
 
