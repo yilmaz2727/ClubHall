@@ -8,23 +8,14 @@
 @if (!Model.Any())
 {
     <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
-        <h1> You have not member any Club yet.</h1>
+        <h1> You are not a member of any Club yet.</h1>
     </div>
 }
 <div class="text-center">
     <div class="row">
         @foreach (var e in Model)
         {
-            <div class="col-md-4 mb-3 d-flex">
-                <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
-                    @* <img class="card-img-top" src="@e.LogoImageUrl" alt="Card image cap"> Buraya ClubPhoto gelecek*@
-                    <div class="card-body">
-                        <h5 class="card-title">@e.Name</h5>
-                        <p class="card-text">@e.Description</p>
-                        <a asp-controller="Club" asp-action="Details" asp-route-id="@e.Id" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
+            @await Html.PartialAsync("_ClubCard", e)
         }
     </div>
 </div>
