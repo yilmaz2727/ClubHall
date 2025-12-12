@@ -61,8 +61,8 @@
                 <div class="col-md-4 mb-4">
                     <h5 class="fw-bold">Menu</h5>
                     <ul class="list-unstyled">
-                        <li><a href="/Events" class="footer-link">Events</a></li>
-                        <li><a href="/Clubs" class="footer-link">Clubs</a></li>
+                        <li><a  asp-controller="Event" asp-action="Index" class="footer-link">Events</a></li>
+                        <li><a  asp-controller="Club"  asp-action="Index" class="footer-link">Clubs</a></li>
                     </ul>
                 </div>
 
@@ -90,7 +90,7 @@
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2000">
             <div id="joinToast" class="toast custom-toast" role="alert">
                 <div class="toast-header">
-                    <strong class="me-auto">Information Meeeeen</strong>
+                    <strong class="me-auto">Information For You</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
                 </div>
                 <div class="toast-body" id="toastBody"></div>

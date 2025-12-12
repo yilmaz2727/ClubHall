@@ -212,7 +212,7 @@ namespace OgrenciKulupSistemi.Controllers
             bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId == clubId && x.ApplicationUserId == userId);
             if (alreadyJoined)
             {
-                TempData["alreadyJoined"] = "You already join this Club";
+                TempData["alreadyJoined"] = "You have already joined this Club";
                return RedirectToAction("Details", new { id = clubId });
              
             }
