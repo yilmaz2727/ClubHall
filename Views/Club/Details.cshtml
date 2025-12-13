@@ -26,25 +26,28 @@
         {
             <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
         }
-     @if(!isAdmin){
-        <form asp-controller="Club" asp-action="ClubJoin" method="post">
-            <input type="hidden" name="clubId" value="@Model.Club.Id" />
-            <button type="submit" class="join-btn-fixed">
-                Join
-            </button>
-            @if (TempData["alreadyJoined"] != null)
-            {
-                <script> document.addEventListener("DOMContentLoaded", function () {
-                        showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C");}); </script>
-            }
-            else if (TempData["Success"] != null)
-            {
-                <script> document.addEventListener("DOMContentLoaded", function () {
-                     showJoinToast("@TempData["Success"]", "#048023"); }); </script>
-            }
-        </form>
+        @if (!isAdmin)
+        {
+            <form asp-controller="Club" asp-action="ClubJoin" method="post">
+                <input type="hidden" name="clubId" value="@Model.Club.Id" />
+                <button type="submit" class="join-btn-fixed">
+                    Join
+                </button>
+                @if (TempData["alreadyJoined"] != null)
+                {
+                    <script> document.addEventListener("DOMContentLoaded", function () {
+                            showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C");
+                        }); </script>
+                }
+                else if (TempData["Success"] != null)
+                {
+                    <script> document.addEventListener("DOMContentLoaded", function () {
+                            showJoinToast("@TempData["Success"]", "#048023");
+                        }); </script>
+                }
+            </form>
 
-}
+        }
     </div>
 
 </div>
@@ -121,15 +124,15 @@
 
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input type="text" asp-for="@Model.Event.Title" class="form-control" placeholder="Etkinlik adını yazın"
+            <input type="text" asp-for="@Model.Event.Title" class="form-control" placeholder="Type the event name"
                 required />
             <span asp-validation-for="@Model.Event.Title" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea asp-for="@Model.Event.Description" class="form-control" rows="4"
-                placeholder="Etkinlik açıklamasını giriniz" required></textarea>
+            <textarea asp-for="@Model.Event.Description" class="form-control" rows="4" 
+            placeholder="Enter the event description." required></textarea>
             <span asp-validation-for="@Model.Event.Description" class="text-danger"></span>
         </div>
 
@@ -157,7 +160,7 @@
         <div class="mb-3">
             <label class="form-label">Event Type</label>
             <select asp-for="@Model.Event.EventType" class="form-select" required>
-                <option value="">Seçiniz</option>
+                <option value="">Choose</option>
                 <option value="Education">Education</option>
                 <option value="Entertainment">Entertainment</option>
                 <option value="Workshop">Workshop</option>
@@ -169,7 +172,7 @@
 
         <div class="mb-3">
             <label class="form-label">Location</label>
-            <input type="text" asp-for="@Model.Event.Location" class="form-control" placeholder="Etkinlik yeri"
+            <input type="text" asp-for="@Model.Event.Location" class="form-control" placeholder="Place of event"
                 required />
             <span asp-validation-for="@Model.Event.Location" class="text-danger"></span>
         </div>

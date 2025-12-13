@@ -8,10 +8,6 @@ namespace OgrenciKulupSistemi.ViewModels
         public Club Club { get; set; }
 
         public Event Event { get; set; }
-
-
-
-
     }
 
 

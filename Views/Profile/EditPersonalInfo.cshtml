@@ -1,14 +1,14 @@
 @model UserEditViewModel
 
 <div class="container mt-4 info-card">
-    <h3>Kişisel Bilgileri Düzenle</h3>
+    <h3>Edit Personal Information</h3>
 
     <form asp-action="EditProfile" method="post">
 
         <div class="row mt-3">
 
             <div class="col-md-6 mb-3">
-                <label>Yaşadığı Yer</label>
+                <label>LOCATIONr</label>
                 <input asp-for="City" class="form-control" />
             </div>
 
@@ -18,17 +18,17 @@
             </div>
 
             <div class="col-md-6 mb-3">
-                <label>Doğum Tarihi</label>
+                <label>BirthDate</label>
                 <input asp-for="BirthDate" type="date" class="form-control" />
             </div>
 
             <div class="col-md-6 mb-3">
-                <label>Doğum Yeri</label>
+                <label>BirthPlace</label>
                 <input asp-for="BirthPlace" class="form-control" />
             </div>
 
             <div class="col-md-6 mb-3">
-                <label>Cinsiyet</label>
+                <label>Gender</label>
                 <select asp-for="Gender" class="form-control">
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -37,7 +37,7 @@
 
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Kaydet</button>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
 
     </form>
 </div>

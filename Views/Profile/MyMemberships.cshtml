@@ -8,21 +8,24 @@
 </div>
 @if (!Model.Any())
 {
-    <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
-        <h1> You are not a member of any Club yet.</h1>
+    <br />
+
+    <div class="discover-card">
+        <h2 class="discover-text">You are not a member of any Club yet.</h2>
+
     </div>
 }
 <section class="discover-section">
     <div class="container">
-        
+
         <div class="row">
-        @foreach (var e in Model)
-        {
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
-                @await Html.PartialAsync("_ClubCard", e)
-            </div>
-        }
-  </div>
+            @foreach (var e in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                    @await Html.PartialAsync("_ClubCard", e)
+                </div>
+            }
+        </div>
 
         <div class="text-center my-4">
             <a asp-action="Index" asp-controller="Club" class="buttonActivities">

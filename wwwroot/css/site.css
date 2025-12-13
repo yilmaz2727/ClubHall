@@ -203,15 +203,6 @@ body {
     object-fit: cover;
 }
 
-/* Avatar düzenle butonu */
-.avatar-edit-btn {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    padding: 2px 8px;
-    font-size: 0.75rem;
-    border-radius: 999px;
-}
 
 /* İsim */
 .profile-name-text {
@@ -222,13 +213,9 @@ body {
 .profile-tabs .nav-link {
     font-size: 0.9rem;
     padding: 0.75rem 1.1rem;
-    color: #4b5563;
-}
-
-.profile-tabs .nav-link.active {
     color: #2563eb;
     font-weight: 600;
-    border-color: #2563eb #2563eb #fff;
+    border-color: #2563eb #2563eb #ffffff; 
 }
 
 .profile-tab-content {
@@ -462,6 +449,20 @@ body {
 }
 
 .buttonActivities:hover {
+    opacity: .9;
+}
+.buttonActivities-Profile{
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 99px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background: linear-gradient(90deg, #4d9fff, #8d39fa);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.buttonActivities-Profile:hover {
     opacity: .9;
 }
 
