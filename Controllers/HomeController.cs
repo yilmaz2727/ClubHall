@@ -25,7 +25,7 @@ public class HomeController : Controller
    model.UpcomingEvents = await _context.Events
         .Where(e => e.StartDate >= DateTime.Today)
         .OrderBy(e => e.StartDate)
-        .Take(4) //4 etkinlikk
+        .Take(6) //6 etkinlikk
         .ToListAsync();
 
     model.ShowClub = await _context.Clubs

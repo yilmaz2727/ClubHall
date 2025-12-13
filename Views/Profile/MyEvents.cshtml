@@ -1,21 +1,24 @@
 @model List<Event>
 <a class="hero-btn" asp-action="Index" asp-controller="Profile">Return Profile</a>
 <hr>
-<div class="card border-0 shadow-sm rounded-3">
-    <h2 class="TittleEvent">My Events</h2>
+
+<div class="discover-card">
+    <h2 class="discover-title">My Events</h2>
+
 </div>
-<br>
 @if (!Model.Any())
 {
     <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
-        <h1> You have not joined any events yet.</h1>
+        <p class="discover-text">
+            You have <mark>NOT</mark> joined any event yet
+        </p>
     </div>
 }
-
-
-<div class="text-center">
-    <div class="row">
-        @foreach (var e in Model)
+<section class="discover-section">
+    <div class="container">
+        
+        <div class="row">
+            @foreach (var e in Model)
         {
             <div class="col-md-4 mb-3 d-flex">
                 <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
@@ -29,5 +32,12 @@
                 </div>
             </div>
         }
+        </div>
+
+        <div class="text-center my-4">
+            <a asp-action="Index" asp-controller="Event" class="buttonActivities">
+                Review All Events
+            </a>
+        </div>
     </div>
-</div>
+</section>

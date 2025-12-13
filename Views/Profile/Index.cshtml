@@ -7,24 +7,24 @@
 
 <div class="profile-wrapper">
 
-    <!-- KAPAK -->
+   
     <div class="profile-cover-mine">
 
     </div>
 
-    <!-- ALT BEYAZ ALAN -->
+   
     <div class="profile-main-box container">
 
-        <!-- Avatar + isim satırı -->
+      
         <div class="d-flex align-items-end position-relative profile-header-row">
 
-            <!-- Avatar -->
+           
             <div class="profile-avatar-big">
                 <img src="" alt="Avatar" />
 
             </div>
 
-            <!-- İsim / başlık / alt bilgiler -->
+           
             <div class="ms-4 mb-3">
                 <h2 class="mb-1 profile-name-text">
                     @Model.FirstName @Model.LastName
@@ -33,30 +33,25 @@
 
             </div>
 
-            <!-- Sağdaki butonlar -->
+         
             <div class="ms-auto mb-3 d-flex gap-2">
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-primary">
-                    <i class="bi bi-gear"></i> Düzenle
+                    <i class="bi bi-gear"></i> Edit
                 </a>
 
             </div>
         </div>
 
-        <!-- Sekmeler -->
+      
         <ul class="nav nav-tabs profile-tabs mt-3">
             <li class="nav-item">
-                <a class="nav-link active" asp-action="MyEvents">My Events</a>
+                <a class="nav-link" asp-action="MyEvents">My Events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-action="MyMemberships">My Memberships</a>
             </li>
 
         </ul>
-
-        <!-- Sekme içerikleri (şimdilik boş) -->
-        <div class="profile-tab-content p-3">
-            Buraya profil içeriğin gelecek.
-        </div>
     </div>
 
 
@@ -64,22 +59,22 @@
 
         <div class="info-card">
 
-            <h3 class="info-title">Kişisel Bilgiler</h3>
+            <h3 class="info-title">Personal Information</h3>
             <div class="ms-auto mb-3 d-flex gap-2">
                 <a  asp-action="EditPersonalInfo" class="btn btn-outline-primary">
-                    <i class="bi bi-gear"></i> Düzenle
+                    <i class="bi bi-gear"></i> Edit
                 </a>
 
             </div>
            <div class="row mt-4">
 
                 <div class="col-md-6 mb-4">
-                    <div class="info-label">Yaşadığı Yer</div>
+                    <div class="info-label">Place of residence</div>
                     <div class="info-value">@Model.City</div>
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <div class="info-label">Cep Telefonu</div>
+                    <div class="info-label">Mobile Phone</div>
 
                     <div class="info-value">@Model.PhoneNumber</div>
                 </div>
@@ -90,17 +85,17 @@
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <div class="info-label">Doğum Tarihi</div>
+                    <div class="info-label">Date of birth</div>
                     <div class="info-value">@Model.BirthDate?.ToShortDateString()</div>
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <div class="info-label">Doğum Yeri</div>
+                    <div class="info-label">Birthplace</div>
                     <div class="info-value">@Model.BirthPlace</div>
                 </div>
 
                 <div class="col-md-6 mb-4">
-                    <div class="info-label">Cinsiyet</div>
+                    <div class="info-label">Gender</div>
                     <div class="info-value">@Model.Gender</div>
                 </div>
 

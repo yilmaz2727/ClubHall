@@ -1,6 +1,11 @@
 @using OgrenciKulupSistemi.Models
 @using System.Security.Claims
 @using System.Linq
+
+<h2 style="color:black">Discover All Clubs</h2>
+<hr>
+
+
 @model List<Club>
 @{
     var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);

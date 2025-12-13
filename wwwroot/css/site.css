@@ -39,6 +39,7 @@ button.accept-policy {
     object-fit: cover;
     display: block;
     margin-left: 150px;
+    padding-right: 230px;
 }
 
 /* NAVBAR GENEL STİLİ */
@@ -569,4 +570,17 @@ text-align: center;
 }
 .list-unstyled{
   color:#000000;
+}
+/* Club/Details  */
+.No-Event-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    
+}
+
+.No-Event-icon {
+    font-size: 42px;
+    opacity: 0.8;
 }
