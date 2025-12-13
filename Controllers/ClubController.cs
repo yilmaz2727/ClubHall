@@ -265,7 +265,7 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 var clubForReload = await _context.Clubs
                     .Include(c => c.Photos)
-                    .AsNoTracking()                   
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(c => c.Id == model.Id);
 
                 if (clubForReload != null)
@@ -314,8 +314,8 @@ namespace OgrenciKulupSistemi.Controllers
             if (alreadyJoined)
             {
                 TempData["alreadyJoined"] = "You have already joined this Club";
-               return RedirectToAction("Details", new { id = clubId });
-             
+                return RedirectToAction("Details", new { id = clubId });
+
             }
             var registration = new ClubMembership
             {
@@ -329,6 +329,35 @@ namespace OgrenciKulupSistemi.Controllers
 
             return RedirectToAction("Details", new { id = clubId });
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveEvent(int eventId)
+        {
+
+            var currentUserId = _userManager.GetUserId(User);
+            var removedEvent = await _context.Events.Include(e => e.Club).FirstOrDefaultAsync(k => k.Id == eventId);
+
+            if (removedEvent == null)
+            {
+                return NotFound();
+            }
+
+            if (removedEvent.Club.AdminId != currentUserId)
+            {
+                return Forbid();
+            }
+
+            int clubId = removedEvent.ClubId;
+
+            _context.Events.Remove(removedEvent);
+            await _context.SaveChangesAsync();
+            /* bir etkinlik silindiğinde o etkinliğe üye olan kullanıcıların etkinlik kayıtları (eventattendee) da siliniyor */
+
+
+            return RedirectToAction("Details", new { id = clubId });
+        }
+
 
 
 
