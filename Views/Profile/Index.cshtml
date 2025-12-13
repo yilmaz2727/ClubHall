@@ -20,8 +20,8 @@
 
            
             <div class="profile-avatar-big">
-                <img src="" alt="Avatar" />
-
+                 <img src="https://ui-avatars.com/api/?name=@Model.FirstName+@Model.LastName"
+                            class="rounded-circle me-2" width="35" />
             </div>
 
            
@@ -45,11 +45,16 @@
       
         <ul class="nav nav-tabs profile-tabs mt-3">
             <li class="nav-item">
-                <a class="nav-link" asp-action="MyEvents">My Events</a>
+                <a class="buttonActivities-Profile" asp-action="MyEvents">My Events</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="MyMemberships">My Memberships</a>
+                <a class="buttonActivities-Profile" asp-action="MyMemberships">My Memberships</a>
             </li>
+         <!-- ////////////////////////////////////////////////////8 
+           <li class="nav-item">
+                <a class="buttonActivities-Profile" asp-action="MyMemberships">My Club</a>
+            </li>  ////////////////////////////////////////   -->
+
 
         </ul>
     </div>
@@ -61,7 +66,7 @@
 
             <h3 class="info-title">Personal Information</h3>
             <div class="ms-auto mb-3 d-flex gap-2">
-                <a  asp-action="EditPersonalInfo" class="btn btn-outline-primary">
+                <a  asp-action="EditPersonalInfo" class="btn btn-outline-primary ">
                     <i class="bi bi-gear"></i> Edit
                 </a>
 
