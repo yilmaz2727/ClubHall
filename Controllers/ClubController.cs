@@ -1,15 +1,13 @@
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using OgrenciKulupSistemi.Data;
 using OgrenciKulupSistemi.Models;
 using OgrenciKulupSistemi.ViewModels;
-
 using Microsoft.AspNetCore.Authentication;
+
 namespace OgrenciKulupSistemi.Controllers
 {
     public class ClubController : Controller
@@ -17,13 +15,11 @@ namespace OgrenciKulupSistemi.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _env;
 
-        public ClubController(UserManager<ApplicationUser> userManager, ApplicationDbContext context, IWebHostEnvironment env)
+        public ClubController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _context = context;
-            _env = env;
         }
 
 
@@ -35,11 +31,11 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
 
-        /* 
+        /*
         Eğer kullanıcı giriş yapmışsa, ASP.NET Core, kullanıcının kimlik bilgilerini (ClaimsPrincipal) doldurur ve User nesnesine atar.
         Eğer giriş yapılmamışsa, User.Identity.IsAuthenticated false olur.
-        
-        Eğer kullanıcı giriş yapmamışsa, ASP.NET Core otomatik olarak giriş sayfasına yönlendirir 
+
+        Eğer kullanıcı giriş yapmamışsa, ASP.NET Core otomatik olarak giriş sayfasına yönlendirir
         */
         [Authorize]
         public async Task<IActionResult> Create()
@@ -83,7 +79,7 @@ namespace OgrenciKulupSistemi.Controllers
 
 
 
-            // hakkmızda kısmına ait olan fotoğraflar'ı ClubPhoto da tuttuğumuz için ayrıca işleme aldık.    
+            // hakkmızda kısmına ait olan fotoğraflar'ı ClubPhoto da tuttuğumuz için ayrıca işleme aldık.
             if (model.GalleryPhotos != null && model.GalleryPhotos.Count > 0)
             {
                 foreach (var file in model.GalleryPhotos)
@@ -102,7 +98,7 @@ namespace OgrenciKulupSistemi.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            /* 
+            /*
             yukarıda var newClub ... ile o anda Create New butonuna basan kullanıcıyı yeni kulbün admini yapmıştık.
             burada şunu yapıyoruz: "bu yeni oluşturulan kulübün adminini bul, o kullanıcının rolünü ClubAdmin yap."
             */
@@ -116,7 +112,7 @@ namespace OgrenciKulupSistemi.Controllers
         public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
         {
 
-            /* 
+            /*
             Eğer bir View'de birden fazla model kullanılıyorsa, bu modellerin birbirinden ayrılması için prefix kullanılır.
             Event modeline ait verilerin doğru şekilde bağlanması için
             */
@@ -232,6 +228,77 @@ namespace OgrenciKulupSistemi.Controllers
             return RedirectToAction("Details", new { id = clubId });
         }
 
+        // GET : Club/Edit/5
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var club = await _context.Clubs
+                .Include(c => c.Photos)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (club == null)
+                return NotFound();
+
+            var currentUserId = _userManager.GetUserId(User);
+            if (club.AdminId != currentUserId)
+                return Unauthorized();
+
+            var vm = new ClubEditViewModel
+            {
+                Id = club.Id,
+                Name = club.Name,
+                Description = club.Description,
+                ExistingLogoImageUrl = club.LogoImageUrl,
+                ExistingCoverPhotoUrl = club.CoverPhotoUrl
+            };
+            return View(vm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(ClubEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var clubForReload = await _context.Clubs
+                    .Include(c => c.Photos)
+                    .AsNoTracking()                   
+                    .FirstOrDefaultAsync(c => c.Id == model.Id);
+
+                if (clubForReload != null)
+                {
+                    model.ExistingLogoImageUrl = clubForReload.LogoImageUrl;
+                    model.ExistingCoverPhotoUrl = clubForReload.CoverPhotoUrl;
+                }
+                return View(model);
+            }
+
+            var club = await _context.Clubs.Include(c => c.Photos).FirstOrDefaultAsync(c => c.Id == model.Id);
+            if (club == null)
+            {
+                return NotFound();
+            }
+
+            var currentUserId = _userManager.GetUserId(User);
+            if (club.AdminId != currentUserId)
+            {
+                return Unauthorized();
+            }
+
+            club.Name = model.Name;
+            club.Description = model.Description;
+
+            if (model.LogoImage != null) { club.LogoImageUrl = await FileUploadHelper.UploadFile(model.LogoImage, "clubs"); }
+            if (model.CoverPhoto != null) { club.CoverPhotoUrl = await FileUploadHelper.UploadFile(model.CoverPhoto, "clubs"); }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = club.Id });
+
+        }
+
 
         public async Task<IActionResult> ClubJoin(int clubId)
         {
@@ -258,8 +325,8 @@ namespace OgrenciKulupSistemi.Controllers
             };
             _context.ClubMemberships.Add(registration);
             await _context.SaveChangesAsync();
-             TempData["Success"] = "You successfully join this Club.";
- 
+            TempData["Success"] = "You successfully join this Club.";
+
             return RedirectToAction("Details", new { id = clubId });
         }
 

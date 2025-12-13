@@ -24,7 +24,7 @@
     <div class="club-buttons">
         @if (isAdmin && !(Model.Club.AdminId == null))
         {
-            <button type="submit" class="edit-btn-fixed"> Edit</button>
+            <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
         }
      @if(!isAdmin){
         <form asp-controller="Club" asp-action="ClubJoin" method="post">
