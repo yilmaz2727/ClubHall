@@ -2,7 +2,7 @@
 
 <h2>Edit Club</h2>
 
-<form id="editClubForm" asp-controller="Club" asp-action="Edit" method="post">
+<form id="editClubForm" asp-controller="Club" asp-action="Edit" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
 
     <input type="hidden" asp-for="Id" />
