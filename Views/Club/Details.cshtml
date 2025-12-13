@@ -5,7 +5,7 @@
 
 @{
     var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var isAdmin = currentUserId == Model.Club.AdminId; // isAdmin, giriş yapmış olan kullanıcının ilgili kulübün admini mi olduğunu kontrol eder.
+    var isAdmin = currentUserId == Model.Club.AdminId; // isAdmin, giriş yapmış olan kullanıcının ilgili kulübün admini miolduğunu kontrol eder.
 }
 
 <link rel="stylesheet" href="~/css/club.css">
@@ -86,7 +86,15 @@
         <div class="about-title">Events</div> @* kulübe ait bütün etkinlikler listelenecek *@
         @if (Model.Club.Events == null || !Model.Club.Events.Any())
         {
-            <p>This club has no events.</p>
+            <div class="no-event-card text-center">
+                <div class="no-event-icon mb-3">📅</div>
+                <h5>No events yet</h5>
+                <p class="text-muted">
+                    This club hasn’t created any events yet.<br />
+                    Stay tuned or check back later.
+                </p>
+            </div>
+
         }
         else
         {
@@ -131,8 +139,8 @@
 
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea asp-for="@Model.Event.Description" class="form-control" rows="4" 
-            placeholder="Enter the event description." required></textarea>
+            <textarea asp-for="@Model.Event.Description" class="form-control" rows="4"
+                placeholder="Enter the event description." required></textarea>
             <span asp-validation-for="@Model.Event.Description" class="text-danger"></span>
         </div>
 
