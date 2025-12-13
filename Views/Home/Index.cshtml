@@ -27,7 +27,7 @@
         <div class="discover-card">
             <h2 class="discover-title">Discover Clubs</h2>
             <p class="discover-text">
-                Discover more than 2 clubs you'd like to join, meet their teams, experience their culture
+                Discover more than @Model.ShowClub.Count() clubs you'd like to join, meet their teams, experience their culture
                 and take your career journey to the next level.
             </p>
         </div>
@@ -38,16 +38,17 @@
             <div class="row">
                 @foreach (var e in Model.ShowClub)
                 {
-                    @await Html.PartialAsync("_ClubCard", e)
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                        @await Html.PartialAsync("_ClubCard", e)
+                    </div>
                 }
-
             </div>
-        }
-                <div class="text-center my-4">
-    <a asp-action="Index" asp-controller="Club" class="buttonActivities">
-        Review All Club
-    </a>    
-</div>
+        }                
+        <div class="text-center my-4">
+            <a asp-action="Index" asp-controller="Club" class="buttonActivities">
+                Review All Club
+            </a>    
+        </div>
     </div>
 </section>
 
@@ -81,7 +82,7 @@
         }
         else
         {
-            <h1> Etkinlik ekle loo</h1>
+            <h1></h1>
         }
         <a asp-action="Index" asp-controller="Event" class="buttonActivities">
             Review All Activities

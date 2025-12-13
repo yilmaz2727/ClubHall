@@ -15,7 +15,9 @@
     <div class="row">
         @foreach (var e in Model)
         {
-            @await Html.PartialAsync("_ClubCard", e)
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                @await Html.PartialAsync("_ClubCard", e)
+            </div>
         }
     </div>
 </div>

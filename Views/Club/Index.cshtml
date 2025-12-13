@@ -11,13 +11,15 @@
     <div class="row">
         @foreach (var club in Model)
         {
-            @await Html.PartialAsync("_ClubCard", club)
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                @await Html.PartialAsync("_ClubCard", club)
+            </div>
         }
 
 
 
         @if (User.Identity.IsAuthenticated && !isUserAdmin) {
-            <a class="btn btn-primary" asp-action="Create" asp-controller="Club">Create Club</a> @* bunun tasarımını ve konumunu değiştirmeliyiz *@
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Club">Create Club</a>
         }
 
     </div>
