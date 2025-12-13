@@ -27,7 +27,7 @@
         <div class="discover-card">
             <h2 class="discover-title">Discover Clubs</h2>
             <p class="discover-text">
-                Discover more than 2 clubs you'd like to join, meet their teams, experience their culture
+                Discover more than @Model.ShowClub.Count() clubs you'd like to join, meet their teams, experience their culture
                 and take your career journey to the next level.
             </p>
         </div>
@@ -38,25 +38,17 @@
             <div class="row">
                 @foreach (var e in Model.ShowClub)
                 {
-                    <div class="col-md-4 mb-3 d-flex">
-                        <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
-                            @* <img class="card-img-top" src="@e.LogoImageUrl" alt="Card image cap"> Buraya ClubPhoto gelecek*@
-                            <div class="card-body">
-                                <h5 class="card-title">@e.Name</h5>
-                                <p class="card-text">@e.Description</p>
-                                <a asp-controller="Club" asp-action="Details" asp-route-id="@e.Id" class="stretched-link"></a>
-                            </div>
-                        </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                        @await Html.PartialAsync("_ClubCard", e)
                     </div>
                 }
-
             </div>
-        }
-                <div class="text-center my-4">
-    <a asp-action="Index" asp-controller="Club" class="buttonActivities">
-        Review All Club
-    </a>    
-</div>
+        }                
+        <div class="text-center my-4">
+            <a asp-action="Index" asp-controller="Club" class="buttonActivities">
+                Review All Club
+            </a>    
+        </div>
     </div>
 </section>
 
@@ -90,7 +82,7 @@
         }
         else
         {
-            <h1> Etkinlik ekle loo</h1>
+            <h1></h1>
         }
         <a asp-action="Index" asp-controller="Event" class="buttonActivities">
             Review All Activities
