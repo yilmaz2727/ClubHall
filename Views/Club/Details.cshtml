@@ -83,7 +83,16 @@
         <div class="about-title">Events</div> @* kulübe ait bütün etkinlikler listelenecek *@
         @if (Model.Club.Events == null || !Model.Club.Events.Any())
         {
-            <p>This club has no events.</p>
+            <div class="No-Event-card text-center">
+                <div class="No-Event-Icon">📅</div>
+                  <h5>No Events Yet</h5>
+                 <p class="text-muted">This club hasn’t created any events yet.<br />
+        Stay tuned or check back later.</p>
+        @if (isAdmin && !(Model.Club.AdminId == null))
+    {
+      <div id="tabCreateEvent" class="btn btn-primary" onclick="showTab('createEvent')">Create First Event</div>
+    }
+                 </div>
         }
         else
         {
