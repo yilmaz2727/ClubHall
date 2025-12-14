@@ -346,24 +346,24 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
 
-        public async Task<IActionResult> ClubJoin(int clubId)
+        public async Task<IActionResult> ClubJoin(int clubId) 
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(User); // get user id 
             if (userId == null)
             {
-                return Challenge(new AuthenticationProperties// kullanıcı → login ekranına yönlendir daha sornasında detaile gönderir
+                return Challenge(new AuthenticationProperties// The user is redirected to the login screen, then sent to the details section
                 {
-                    RedirectUri = Url.Action("Details", new { id = clubId })
+                    RedirectUri = Url.Action("Details", new { id = clubId }) // if user dont log in, return detail page
                 });
             }
-            bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId == clubId && x.ApplicationUserId == userId);
+            bool alreadyJoined = await _context.ClubMemberships.AnyAsync(x => x.ClubId == clubId && x.ApplicationUserId == userId); //check whether user member club
             if (alreadyJoined)
             {
                 TempData["alreadyJoined"] = "You have already joined this Club";
-                return RedirectToAction("Details", new { id = clubId });
-
+               return RedirectToAction("Details", new { id = clubId }); // retun detail page after appear toast 
+             
             }
-            var registration = new ClubMembership
+            var registration = new ClubMembership //if user have not join a club yet , it join.
             {
                 ClubId = clubId,
                 ApplicationUserId = userId,

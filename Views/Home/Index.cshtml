@@ -1,7 +1,7 @@
 ﻿@using System.Security.Cryptography
 @model OgrenciKulupSistemi.Models.HomeIndexViewModel
 
-
+<!--             BANNER                 -->
 @section Hero {
     <section class="hero-banner u-text-center">
         <div class="container h-100">
@@ -21,7 +21,7 @@
         </div>
     </section>
 }
-
+<!--             Discover Clubs                 -->
 <section class="discover-section">
     <div class="container">
         <div class="discover-card">
@@ -53,7 +53,7 @@
 </section>
 
 
-
+<!--             Upcoming Events                 -->
 
 <section class="eventlist-for-home">
     <div class="container">
@@ -84,6 +84,8 @@
         {
             <h1></h1>
         }
+        <!--            BUTTON                 -->
+        
         <a asp-action="Index" asp-controller="Event" class="buttonActivities">
             Review All Activities
         </a>

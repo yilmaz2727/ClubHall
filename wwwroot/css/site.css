@@ -42,7 +42,7 @@ button.accept-policy {
     padding-right: 230px;
 }
 
-/* NAVBAR GENEL STİLİ */
+/* STYLE OF NAVBAR */
 .navbar-custom {
     background-color: #ffffff;
     padding: 10px 20px;
@@ -50,7 +50,7 @@ button.accept-policy {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* NAV-LINK TASARIMI */
+
 .navbar-custom .nav-link {
     color: #4a5568;
     font-weight: 500;
@@ -60,17 +60,16 @@ button.accept-policy {
     padding-bottom: 5px;
 }
 
-/* HOVER EFEKTİ */
+
 .navbar-custom .nav-link:hover {
     color: #667eea;
 }
 
-/* AKTİF SAYFA RENK */
+
 .navbar-custom .nav-link.active {
     color: #667eea !important;
 }
 
-/* ALTTAN ÇİZGİ – HOVER & ACTIVE BAR */
 .navbar-custom .nav-link::after {
     content: "";
     position: absolute;
@@ -88,7 +87,7 @@ button.accept-policy {
     width: 100%;
 }
 
-/* TOGGLER BUTON (MOBIL) */
+
 .navbar-toggler {
     border: none !important;
     padding: 6px;
@@ -96,7 +95,6 @@ button.accept-policy {
     box-shadow: none !important;
 }
 
-/* HAMBURGER ICON RENK DEĞİŞTİRME */
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(102, 126, 234, 1)' stroke-linecap='round' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
@@ -147,12 +145,12 @@ body {
             box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
         }
 
-  /*  profile */
+  /*                               profile                                    */
 .profile-wrapper {
     background-color: #f3f2f7;
 }
 
-/* Kapak alanı */
+/*                              Kapak alanı                                   */
 .profile-cover-mine {
     height: 210px;
     background: radial-gradient(circle at 0% 0%, #fce3ff 0, transparent 50%),
@@ -162,7 +160,7 @@ body {
     position: relative;
 }
 
-/* “Kapak Fotoğrafı Düzenle” butonu */
+/*                                   EDİT BANNER PHOTO           */
 .cover-edit-btn {
     position: absolute;
     right: 1.5rem;
@@ -171,7 +169,7 @@ body {
     border-radius: 999px;
 }
 
-/* Alt beyaz kutu */
+/*                              PROFILE                              */
 .profile-main-box {
     background: #fff;
     border-radius: 0 0 16px 16px;
@@ -180,12 +178,11 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* Avatar + isim satırı */
+
 .profile-header-row {
     margin-top: -40px;   
 }
 
-/* Avatar */
 .profile-avatar-big {
     position: relative;
     width: 120px;
@@ -204,12 +201,11 @@ body {
 }
 
 
-/* İsim */
+
 .profile-name-text {
     font-weight: 700;
 }
 
-/* Sekmeler */
 .profile-tabs .nav-link {
     font-size: 0.9rem;
     padding: 0.75rem 1.1rem;
@@ -221,7 +217,7 @@ body {
 .profile-tab-content {
     font-size: 0.9rem;
 }
-/*  kişisel bilgi css  */
+
 .info-card {
     background: #ffffff;
     padding: 2rem;
@@ -398,7 +394,7 @@ body {
     color: transparent;
 }
 
-/* HERO BANNER */
+/*                         HERO BANNER                    */
 
 @media (max-width: 991px) {
     .c-main-header {
@@ -511,13 +507,13 @@ text-align: center;
 }
 
 
-/* MyEvents  */
+/*                         MyEvents                    */
 .TittleEvent{
     text-align: center;
     color: #0097ee;
     
 }
-/*Toast*/
+/*                      Toast                    */
 .custom-toast {
     border-radius: 18px !important;
     padding: 0 !important;
@@ -543,7 +539,7 @@ text-align: center;
 .custom-toast .btn-close {
     filter: invert(1);
 }
-/*footer*/
+/*                       footer                            */
 .clubhall-footer {
     background-color:   #ffffff;
 }
@@ -572,7 +568,7 @@ text-align: center;
 .list-unstyled{
   color:#000000;
 }
-/* Club/Details  */
+/*                         Club/Details                          */
 .No-Event-card {
     background: #ffffff;
     border-radius: 16px;

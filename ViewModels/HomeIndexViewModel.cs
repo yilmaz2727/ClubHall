@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace OgrenciKulupSistemi.Models   // 🔴 Burası senin projendeki namespace ile aynı olmalı
+namespace OgrenciKulupSistemi.Models  
 {
     public class HomeIndexViewModel
     {
