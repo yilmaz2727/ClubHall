@@ -88,10 +88,10 @@ namespace OgrenciKulupSistemi.Controllers
         [HttpPost]
         public async Task<IActionResult> Join(int eventId)
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(User);// get user id 
             if (userId == null)
             {
-                return Challenge(new AuthenticationProperties// kullanıcı → login ekranına yönlendir daha sornasında detaile gönderir
+                return Challenge(new AuthenticationProperties// The user is redirected to the login screen, then sent to the details section
                 {
                     RedirectUri= Url.Action("Details",new {id=eventId}) 
                 });
@@ -100,10 +100,10 @@ namespace OgrenciKulupSistemi.Controllers
             if (alreadyJoined)
             {
                 TempData["alreadyJoined"] = "You have already joined this event";
-               return RedirectToAction("Details", new { id = eventId });
+               return RedirectToAction("Details", new { id = eventId });// retun detail page after appear toast 
              
             }
-            var registration = new EventAttendee
+            var registration = new EventAttendee //if user have not join a club yet , it join
             {
                 EventId = eventId,
                 ApplicationUserId = userId,
