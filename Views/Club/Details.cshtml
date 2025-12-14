@@ -4,8 +4,8 @@
 @model ClubDetailsViewModel
 
 @{
-    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var isAdmin = currentUserId == Model.Club.AdminId; // isAdmin, giriş yapmış olan kullanıcının ilgili kulübün admini miolduğunu kontrol eder.
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);   // The ID of the logged-in user
+    var isAdmin = currentUserId == Model.Club.AdminId; // isAdmin checks if the logged-in user is the administrator of the relevant club.
 }
 
 <link rel="stylesheet" href="~/css/club.css">
@@ -14,7 +14,7 @@
     <img src="@Model.Club.CoverPhotoUrl" />
 </div>
 
-<div class="club-header-fixed">
+<div class="club-header-fixed">  @*Club header area (logo + name + buttons)*@
     <div class="club-info-fixed">
         <img src="@Model.Club.LogoImageUrl" class="club-logo-fixed" />
         <div class="club-texts">
@@ -22,17 +22,18 @@
         </div>
     </div>
     <div class="club-buttons">
-        @if (isAdmin && !(Model.Club.AdminId == null))
+        @if (isAdmin && !(Model.Club.AdminId == null))  @* Edit button only for admin users *@
         {
             <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
         }
-        @if (!isAdmin)
+        @if (!isAdmin) @* Join button for non-admin users *@
         {
             <form asp-controller="Club" asp-action="ClubJoin" method="post">
                 <input type="hidden" name="clubId" value="@Model.Club.Id" />
                 <button type="submit" class="join-btn-fixed">
                     Join
                 </button>
+                @* Toast messages after the join process *@
                 @if (TempData["alreadyJoined"] != null)
                 {
                     <script> document.addEventListener("DOMContentLoaded", function () {
@@ -51,10 +52,11 @@
     </div>
 
 </div>
-
+@* Tabs (controlled by JS) *@
 <div class="menu-tabs">
     <div id="tabAbout" class="tab-item active" onclick="showTab('about')">About</div>
     <div id="tabEvents" class="tab-item" onclick="showTab('events')">Events</div>
+    @* Admin user-specific tabs *@
     @if (isAdmin && !(Model.Club.AdminId == null))
     {
         <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an Event</div>
@@ -62,29 +64,20 @@
     }
 
 </div>
-
+@* ABOUT SECTION *@
 <div id="about-section" class="content-area">
     <div class="about-section">
         <div class="about-title">About Us</div>
         <div class="about-text">
             @Model.Club.Description
-            @if (Model.Club.Photos != null && Model.Club.Photos.Any())
-            {
-                <div class="photo-gallery">
-                    @foreach (var photo in Model.Club.Photos)
-                    {
-                        <img src="@photo.ImageUrl" alt="Club Photo" />
-                    }
-                </div>
-            }
         </div>
     </div>
 </div>
-
+@* EVENTS SECTION *@
 <div id="events-section" class="content-area" style="display:none;">
     <div class="about-section">
-        <div class="about-title">Events</div> @* kulübe ait bütün etkinlikler listelenecek *@
-        @if (Model.Club.Events == null || !Model.Club.Events.Any())
+        <div class="about-title">Events</div> @* All club activities will be listed. *@
+        @if (Model.Club.Events == null || !Model.Club.Events.Any())  @* If there are no events *@
         {
             <div class="no-event-card text-center">
                 <div class="no-event-icon mb-3">📅</div>
@@ -107,7 +100,7 @@
                         <div class="event-desc">
                             @(ev.Description?.Length > 80
                                                 ? ev.Description.Substring(0, 80) + "..."
-                                                : ev.Description)
+                                                : ev.Description)  @* Shorten the description if it's too long *@
                         </div>
                         <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="event-details-btn">
                             Details
@@ -118,7 +111,7 @@
         }
     </div>
 </div>
-
+@* CREATE EVENT SECTION (Admin only) *@
 <div id="createEvent-section" class="content-area" style="display:none;">
 
     <h3 class="mb-3">Create an Event</h3>
@@ -128,8 +121,8 @@
 
         @Html.AntiForgeryToken()
 
-        <input type="hidden" name="ClubId" value="@Model.Club.Id" />
-
+        <input type="hidden" name="ClubId" value="@Model.Club.Id" /> @* Indicates which club the event belongs to *@
+        @*Event fields are bound via ViewModel.Event.*@
         <div class="mb-3">
             <label class="form-label">Title</label>
             <input type="text" asp-for="@Model.Event.Title" class="form-control" placeholder="Type the event name"
@@ -194,7 +187,7 @@
     </form>
 
 </div>
-
+@* MEMBERS SECTION *@
 <div id="members-section" class="content-area" style="display: none;">
 
     <table class="table mt-3">
@@ -213,6 +206,7 @@
         <tbody>
             @foreach (var member in Model.Club.Memberships)
             {
+                @* Number of events the member participated in *@
                 var eventCount = Model.Club.Events
                 .Count(e => e.Attendees.Any(a => a.ApplicationUserId == member.ApplicationUserId));
 
@@ -230,7 +224,7 @@
                     @if (isAdmin)
                     {
                         <td class="text-end">
-                            @* Admin kendini silemesin *@
+                            @* The admin cannot delete themselves. *@
                             @if (member.ApplicationUserId != Model.Club.AdminId)
                             {
                                 <form asp-action="RemoveMember" asp-controller="Club" method="post" class="d-inline">
@@ -251,5 +245,5 @@
 
 </div>
 
-
+@* JS for tab and UI operations *@
 <script src="~/js/club.js"></script>

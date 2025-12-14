@@ -8,8 +8,8 @@
 
 @model List<Club>
 @{
-    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var isUserAdmin = Model.Any(c=>c.AdminId==currentUserId);
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);  // UserId of the logged-in user (will be null if not logged in)
+    var isUserAdmin = Model.Any(c=>c.AdminId==currentUserId); // Is the user an admin of any club?Returns true if AdminId == currentUserId in at least one club.
 }
 
 <div class="text-center">
@@ -17,12 +17,12 @@
         @foreach (var club in Model)
         {
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                @*The card design for each club comes from Partial View. This prevents code repetition and results in a cleaner view.*@
                 @await Html.PartialAsync("_ClubCard", club)
             </div>
         }
-
-
-
+        
+        @*The "Create Club" button is displayed if the user is logged in and is not an admin of any club.*@
         @if (User.Identity.IsAuthenticated && !isUserAdmin) {
             <a class="btn btn-primary" asp-action="Create" asp-controller="Club">Create Club</a>
         }
