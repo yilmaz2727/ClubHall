@@ -60,6 +60,24 @@
             <div class="card mb-3">
 
                 <ul class="list-group list-group-flush">
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">ORGANIZING CLUB</span>
+                            <span class="detail-data">@Model.Club.Name</span>
+                    
+                            <a asp-controller="Club"
+                               asp-action="Details"
+                               asp-route-id="@Model.ClubId"
+                               class="btn btn-outline-primary btn-sm mt-2">
+                                Go to Club Page
+                            </a>
+                        </div>
+                    </li>
+
 
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
