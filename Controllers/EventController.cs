@@ -82,6 +82,7 @@ namespace OgrenciKulupSistemi.Controllers
         
             return View(_event);
         }
+
         [HttpPost]
         public async Task<IActionResult> Join(int eventId)
         {
@@ -90,16 +91,19 @@ namespace OgrenciKulupSistemi.Controllers
             {
                 return Challenge(new AuthenticationProperties// kullanıcı → login ekranına yönlendir daha sornasında detaile gönderir
                 {
-                    RedirectUri= Url.Action("Details",new {id=eventId}) 
+                    RedirectUri = Url.Action("Details", new { id = eventId })
                 });
-            }   
-            bool alreadyJoined = await _context.EventAttendees.AnyAsync(x => x.EventId  == eventId && x.ApplicationUserId == userId);
+            }
+
+            bool alreadyJoined = await _context.EventAttendees.AnyAsync(x => x.EventId == eventId && x.ApplicationUserId == userId);
+
             if (alreadyJoined)
             {
                 TempData["alreadyJoined"] = "You have already joined this event";
-               return RedirectToAction("Details", new { id = eventId });
-             
+                return RedirectToAction("Details", new { id = eventId });
+
             }
+
             var registration = new EventAttendee
             {
                 EventId = eventId,
@@ -107,9 +111,16 @@ namespace OgrenciKulupSistemi.Controllers
                 RegisterDate = DateTime.UtcNow
             };
             _context.EventAttendees.Add(registration);
+
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
+            if (ev != null)
+            {
+                ev.NumberOfAttendance += 1; // her join işleminden sonra katılımcı sayısı 1 artırılıyor.
+            }
+
             await _context.SaveChangesAsync();
-             TempData["Success"] = "You successfully join this event.";
- 
+            TempData["Success"] = "You successfully join this event.";
+
             return RedirectToAction("Details", new { id = eventId });
         }
 
