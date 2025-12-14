@@ -21,14 +21,14 @@ public class HomeController : Controller
 
   public async Task<ActionResult> Index()
 {
-    var model = new HomeIndexViewModel();
+    var model = new HomeIndexViewModel();// get userid and upcoming event
    model.UpcomingEvents = await _context.Events
         .Where(e => e.StartDate >= DateTime.Today)
         .OrderBy(e => e.StartDate)
-        .Take(6) //6 etkinlikk
+        .Take(6) //6 event
         .ToListAsync();
 
-    model.ShowClub = await _context.Clubs
+    model.ShowClub = await _context.Clubs // order by event 
     .OrderBy(c => c.Name)
     .Take(6)
     .ToListAsync();   
