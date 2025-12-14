@@ -1,5 +1,14 @@
+@using System.Security.Claims
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model Event
+
+
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var isAdmin = Model.Club.AdminId == currentUserId;
+}
+
+
 
 <div class="card mb-4">
     <div class="card-header">
@@ -12,30 +21,46 @@
             <p class="card-text mb-0">@Model.StartDate</p>
         </div>
         <!--////////////////////////////////////////////////////////////////////-->
-        <form asp-controller="Event" asp-action="Join" method="post">
-            <input type="hidden" name="eventId" value="@Model.Id" />
-            <button type="submit" class="btn btn-primary">
-                Join
-            </button>
-            @if (TempData["alreadyJoined"] != null)
-    {
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
-            });
-        </script>
-    }
 
-    @if (TempData["Success"] != null)
-    {
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                showJoinToast("@TempData["Success"]", "#048023"); 
-            });
-        </script>
-    }
 
-        </form>
+        <div class="d-flex align-items-center gap-2">
+
+            <form asp-controller="Event" asp-action="Join" method="post">
+                <input type="hidden" name="eventId" value="@Model.Id" />
+                <button type="submit" class="btn btn-primary">
+                    Join
+                </button>
+                @if (TempData["alreadyJoined"] != null)
+                {
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
+                        });
+                    </script>
+                }
+
+                @if (TempData["Success"] != null)
+                {
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            showJoinToast("@TempData["Success"]", "#048023");
+                        });
+                    </script>
+                }
+
+            </form>
+
+            @* yeni eklendi!! etkinlik silme --> sadece kulübün admini silebiilir.  *@
+            @if (isAdmin)
+            {
+                <form asp-action="RemoveEvent" asp-controller="Club" method="post">
+                    <input type="hidden" name="eventId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Are you sure you want to delete this event?! ')"> Delete </button>
+                </form>
+            }
+
+        </div>
         <!--////////////////////////////////////////////////////////////////////-->
 
     </div>
