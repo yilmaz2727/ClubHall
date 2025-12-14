@@ -37,12 +37,7 @@ function showTab(tab) {
         members.style.display = "block";
         if (tabMembers) tabMembers.classList.add("active");
     }
-    // 🔥 YENİ EKLENEN KISIM: EDIT MODU
     else if (tab === "edit" && createEvent) {
-        // Form alanını görünür yapıyoruz (createEvent section'ı kullanıyoruz)
         createEvent.style.display = "block";
-        
-        // AMA: Hiçbir butona .add("active") DEMİYORUZ.
-        // Böylece form görünür ama yukarıdaki menülerin hiçbiri seçili olmaz.
     }
 }

@@ -6,9 +6,6 @@
 @{
     var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
     var isAdmin = currentUserId == Model.Club.AdminId;
-    
-    // 🔥 YENİ: Kullanıcı zaten üye mi kontrolü
-    // Model.Club.Memberships listesinin içinde benim ID'm var mı?
     var isMember = Model.Club.Memberships.Any(m => m.ApplicationUserId == currentUserId);
 }
 
@@ -30,11 +27,11 @@
             {
                 <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
             }
-            
+
             @* Admin değilse butonları göster *@
             @if (!isAdmin)
             {
-                @* 🔥 EĞER ÜYE İSE -> LEAVE BUTONU GÖSTER *@
+                @*EĞER ÜYE İSE -> LEAVE BUTONU GÖSTER *@
                 @if (isMember)
                 {
                     <form asp-controller="Club" asp-action="LeaveClub" method="post">
@@ -44,7 +41,7 @@
                         </button>
                     </form>
                 }
-                @* 🔥 EĞER ÜYE DEĞİLSE -> JOIN BUTONU GÖSTER *@
+                @* EĞER ÜYE DEĞİLSE -> JOIN BUTONU GÖSTER *@
                 else
                 {
                     <form asp-controller="Club" asp-action="ClubJoin" method="post">
@@ -66,8 +63,6 @@
 
     @if (isAdmin && !(Model.Club.AdminId == null))
     {
-        /* 🔥 DEĞİŞİKLİK BURADA BAŞLIYOR 🔥 */
-        
         @if (ViewBag.EditMode == true)
         {
             /* Eğer Edit modundaysak, kullanıcı bu butona bastığında "Vazgeçip yeni oluşturmak" istiyor demektir.
@@ -83,9 +78,6 @@
             /* Edit modunda değilsek normal sekme değişimi yapsın (Hızlı geçiş) */
             <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an Event</div>
         }
-        
-        /* 🔥 DEĞİŞİKLİK BURADA BİTİYOR 🔥 */
-
         <div id="tabMembers" class="tab-item" onclick="showTab('members')">Members</div>
     }
 </div>
@@ -293,12 +285,11 @@
         
         var activeTab = '@ViewBag.ActiveTab';
         
-        // 🔥 ÖNEMLİ DEĞİŞİKLİK BURADA
         // Eğer EditMode true ise, activeTab değişkenini zorla "edit" yapıyoruz.
         var isEditMode = @((ViewBag.EditMode == true).ToString().ToLower()); 
         
         if (isEditMode) {
-            activeTab = "edit"; // Yeni bir "hayalet" tab ismi uydurduk.
+            activeTab = "edit";
         }
 
         if (activeTab && activeTab.length > 0) {

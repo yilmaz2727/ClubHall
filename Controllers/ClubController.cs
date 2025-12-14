@@ -77,8 +77,6 @@ namespace OgrenciKulupSistemi.Controllers
             await _context.SaveChangesAsync(); // artık oluşturduğmuz kulübün id'si oluştu
 
 
-
-
             // hakkmızda kısmına ait olan fotoğraflar'ı ClubPhoto da tuttuğumuz için ayrıca işleme aldık.
             if (model.GalleryPhotos != null && model.GalleryPhotos.Count > 0)
             {
@@ -116,7 +114,7 @@ namespace OgrenciKulupSistemi.Controllers
             [Bind(Prefix = "Event")] Event model,   
             IFormFile EventPhoto)
         {
-            model.Id = 0;              // ✅ sadece burada
+            model.Id = 0;  
             model.ClubId = id;
 
             if (EventPhoto != null)
@@ -148,7 +146,6 @@ namespace OgrenciKulupSistemi.Controllers
                 Event = new Event() // Varsayılan boş event
             };
 
-            // 🔥 EDIT EVENT VARSA
             if (editEventId.HasValue)
             {
                 var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
@@ -172,8 +169,6 @@ namespace OgrenciKulupSistemi.Controllers
             return View(viewModel);
         }
 
-
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveMember(int membershipId, int clubId)
@@ -212,21 +207,20 @@ namespace OgrenciKulupSistemi.Controllers
         public async Task<IActionResult> LeaveClub(int clubId)
         {
             var userId = _userManager.GetUserId(User);
-        
+
             // Kullanıcının o kulüpteki üyeliğini buluyoruz
             var membership = await _context.ClubMemberships
                 .FirstOrDefaultAsync(m => m.ClubId == clubId && m.ApplicationUserId == userId);
-        
+
             if (membership != null)
             {
                 _context.ClubMemberships.Remove(membership);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "You have successfully left the club.";
             }
-        
+
             return RedirectToAction("Details", new { id = clubId });
         }
-
 
         //EDIT EVENT
         [HttpPost]
