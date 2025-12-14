@@ -169,32 +169,38 @@ namespace OgrenciKulupSistemi.Controllers
 
 
         // GET : Club/Details/
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var club = await _context.Clubs.Include(c => c.Events)
-                                           .ThenInclude(c => c.Attendees)
-                                           .Include(c => c.Memberships)
-                                           .ThenInclude(m => m.ApplicationUser)
-                                           .Include(c => c.Photos)
-                                           .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (club == null)
-            {
-                return NotFound();
-            }
-
-            var viewModel = new ClubDetailsViewModel
-            {
-                Club = club, // yukarıda sorguda elde ettiğimiz db'den gelen kulüp nesnesi
-                Event = new Event() // etkinlik oluştur formu için boş bir event nesnesi
-            };
-
-            return View(viewModel);
+        if (id == null)
+            return NotFound();
+    
+        var club = await _context.Clubs
+            .Include(c => c.Events)
+                .ThenInclude(e => e.Attendees)
+            .Include(c => c.Memberships)
+                .ThenInclude(m => m.ApplicationUser)
+            .Include(c => c.Photos)
+            .FirstOrDefaultAsync(m => m.Id == id);
+    
+        if (club == null)
+            return NotFound();
+    
+        var viewModel = new ClubDetailsViewModel
+        {
+            Club = club,
+            Event = new Event()
+        };
+    
+        if (editEventId.HasValue)
+        {
+            ViewBag.ActiveTab = tab ?? "about";
+            ViewBag.EditEventId = editEventId;
         }
+    
+        return View(viewModel);
+    }
+
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveMember(int membershipId, int clubId)
@@ -227,6 +233,37 @@ namespace OgrenciKulupSistemi.Controllers
             // Tekrar kulüp detayına dön
             return RedirectToAction("Details", new { id = clubId });
         }
+
+
+        //EDIT EVENT
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditEvent(Event model)
+        {
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == model.Id);
+            if (ev == null)
+                return NotFound();
+
+            var currentUserId = _userManager.GetUserId(User);
+            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == ev.ClubId);
+
+            if (club.AdminId != currentUserId)
+                return Unauthorized();
+
+            ev.Title = model.Title;
+            ev.Description = model.Description;
+            ev.StartDate = model.StartDate;
+            ev.EndDate = model.EndDate;
+            ev.RegistrationDeadline = model.RegistrationDeadline;
+            ev.EventType = model.EventType;
+            ev.Location = model.Location;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = ev.ClubId });
+        }
+
+
 
         // GET : Club/Edit/5
         [HttpGet]

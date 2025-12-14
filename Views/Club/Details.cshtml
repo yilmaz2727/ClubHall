@@ -121,14 +121,22 @@
 
 <div id="createEvent-section" class="content-area" style="display:none;">
 
-    <h3 class="mb-3">Create an Event</h3>
+    <h3 class="mb-3">
+    @(ViewBag.EditMode == true ? "Edit Event" : "Create an Event")
+    </h3>
 
-    <form asp-action="CreateEvent" asp-controller="Club" asp-route-id="@Model.Club.Id" method="post"
-        enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
+    <form asp-action="@(ViewBag.EditMode == true ? "EditEvent" : "CreateEvent")"
+      asp-controller="Club"
+      asp-route-id="@Model.Club.Id"
+      method="post"
+      enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
 
         @Html.AntiForgeryToken()
 
-        <input type="hidden" name="ClubId" value="@Model.Club.Id" />
+        @if (ViewBag.EditMode == true)
+        {
+            <input type="hidden" name="Id" value="@Model.Event.Id" />
+        }
 
         <div class="mb-3">
             <label class="form-label">Title</label>

@@ -1,5 +1,13 @@
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model Event
+@using System.Security.Claims
+
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var isAdmin = currentUserId == Model.Club.AdminId;
+}
+
+
 
 <div class="card mb-4">
     <div class="card-header">
@@ -35,8 +43,21 @@
         </script>
     }
 
+        @if (isAdmin)
+        {
+            <a asp-controller="Club"
+               asp-action="Details"
+               asp-route-id="@Model.ClubId"
+               asp-route-tab="createEvent"
+               asp-route-editEventId="@Model.Id"
+               class="btn btn-warning ms-2">
+                Edit
+            </a>
+        }
+
         </form>
         <!--////////////////////////////////////////////////////////////////////-->
+        
 
     </div>
 </div>
@@ -68,7 +89,7 @@
                         <div class="content-stack">
                             <span class="detail-title">ORGANIZING CLUB</span>
                             <span class="detail-data">@Model.Club.Name</span>
-                    
+
                             <a asp-controller="Club"
                                asp-action="Details"
                                asp-route-id="@Model.ClubId"
