@@ -1,11 +1,12 @@
 @model List<Club>
 <a class="hero-btn" asp-action="Index" asp-controller="Profile">Return Profile</a>
 <hr>
-
+<!--            My Memberships                -->
 <div class="discover-card">
     <h2 class="discover-title">My Memberships</h2>
 
 </div>
+<!--            NOT MESSAGE                -->
 @if (!Model.Any())
 {
     <br />
@@ -15,6 +16,7 @@
 
     </div>
 }
+<!--            ORDER CLUB                -->
 <section class="discover-section">
     <div class="container">
 

@@ -25,7 +25,7 @@ namespace OgrenciKulupSistemi.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User); // Retrieves the currently logged-in user
             return View(user);
         }
 
@@ -91,10 +91,10 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
 
-      public IActionResult MyEvents()
+      public IActionResult MyEvents() // Events page that user's joined 
 {
 
-    var userId = _userManager.GetUserId(User);
+    var userId = _userManager.GetUserId(User); // get user id 
     
     var events = _context.EventAttendees
         .Where(ea => ea.ApplicationUserId == userId)
@@ -103,16 +103,16 @@ namespace OgrenciKulupSistemi.Controllers
         .ToList();   // Include Köprüye select ise Evente eriştirir.
 
          var now = DateTime.Now;
-         var UpCaming =  events.Where(e => e.StartDate >= now).ToList();
+         var UpCaming =  events.Where(e => e.StartDate >= now).ToList(); // Take Upcoming Events 
 
       return View(UpCaming);
 }
 
-        public IActionResult MyMemberShips()
+        public IActionResult MyMemberShips() // Clubs that user's membered
         {
-                var userId = _userManager.GetUserId(User);
+                var userId = _userManager.GetUserId(User); //get user id
     
-    var Clubs = _context.ClubMemberships
+    var Clubs = _context.ClubMemberships // found clubs that user's membered by ClubMemberships table 
         .Where(ea => ea.ApplicationUserId == userId)
         .Include(ea => ea.Club)
         .Select(ea => ea.Club)
