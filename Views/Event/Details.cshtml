@@ -8,16 +8,6 @@
     var isAdmin = currentUserId == Model.Club.AdminId;
 }
 
-
-
-
-@{
-    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var isAdmin = Model.Club.AdminId == currentUserId;
-}
-
-
-
 <div class="card mb-4">
     <div class="card-header">
     </div>
@@ -31,19 +21,6 @@
         <!--////////////////////////////////////////////////////////////////////-->
 
 
-        @if (isAdmin)
-        {
-            <a asp-controller="Club"
-               asp-action="Details"
-               asp-route-id="@Model.ClubId"
-               asp-route-tab="createEvent"
-               asp-route-editEventId="@Model.Id"
-               class="btn btn-warning ms-2">
-                Edit
-            </a>
-        }
-
-        
         <div class="d-flex align-items-center gap-2">
 
             <form asp-controller="Event" asp-action="Join" method="post">
@@ -79,6 +56,19 @@
                     <button type="submit" class="btn btn-danger"
                         onclick="return confirm('Are you sure you want to delete this event?! ')"> Delete </button>
                 </form>
+            }
+
+            @* yeni eklendi!! etkinlik editleme --> sadece kulübün admini editleyebilir.  *@
+            @if (isAdmin)
+            {
+                <a asp-controller="Club"
+                   asp-action="Details"
+                   asp-route-id="@Model.ClubId"
+                   asp-route-tab="createEvent"
+                   asp-route-editEventId="@Model.Id"
+                   class="btn btn-warning">
+                    Edit
+                </a>
             }
 
         </div>

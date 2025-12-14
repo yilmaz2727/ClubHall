@@ -169,36 +169,45 @@ namespace OgrenciKulupSistemi.Controllers
 
 
         // GET : Club/Details/
-        public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
+       public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
         {
-        if (id == null)
-            return NotFound();
-    
-        var club = await _context.Clubs
-            .Include(c => c.Events)
-                .ThenInclude(e => e.Attendees)
-            .Include(c => c.Memberships)
-                .ThenInclude(m => m.ApplicationUser)
-            .Include(c => c.Photos)
-            .FirstOrDefaultAsync(m => m.Id == id);
-    
-        if (club == null)
-            return NotFound();
-    
-        var viewModel = new ClubDetailsViewModel
-        {
-            Club = club,
-            Event = new Event()
-        };
-    
-        if (editEventId.HasValue)
-        {
-            ViewBag.ActiveTab = tab ?? "about";
-            ViewBag.EditEventId = editEventId;
+            var club = await _context.Clubs
+                .Include(c => c.Events)
+                    .ThenInclude(e => e.Attendees)
+                .Include(c => c.Memberships)
+                    .ThenInclude(m => m.ApplicationUser)
+                .Include(c => c.Photos)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (club == null)
+                return NotFound();
+
+            var viewModel = new ClubDetailsViewModel
+            {
+                Club = club,
+                Event = new Event()
+            };
+
+            // 🔥 EDIT EVENT VARSA
+            if (editEventId.HasValue)
+            {
+                var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
+                if (ev == null)
+                    return NotFound();
+
+                viewModel.Event = ev;               // 🔥 FORM DOLU GELİR
+                ViewBag.ActiveTab = "createEvent";  // 🔥 ABOUT ASLA AÇILMAZ
+                ViewBag.IsEdit = true;              // 🔥 CREATE / EDIT ayrımı
+            }
+            else
+            {
+                ViewBag.ActiveTab = tab ?? "about";
+                ViewBag.IsEdit = false;
+            }
+
+            return View(viewModel);
         }
-    
-        return View(viewModel);
-    }
+
 
         
         [HttpPost]

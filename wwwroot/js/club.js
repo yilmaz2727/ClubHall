@@ -38,8 +38,18 @@ function showTab(tab) {
         members.style.display = "block";
         if (tabMembers) tabMembers.classList.add("active");
     }
-}
 
+    document.addEventListener("DOMContentLoaded", function () {
+    const activeTab = "@ViewBag.ActiveTab";
+
+    if (activeTab) {
+        showTab(activeTab);
+    } else {
+        showTab("about");
+    }
+});
+
+}
 
 
 
