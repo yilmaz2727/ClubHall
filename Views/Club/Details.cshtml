@@ -55,12 +55,31 @@
 <div class="menu-tabs">
     <div id="tabAbout" class="tab-item" onclick="showTab('about')">About</div>
     <div id="tabEvents" class="tab-item" onclick="showTab('events')">Events</div>
+
     @if (isAdmin && !(Model.Club.AdminId == null))
     {
-        <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an Event</div>
+        /* 🔥 DEĞİŞİKLİK BURADA BAŞLIYOR 🔥 */
+        
+        @if (ViewBag.EditMode == true)
+        {
+            /* Eğer Edit modundaysak, kullanıcı bu butona bastığında "Vazgeçip yeni oluşturmak" istiyor demektir.
+               Bu yüzden showTab() yerine sayfayı "temiz" parametrelerle yeniden yüklüyoruz.
+            */
+            <div id="tabCreateEvent" class="tab-item" 
+                 onclick="window.location.href='@Url.Action("Details", "Club", new { id = Model.Club.Id, tab = "createEvent" })'">
+                 Create an Event
+            </div>
+        }
+        else
+        {
+            /* Edit modunda değilsek normal sekme değişimi yapsın (Hızlı geçiş) */
+            <div id="tabCreateEvent" class="tab-item" onclick="showTab('createEvent')">Create an Event</div>
+        }
+        
+        /* 🔥 DEĞİŞİKLİK BURADA BİTİYOR 🔥 */
+
         <div id="tabMembers" class="tab-item" onclick="showTab('members')">Members</div>
     }
-
 </div>
 
 <div id="about-section" class="content-area">
@@ -135,7 +154,7 @@
 
         @if (ViewBag.EditMode == true)
         {
-            <input type="hidden" name="Id" value="@Model.Event.Id" />
+            <input type="hidden" asp-for="Event.Id" />
         }
 
         <div class="mb-3">
@@ -259,5 +278,25 @@
 
 </div>
 
-
 <script src="~/js/club.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        var activeTab = '@ViewBag.ActiveTab';
+        
+        // 🔥 ÖNEMLİ DEĞİŞİKLİK BURADA
+        // Eğer EditMode true ise, activeTab değişkenini zorla "edit" yapıyoruz.
+        var isEditMode = @((ViewBag.EditMode == true).ToString().ToLower()); 
+        
+        if (isEditMode) {
+            activeTab = "edit"; // Yeni bir "hayalet" tab ismi uydurduk.
+        }
+
+        if (activeTab && activeTab.length > 0) {
+            showTab(activeTab);
+        } else {
+            showTab('about');
+        }
+    });
+</script>

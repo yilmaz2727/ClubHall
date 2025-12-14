@@ -109,57 +109,23 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateEvent(
+            int id,
+            [Bind(Prefix = "Event")] Event model,   
+            IFormFile EventPhoto)
         {
-
-            /*
-            Eğer bir View'de birden fazla model kullanılıyorsa, bu modellerin birbirinden ayrılması için prefix kullanılır.
-            Event modeline ait verilerin doğru şekilde bağlanması için
-            */
-            model.Id = 0;
+            model.Id = 0;              // ✅ sadece burada
             model.ClubId = id;
 
-            // Navigation property'lerin validasyondan çıkarılması
-            ModelState.Remove("Event.Club");
-            ModelState.Remove("Event.Attendees");
-            ModelState.Remove("EventPhoto");
-
-            if (!ModelState.IsValid)
-            {
-
-
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                TempData["Message"] = "Hata oluştu: " + string.Join(", ", errors);
-
-                Console.WriteLine("ModelState HATALI -> " +
-                    string.Join(" | ", ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)));
-
-                return RedirectToAction("Details", new { id = model.ClubId });
-            }
-
-            // Güvenlik kontrolü
-            var currentUserId = _userManager.GetUserId(User);
-            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == model.ClubId);
-
-            if (club == null)
-                return NotFound();
-
-            if (club.AdminId != currentUserId)
-                return Unauthorized();
-
-            // Fotoğraf yükleme
             if (EventPhoto != null)
-            {
                 model.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
-            }
 
-            // Veritabanına kaydet
             _context.Events.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", new { id = model.ClubId });
+            return RedirectToAction("Details", new { id, tab = "events" });
         }
 
 
@@ -170,43 +136,47 @@ namespace OgrenciKulupSistemi.Controllers
 
         // GET : Club/Details/
        public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
-        {
-            var club = await _context.Clubs
-                .Include(c => c.Events)
-                    .ThenInclude(e => e.Attendees)
-                .Include(c => c.Memberships)
-                    .ThenInclude(m => m.ApplicationUser)
-                .Include(c => c.Photos)
-                .FirstOrDefaultAsync(m => m.Id == id);
+{
+    var club = await _context.Clubs
+        .Include(c => c.Events)
+            .ThenInclude(e => e.Attendees)
+        .Include(c => c.Memberships)
+            .ThenInclude(m => m.ApplicationUser)
+        .Include(c => c.Photos)
+        .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (club == null)
-                return NotFound();
+    if (club == null)
+        return NotFound();
 
-            var viewModel = new ClubDetailsViewModel
-            {
-                Club = club,
-                Event = new Event()
-            };
+    var viewModel = new ClubDetailsViewModel
+    {
+        Club = club,
+        Event = new Event() // Varsayılan boş event
+    };
 
-            // 🔥 EDIT EVENT VARSA
-            if (editEventId.HasValue)
-            {
-                var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
-                if (ev == null)
-                    return NotFound();
+    // 🔥 EDIT EVENT VARSA
+    if (editEventId.HasValue)
+    {
+        var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
+        if (ev == null)
+            return NotFound();
 
-                viewModel.Event = ev;               // 🔥 FORM DOLU GELİR
-                ViewBag.ActiveTab = "createEvent";  // 🔥 ABOUT ASLA AÇILMAZ
-                ViewBag.IsEdit = true;              // 🔥 CREATE / EDIT ayrımı
-            }
-            else
-            {
-                ViewBag.ActiveTab = tab ?? "about";
-                ViewBag.IsEdit = false;
-            }
+        viewModel.Event = ev; // Dolu veriyi ViewModel'e atadık
+        
+        // Eğer formda veriler görünmüyorsa ModelState'i temizlemek işe yarar
+        ModelState.Clear(); 
 
-            return View(viewModel);
-        }
+        ViewBag.ActiveTab = "createEvent";
+        ViewBag.EditMode = true; 
+    }
+    else
+    {
+        ViewBag.ActiveTab = tab ?? "about";
+        ViewBag.EditMode = false;
+    }
+
+    return View(viewModel);
+}
 
 
         
@@ -247,30 +217,35 @@ namespace OgrenciKulupSistemi.Controllers
         //EDIT EVENT
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> EditEvent(Event model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditEvent(ClubDetailsViewModel model, IFormFile EventPhoto)
         {
-            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == model.Id);
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == model.Event.Id);
+
             if (ev == null)
                 return NotFound();
 
-            var currentUserId = _userManager.GetUserId(User);
-            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == ev.ClubId);
+            ev.Title = model.Event.Title;
+            ev.Description = model.Event.Description;
+            ev.StartDate = model.Event.StartDate;
+            ev.EndDate = model.Event.EndDate;
+            ev.RegistrationDeadline = model.Event.RegistrationDeadline;
+            ev.EventType = model.Event.EventType;
+            ev.Location = model.Event.Location;
 
-            if (club.AdminId != currentUserId)
-                return Unauthorized();
-
-            ev.Title = model.Title;
-            ev.Description = model.Description;
-            ev.StartDate = model.StartDate;
-            ev.EndDate = model.EndDate;
-            ev.RegistrationDeadline = model.RegistrationDeadline;
-            ev.EventType = model.EventType;
-            ev.Location = model.Location;
+            if (EventPhoto != null)
+                ev.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", new { id = ev.ClubId });
+            return RedirectToAction("Details", new
+            {
+                id = ev.ClubId,
+                tab = "events"
+            });
         }
+
+
 
 
 

@@ -9,47 +9,40 @@ function showTab(tab) {
     const tabCreateEvent = document.getElementById("tabCreateEvent");
     const tabMembers = document.getElementById("tabMembers");
 
-    // Tüm içerikleri sakla
-    about.style.display = "none";
-    events.style.display = "none";
-    createEvent.style.display = "none";
-    members.style.display = "none";
+    // 1. Önce her şeyi kapat ve pasif yap (Burası aynı kalıyor)
+    if(about) about.style.display = "none";
+    if(events) events.style.display = "none";
+    if(createEvent) createEvent.style.display = "none";
+    if(members) members.style.display = "none";
 
-    // Aktif class'ını kaldır
-    tabAbout.classList.remove("active");
-    tabEvents.classList.remove("active");
-    if (tabCreateEvent) tabCreateEvent.classList.remove("active");
-    if (tabMembers) tabMembers.classList.remove("active");
+    if(tabAbout) tabAbout.classList.remove("active");
+    if(tabEvents) tabEvents.classList.remove("active");
+    if(tabCreateEvent) tabCreateEvent.classList.remove("active");
+    if(tabMembers) tabMembers.classList.remove("active");
 
-    // Seçilen tab'ı göster
-    if (tab === "about") {
+    // 2. Tab'ları açma mantığı
+    if (tab === "about" && about) {
         about.style.display = "block";
-        tabAbout.classList.add("active");
+        if(tabAbout) tabAbout.classList.add("active");
     }
-    else if (tab === "events") {
-        events.style.display = "grid";
-        tabEvents.classList.add("active");
+    else if (tab === "events" && events) {
+        events.style.display = "grid"; 
+        if(tabEvents) tabEvents.classList.add("active");
     }
-    else if (tab === "createEvent") {
+    else if (tab === "createEvent" && createEvent) {
         createEvent.style.display = "block";
         if (tabCreateEvent) tabCreateEvent.classList.add("active");
     }
-    else if (tab === "members") {
+    else if (tab === "members" && members) {
         members.style.display = "block";
         if (tabMembers) tabMembers.classList.add("active");
     }
-
-    document.addEventListener("DOMContentLoaded", function () {
-    const activeTab = "@ViewBag.ActiveTab";
-
-    if (activeTab) {
-        showTab(activeTab);
-    } else {
-        showTab("about");
+    // 🔥 YENİ EKLENEN KISIM: EDIT MODU
+    else if (tab === "edit" && createEvent) {
+        // Form alanını görünür yapıyoruz (createEvent section'ı kullanıyoruz)
+        createEvent.style.display = "block";
+        
+        // AMA: Hiçbir butona .add("active") DEMİYORUZ.
+        // Böylece form görünür ama yukarıdaki menülerin hiçbiri seçili olmaz.
     }
-});
-
 }
-
-
-
