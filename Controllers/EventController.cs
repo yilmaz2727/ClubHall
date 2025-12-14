@@ -71,19 +71,15 @@ namespace OgrenciKulupSistemi.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
-
-            //Get the event from the db by Id
+        
             var _event = await _context.Events
                 .Include(e => e.Club)
                 .FirstOrDefaultAsync(i => i.Id == id);
+        
             if (_event == null)
-            {
                 return NotFound();
-            }
-
+        
             return View(_event);
         }
 

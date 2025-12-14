@@ -109,57 +109,23 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateEvent(
+            int id,
+            [Bind(Prefix = "Event")] Event model,   
+            IFormFile EventPhoto)
         {
-
-            /*
-            Eğer bir View'de birden fazla model kullanılıyorsa, bu modellerin birbirinden ayrılması için prefix kullanılır.
-            Event modeline ait verilerin doğru şekilde bağlanması için
-            */
-            model.Id = 0;
+            model.Id = 0;              // ✅ sadece burada
             model.ClubId = id;
 
-            // Navigation property'lerin validasyondan çıkarılması
-            ModelState.Remove("Event.Club");
-            ModelState.Remove("Event.Attendees");
-            ModelState.Remove("EventPhoto");
-
-            if (!ModelState.IsValid)
-            {
-
-
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
-                TempData["Message"] = "Hata oluştu: " + string.Join(", ", errors);
-
-                Console.WriteLine("ModelState HATALI -> " +
-                    string.Join(" | ", ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)));
-
-                return RedirectToAction("Details", new { id = model.ClubId });
-            }
-
-            // Güvenlik kontrolü
-            var currentUserId = _userManager.GetUserId(User);
-            var club = await _context.Clubs.FirstOrDefaultAsync(c => c.Id == model.ClubId);
-
-            if (club == null)
-                return NotFound();
-
-            if (club.AdminId != currentUserId)
-                return Unauthorized();
-
-            // Fotoğraf yükleme
             if (EventPhoto != null)
-            {
                 model.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
-            }
 
-            // Veritabanına kaydet
             _context.Events.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", new { id = model.ClubId });
+            return RedirectToAction("Details", new { id, tab = "events" });
         }
 
 
@@ -169,32 +135,51 @@ namespace OgrenciKulupSistemi.Controllers
 
 
         // GET : Club/Details/
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var club = await _context.Clubs.Include(c => c.Events)
-                                           .ThenInclude(c => c.Attendees)
-                                           .Include(c => c.Memberships)
-                                           .ThenInclude(m => m.ApplicationUser)
-                                           .Include(c => c.Photos)
-                                           .FirstOrDefaultAsync(m => m.Id == id);
+       public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
+{
+    var club = await _context.Clubs
+        .Include(c => c.Events)
+            .ThenInclude(e => e.Attendees)
+        .Include(c => c.Memberships)
+            .ThenInclude(m => m.ApplicationUser)
+        .Include(c => c.Photos)
+        .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (club == null)
-            {
-                return NotFound();
-            }
+    if (club == null)
+        return NotFound();
 
-            var viewModel = new ClubDetailsViewModel
-            {
-                Club = club, // yukarıda sorguda elde ettiğimiz db'den gelen kulüp nesnesi
-                Event = new Event() // etkinlik oluştur formu için boş bir event nesnesi
-            };
+    var viewModel = new ClubDetailsViewModel
+    {
+        Club = club,
+        Event = new Event() // Varsayılan boş event
+    };
 
-            return View(viewModel);
-        }
+    // 🔥 EDIT EVENT VARSA
+    if (editEventId.HasValue)
+    {
+        var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
+        if (ev == null)
+            return NotFound();
+
+        viewModel.Event = ev; // Dolu veriyi ViewModel'e atadık
+        
+        // Eğer formda veriler görünmüyorsa ModelState'i temizlemek işe yarar
+        ModelState.Clear(); 
+
+        ViewBag.ActiveTab = "createEvent";
+        ViewBag.EditMode = true; 
+    }
+    else
+    {
+        ViewBag.ActiveTab = tab ?? "about";
+        ViewBag.EditMode = false;
+    }
+
+    return View(viewModel);
+}
+
+
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveMember(int membershipId, int clubId)
@@ -227,6 +212,42 @@ namespace OgrenciKulupSistemi.Controllers
             // Tekrar kulüp detayına dön
             return RedirectToAction("Details", new { id = clubId });
         }
+
+
+        //EDIT EVENT
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditEvent(ClubDetailsViewModel model, IFormFile EventPhoto)
+        {
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == model.Event.Id);
+
+            if (ev == null)
+                return NotFound();
+
+            ev.Title = model.Event.Title;
+            ev.Description = model.Event.Description;
+            ev.StartDate = model.Event.StartDate;
+            ev.EndDate = model.Event.EndDate;
+            ev.RegistrationDeadline = model.Event.RegistrationDeadline;
+            ev.EventType = model.Event.EventType;
+            ev.Location = model.Event.Location;
+
+            if (EventPhoto != null)
+                ev.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new
+            {
+                id = ev.ClubId,
+                tab = "events"
+            });
+        }
+
+
+
+
 
         // GET : Club/Edit/5
         [HttpGet]
