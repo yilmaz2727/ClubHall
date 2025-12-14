@@ -84,7 +84,12 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateEvent(
+            int id,
+            [Bind(Prefix = "Event")] Event model,   
+            IFormFile EventPhoto)
         {
             /*
             If a View uses more than one model, a prefix is ​​used to distinguish them from each other.
@@ -125,42 +130,55 @@ namespace OgrenciKulupSistemi.Controllers
 
             // Uploading photos
             if (EventPhoto != null)
-            {
                 model.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
-            }
 
             // Save to database
             _context.Events.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", new { id = model.ClubId });
+            return RedirectToAction("Details", new { id, tab = "events" });
         }
 
         // GET : Club/Details/
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            // The reason for using "Include/ThenInclude" is that all the related data needed in the View is retrieved here.
-            var club = await _context.Clubs.Include(c => c.Events)
-                                           .ThenInclude(c => c.Attendees)
-                                           .Include(c => c.Memberships)
-                                           .ThenInclude(m => m.ApplicationUser)
-                                           .Include(c => c.Photos)
-                                           .FirstOrDefaultAsync(m => m.Id == id);
+       public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
+{
+    var club = await _context.Clubs
+        .Include(c => c.Events)
+            .ThenInclude(e => e.Attendees)
+        .Include(c => c.Memberships)
+            .ThenInclude(m => m.ApplicationUser)
+        .Include(c => c.Photos)
+        .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (club == null)
-            {
-                return NotFound();
-            }
+    if (club == null)
+        return NotFound();
 
-            var viewModel = new ClubDetailsViewModel
-            {
-                Club = club, // The club object we obtained from the database in the query above.
-                Event = new Event() // An empty event object for the event creation form.
-            };
+    var viewModel = new ClubDetailsViewModel
+    {
+        Club = club,
+        Event = new Event() // Varsayılan boş event
+    };
+
+    // 🔥 EDIT EVENT VARSA
+    if (editEventId.HasValue)
+    {
+        var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
+        if (ev == null)
+            return NotFound();
+
+        viewModel.Event = ev; // Dolu veriyi ViewModel'e atadık
+        
+        // Eğer formda veriler görünmüyorsa ModelState'i temizlemek işe yarar
+        ModelState.Clear(); 
+
+        ViewBag.ActiveTab = "createEvent";
+        ViewBag.EditMode = true; 
+    }
+    else
+    {
+        ViewBag.ActiveTab = tab ?? "about";
+        ViewBag.EditMode = false;
+    }
 
             return View(viewModel);
         }
@@ -197,6 +215,42 @@ namespace OgrenciKulupSistemi.Controllers
             // Let's go back to the club details.
             return RedirectToAction("Details", new { id = clubId });
         }
+
+
+        //EDIT EVENT
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditEvent(ClubDetailsViewModel model, IFormFile EventPhoto)
+        {
+            var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == model.Event.Id);
+
+            if (ev == null)
+                return NotFound();
+
+            ev.Title = model.Event.Title;
+            ev.Description = model.Event.Description;
+            ev.StartDate = model.Event.StartDate;
+            ev.EndDate = model.Event.EndDate;
+            ev.RegistrationDeadline = model.Event.RegistrationDeadline;
+            ev.EventType = model.Event.EventType;
+            ev.Location = model.Event.Location;
+
+            if (EventPhoto != null)
+                ev.EventPhotoUrl = await FileUploadHelper.UploadFile(EventPhoto, "events");
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new
+            {
+                id = ev.ClubId,
+                tab = "events"
+            });
+        }
+
+
+
+
 
         // GET : Club/Edit/5
         [HttpGet]

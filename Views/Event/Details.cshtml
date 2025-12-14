@@ -1,14 +1,12 @@
 @using System.Security.Claims
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @model Event
-
+@using System.Security.Claims
 
 @{
     var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var isAdmin = Model.Club.AdminId == currentUserId;
+    var isAdmin = currentUserId == Model.Club.AdminId;
 }
-
-
 
 <div class="card mb-4">
     <div class="card-header">
@@ -60,8 +58,23 @@
                 </form>
             }
 
+            @* yeni eklendi!! etkinlik editleme --> sadece kulübün admini editleyebilir.  *@
+            @if (isAdmin)
+            {
+                <a asp-controller="Club"
+                   asp-action="Details"
+                   asp-route-id="@Model.ClubId"
+                   asp-route-tab="createEvent"
+                   asp-route-editEventId="@Model.Id"
+                   asp-route-tab="createEvent"
+                   class="btn btn-warning">
+                    Edit
+                </a>
+            }
+
         </div>
         <!--////////////////////////////////////////////////////////////////////-->
+        
 
     </div>
 </div>
@@ -85,6 +98,24 @@
             <div class="card mb-3">
 
                 <ul class="list-group list-group-flush">
+                    
+                    <li class="list-group-item detail-item">
+                        <div class="icon-box">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="content-stack">
+                            <span class="detail-title">ORGANIZING CLUB</span>
+                            <span class="detail-data">@Model.Club.Name</span>
+
+                            <a asp-controller="Club"
+                               asp-action="Details"
+                               asp-route-id="@Model.ClubId"
+                               class="btn btn-outline-primary btn-sm mt-2">
+                                Go to Club Page
+                            </a>
+                        </div>
+                    </li>
+
 
                     <li class="list-group-item detail-item">
                         <div class="icon-box">
