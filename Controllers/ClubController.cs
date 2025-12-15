@@ -86,10 +86,7 @@ namespace OgrenciKulupSistemi.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateEvent(
-            int id,
-            [Bind(Prefix = "Event")] Event model,
-            IFormFile EventPhoto)
+        public async Task<IActionResult> CreateEvent(int id, [Bind(Prefix = "Event")] Event model, IFormFile EventPhoto)
         {
             /*
             If a View uses more than one model, a prefix is ​​used to distinguish them from each other.
@@ -156,7 +153,7 @@ namespace OgrenciKulupSistemi.Controllers
             var viewModel = new ClubDetailsViewModel
             {
                 Club = club,
-                Event = new Event() // Varsayılan boş event
+                Event = new Event() // Default empty event
             };
 
             // If there is an Edit Event
@@ -216,6 +213,26 @@ namespace OgrenciKulupSistemi.Controllers
             return RedirectToAction("Details", new { id = clubId });
         }
 
+        [HttpPost]
+        [Authorize] // Only logged-in users should be able to use it.
+        public async Task<IActionResult> LeaveClub(int clubId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // We find the user's membership in that club.
+            var membership = await _context.ClubMemberships
+                .FirstOrDefaultAsync(m => m.ClubId == clubId && m.ApplicationUserId == userId);
+
+            if (membership != null)
+            {
+                _context.ClubMemberships.Remove(membership);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "You have successfully left the club.";
+            }
+
+            return RedirectToAction("Details", new { id = clubId });
+        }
+
 
         //EDIT EVENT
         [HttpPost]
@@ -247,10 +264,6 @@ namespace OgrenciKulupSistemi.Controllers
                 tab = "events"
             });
         }
-
-
-
-
 
         // GET : Club/Edit/5
         [HttpGet]

@@ -4,8 +4,9 @@
 @model ClubDetailsViewModel
 
 @{
-    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);   // The ID of the logged-in user
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier); // The ID of the logged-in user
     var isAdmin = currentUserId == Model.Club.AdminId; // isAdmin checks if the logged-in user is the administrator of the relevant club.
+    var isMember = Model.Club.Memberships.Any(m => m.ApplicationUserId == currentUserId);
 }
 
 <link rel="stylesheet" href="~/css/club.css">
@@ -14,7 +15,7 @@
     <img src="@Model.Club.CoverPhotoUrl" />
 </div>
 
-<div class="club-header-fixed">  @*Club header area (logo + name + buttons)*@
+<div class="club-header-fixed"> @*Club header area (logo + name + buttons)*@
     <div class="club-info-fixed">
         <img src="@Model.Club.LogoImageUrl" class="club-logo-fixed" />
         <div class="club-texts">
@@ -22,34 +23,55 @@
         </div>
     </div>
     <div class="club-buttons">
-        @if (isAdmin && !(Model.Club.AdminId == null))  @* Edit button only for admin users *@
+        @if (isAdmin && !(Model.Club.AdminId == null)) @* Edit button only for admin users *@
         {
             <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
         }
-        @if (!isAdmin) @* Join button for non-admin users *@
+        @* Show buttons if not an admin. *@
+        @if (!isAdmin)
         {
-            <form asp-controller="Club" asp-action="ClubJoin" method="post">
-                <input type="hidden" name="clubId" value="@Model.Club.Id" />
-                <button type="submit" class="join-btn-fixed">
-                    Join
-                </button>
-                @* Toast messages after the join process *@
-                @if (TempData["alreadyJoined"] != null)
-                {
-                    <script> document.addEventListener("DOMContentLoaded", function () {
-                            showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C");
-                        }); </script>
-                }
-                else if (TempData["Success"] != null)
-                {
-                    <script> document.addEventListener("DOMContentLoaded", function () {
-                            showJoinToast("@TempData["Success"]", "#048023");
-                        }); </script>
-                }
-            </form>
+            @* If the user is a member, a leave button will be displayed. *@
+            @if (isMember)
+            {
+                <form asp-controller="Club" asp-action="LeaveClub" method="post">
+                    <input type="hidden" name="clubId" value="@Model.Club.Id" />
+                    <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Are you sure you want to leave this club?')">
+                        Leave Club
+                    </button>
+                </form>
+            }
+            @* If the user is not a member, a join button will be displayed. *@
+            else
+            {
+                <form asp-controller="Club" asp-action="ClubJoin" method="post">
+                    <input type="hidden" name="clubId" value="@Model.Club.Id" />
+                    <button type="submit" class="join-btn-fixed">
+                        Join
+                    </button>
 
+                    @if (TempData["alreadyJoined"] != null)
+                    {
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
+                            });
+                        </script>
+                    }
+
+                    @if (TempData["Success"] != null)
+                    {
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                showJoinToast("@TempData["Success"]", "#048023");
+                            });
+                        </script>
+                    }
+                </form>
+            }
         }
     </div>
+</div>
 
 </div>
 
@@ -60,15 +82,15 @@
 
     @* Admin user-specific tabs *@
     @if (isAdmin && !(Model.Club.AdminId == null))
-    {   
+    {
         @if (ViewBag.EditMode == true)
         {
             /* If we are in Edit mode, when the user presses this button, it means they want to "Cancel and create a new one".
-               Therefore, instead of showTab(), we reload the page with "clean" parameters.
+            Therefore, instead of showTab(), we reload the page with "clean" parameters.
             */
-            <div id="tabCreateEvent" class="tab-item" 
-                 onclick="window.location.href='@Url.Action("Details", "Club", new { id = Model.Club.Id, tab = "createEvent" })'">
-                 Create an Event
+            <div id="tabCreateEvent" class="tab-item"
+                onclick="window.location.href='@Url.Action("Details", "Club", new { id = Model.Club.Id, tab = "createEvent" })'">
+                Create an Event
             </div>
         }
         else
@@ -93,7 +115,7 @@
 <div id="events-section" class="content-area" style="display:none;">
     <div class="about-section">
         <div class="about-title">Events</div> @* All club activities will be listed. *@
-        @if (Model.Club.Events == null || !Model.Club.Events.Any())  @* If there are no events *@
+        @if (Model.Club.Events == null || !Model.Club.Events.Any()) @* If there are no events *@
         {
             <div class="no-event-card text-center">
                 <div class="no-event-icon mb-3">📅</div>
@@ -115,9 +137,9 @@
                         <div class="event-title">@ev.Title</div>
                         <div class="event-desc">
                             @(ev.Description?.Length > 80
-                                                ? ev.Description.Substring(0, 80) + "..."
-                                                : ev.Description)  @* Shorten the description if it's too long *@
-                        </div>
+                                                    ? ev.Description.Substring(0, 80) + "..."
+                                                    : ev.Description) @* Shorten the description if it's too long *@
+                                </div>
                         <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="event-details-btn">
                             Details
                         </a>
@@ -132,14 +154,12 @@
 <div id="createEvent-section" class="content-area" style="display:none;">
 
     <h3 class="mb-3">
-    @(ViewBag.EditMode == true ? "Edit Event" : "Create an Event")
+        @(ViewBag.EditMode == true ? "Edit Event" : "Create an Event")
     </h3>
 
-    <form asp-action="@(ViewBag.EditMode == true ? "EditEvent" : "CreateEvent")"
-      asp-controller="Club"
-      asp-route-id="@Model.Club.Id"
-      method="post"
-      enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
+    <form asp-action="@(ViewBag.EditMode == true ? "EditEvent" : "CreateEvent")" asp-controller="Club"
+        asp-route-id="@Model.Club.Id" method="post" enctype="multipart/form-data"
+        class="p-4 shadow-sm rounded bg-white">
 
         @Html.AntiForgeryToken()
 
@@ -233,8 +253,7 @@
             @foreach (var member in Model.Club.Memberships)
             {
                 @* Number of events the member participated in *@
-                var eventCount = Model.Club.Events
-                .Count(e => e.Attendees.Any(a => a.ApplicationUserId == member.ApplicationUserId));
+                    var eventCount = Model.Club.Events.Count(e => e.Attendees.Any(a => a.ApplicationUserId == member.ApplicationUserId));
 
                 <tr>
                     <td>
@@ -276,14 +295,14 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        
+
         var activeTab = '@ViewBag.ActiveTab';
 
         // If we are in Edit Mode, we force the activeTab variable to be "edit".
-        var isEditMode = @((ViewBag.EditMode == true).ToString().ToLower()); 
-        
+        var isEditMode = @((ViewBag.EditMode == true).ToString().ToLower());
+
         if (isEditMode) {
-            activeTab = "edit"; 
+            activeTab = "edit";
         }
 
         if (activeTab && activeTab.length > 0) {
