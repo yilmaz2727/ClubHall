@@ -2,12 +2,13 @@
 
 <h2>Edit Club</h2>
 
+               @*asp-action="Edit": ClubController Edit (POST)                enctype="multipart/form-data": Required for logo & cover photo upload*@
 <form id="editClubForm" asp-controller="Club" asp-action="Edit" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()    @*Protection against CSRF (Cross-Site Request Forgery) attacks*@
 
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Id" />  @*The ID of the club hosting the event (sent to the controller via POST)*@
 
-    <!-- Hataları kullanıcıya göster -->
+    @*Show the errors to the user.*@
     <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
     <div class="mb-3">
@@ -24,18 +25,19 @@
 
     <div class="mb-3">
         <label class="form-label">Logo</label>
-        @if (!string.IsNullOrEmpty(Model.ExistingLogoImageUrl))
+        @if (!string.IsNullOrEmpty(Model.ExistingLogoImageUrl))  @*Show the user a preview of the existing logo if one is available.*@
         {
             <div class="mb-2">
                 <img src="@Model.ExistingLogoImageUrl" style="max-height:80px;" />
             </div>
         }
+        @*If the new logo is selected, the old logo will be updated on the controller side.*@
         <input asp-for="LogoImage" type="file" class="form-control" accept="image/*" />
     </div>
 
     <div class="mb-3">
         <label class="form-label">Cover Photo</label>
-        @if (!string.IsNullOrEmpty(Model.ExistingCoverPhotoUrl))
+        @if (!string.IsNullOrEmpty(Model.ExistingCoverPhotoUrl))  @*Current cover photo preview*@
         {
             <div class="mb-2">
                 <img src="@Model.ExistingCoverPhotoUrl" style="max-height:120px;" />
@@ -44,10 +46,11 @@
         <input asp-for="CoverPhoto" type="file" class="form-control" accept="image/*" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button> @*The form is submitted, and the Edit POST action is executed.*@
 </form>
 
 
 @section Scripts {
+    @*Client-side validation (jquery validation) *@
     <partial name="_ValidationScriptsPartial" />
 }

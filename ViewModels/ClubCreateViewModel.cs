@@ -7,10 +7,9 @@ namespace OgrenciKulupSistemi.ViewModels
     {
 
         // !!! ÖNEMLİİİ
-        /* Neden bu modeli oluşturdum?
-        Çünkü Club/Creaete.cshtml içerisinde kulüp eklerken eklememiz gereken alanlar var. bu alanlardan bazıları Club.cs modelinden bazıları ClubPhoto modelinden geliyor. 
-        ancak bir view dosyasında sadece bir kez @model yapmama izin veriliyor, dolayısıyla her iki modelden gelen verileri  ortak olarak kullanabileceğim 
-        bir modele ihtiyacım var.
+        /* Why did I create this model?
+        Because when adding a club in Club/Create.cshtml, we need to include certain fields. Some of these fields come from the Club.cs model, and some come from the ClubPhoto model. 
+        However, I'm only allowed to use `@model` once in a view file, so I need a model that can use data from both models in common.
         */
 
 
