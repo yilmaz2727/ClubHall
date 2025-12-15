@@ -8,8 +8,6 @@ function showTab(tab) {
     const tabEvents = document.getElementById("tabEvents");
     const tabCreateEvent = document.getElementById("tabCreateEvent");
     const tabMembers = document.getElementById("tabMembers");
-
-    // 1. Önce her şeyi kapat ve pasif yap (Burası aynı kalıyor)
     if(about) about.style.display = "none";
     if(events) events.style.display = "none";
     if(createEvent) createEvent.style.display = "none";
@@ -20,7 +18,6 @@ function showTab(tab) {
     if(tabCreateEvent) tabCreateEvent.classList.remove("active");
     if(tabMembers) tabMembers.classList.remove("active");
 
-    // 2. Tab'ları açma mantığı
     if (tab === "about" && about) {
         about.style.display = "block";
         if(tabAbout) tabAbout.classList.add("active");
@@ -37,12 +34,7 @@ function showTab(tab) {
         members.style.display = "block";
         if (tabMembers) tabMembers.classList.add("active");
     }
-    // 🔥 YENİ EKLENEN KISIM: EDIT MODU
     else if (tab === "edit" && createEvent) {
-        // Form alanını görünür yapıyoruz (createEvent section'ı kullanıyoruz)
         createEvent.style.display = "block";
-        
-        // AMA: Hiçbir butona .add("active") DEMİYORUZ.
-        // Böylece form görünür ama yukarıdaki menülerin hiçbiri seçili olmaz.
     }
 }
