@@ -11,11 +11,9 @@ namespace OgrenciKulupSistemi.ViewModels
 
         [Required(ErrorMessage = "Açıklama zorunludur.")]
         public string Description { get; set; } = string.Empty;
-        //Yeni yüklenecek dosyalar
         public IFormFile? LogoImage { get; set; }
         public IFormFile? CoverPhoto { get; set; }
         public List<IFormFile>? GalleryPhotos { get; set; }
-        //Hali hazırda bulunan görseller
         public string? ExistingLogoImageUrl { get; set; }
         public string? ExistingCoverPhotoUrl { get; set; }
     }

@@ -88,7 +88,7 @@ namespace OgrenciKulupSistemi.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateEvent(
             int id,
-            [Bind(Prefix = "Event")] Event model,   
+            [Bind(Prefix = "Event")] Event model,
             IFormFile EventPhoto)
         {
             /*
@@ -140,45 +140,45 @@ namespace OgrenciKulupSistemi.Controllers
         }
 
         // GET : Club/Details/
-       public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
-{
-    var club = await _context.Clubs
-        .Include(c => c.Events)
-            .ThenInclude(e => e.Attendees)
-        .Include(c => c.Memberships)
-            .ThenInclude(m => m.ApplicationUser)
-        .Include(c => c.Photos)
-        .FirstOrDefaultAsync(m => m.Id == id);
+        public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
+        {
+            var club = await _context.Clubs
+                .Include(c => c.Events)
+                    .ThenInclude(e => e.Attendees)
+                .Include(c => c.Memberships)
+                    .ThenInclude(m => m.ApplicationUser)
+                .Include(c => c.Photos)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-    if (club == null)
-        return NotFound();
+            if (club == null)
+                return NotFound();
 
-    var viewModel = new ClubDetailsViewModel
-    {
-        Club = club,
-        Event = new Event() // Varsayılan boş event
-    };
+            var viewModel = new ClubDetailsViewModel
+            {
+                Club = club,
+                Event = new Event() // Varsayılan boş event
+            };
 
-    // 🔥 EDIT EVENT VARSA
-    if (editEventId.HasValue)
-    {
-        var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
-        if (ev == null)
-            return NotFound();
+            // If there is an Edit Event
+            if (editEventId.HasValue)
+            {
+                var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
+                if (ev == null)
+                    return NotFound();
 
-        viewModel.Event = ev; // Dolu veriyi ViewModel'e atadık
-        
-        // Eğer formda veriler görünmüyorsa ModelState'i temizlemek işe yarar
-        ModelState.Clear(); 
+                viewModel.Event = ev; // We assigned the populated data to the ViewModel.
 
-        ViewBag.ActiveTab = "createEvent";
-        ViewBag.EditMode = true; 
-    }
-    else
-    {
-        ViewBag.ActiveTab = tab ?? "about";
-        ViewBag.EditMode = false;
-    }
+                // If the data is not visible on the form, clearing ModelState can help.
+                ModelState.Clear();
+
+                ViewBag.ActiveTab = "createEvent";
+                ViewBag.EditMode = true;
+            }
+            else
+            {
+                ViewBag.ActiveTab = tab ?? "about";
+                ViewBag.EditMode = false;
+            }
 
             return View(viewModel);
         }
