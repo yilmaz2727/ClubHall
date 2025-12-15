@@ -114,7 +114,7 @@ namespace OgrenciKulupSistemi.Controllers
             var ev = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
             if (ev != null)
             {
-                ev.NumberOfAttendance += 1; // her join işleminden sonra katılımcı sayısı 1 artırılıyor.
+                ev.NumberOfAttendance += 1; // Its amount beyond the merger limits is increased by 1.
             }
 
             await _context.SaveChangesAsync();
