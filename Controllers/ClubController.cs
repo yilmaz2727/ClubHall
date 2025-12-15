@@ -128,55 +128,49 @@ namespace OgrenciKulupSistemi.Controllers
             return RedirectToAction("Details", new { id, tab = "events" });
         }
 
+         // GET : Club/Details/
+        public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
+        {
+            var club = await _context.Clubs
+                .Include(c => c.Events)
+                    .ThenInclude(e => e.Attendees)
+                .Include(c => c.Memberships)
+                    .ThenInclude(m => m.ApplicationUser)
+                .Include(c => c.Photos)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
+            if (club == null)
+                return NotFound();
 
+            var viewModel = new ClubDetailsViewModel
+            {
+                Club = club,
+                Event = new Event() // Varsayılan boş event
+            };
 
+            // 🔥 EDIT EVENT VARSA
+            if (editEventId.HasValue)
+            {
+                var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
+                if (ev == null)
+                    return NotFound();
 
+                viewModel.Event = ev; // Dolu veriyi ViewModel'e atadık
 
+                // Eğer formda veriler görünmüyorsa ModelState'i temizlemek işe yarar
+                ModelState.Clear(); 
 
-        // GET : Club/Details/
-       public async Task<IActionResult> Details(int id, string? tab, int? editEventId)
-{
-    var club = await _context.Clubs
-        .Include(c => c.Events)
-            .ThenInclude(e => e.Attendees)
-        .Include(c => c.Memberships)
-            .ThenInclude(m => m.ApplicationUser)
-        .Include(c => c.Photos)
-        .FirstOrDefaultAsync(m => m.Id == id);
+                ViewBag.ActiveTab = "createEvent";
+                ViewBag.EditMode = true; 
+            }
+            else
+            {
+                ViewBag.ActiveTab = tab ?? "about";
+                ViewBag.EditMode = false;
+            }
 
-    if (club == null)
-        return NotFound();
-
-    var viewModel = new ClubDetailsViewModel
-    {
-        Club = club,
-        Event = new Event() // Varsayılan boş event
-    };
-
-    // 🔥 EDIT EVENT VARSA
-    if (editEventId.HasValue)
-    {
-        var ev = club.Events.FirstOrDefault(e => e.Id == editEventId.Value);
-        if (ev == null)
-            return NotFound();
-
-        viewModel.Event = ev; // Dolu veriyi ViewModel'e atadık
-        
-        // Eğer formda veriler görünmüyorsa ModelState'i temizlemek işe yarar
-        ModelState.Clear(); 
-
-        ViewBag.ActiveTab = "createEvent";
-        ViewBag.EditMode = true; 
-    }
-    else
-    {
-        ViewBag.ActiveTab = tab ?? "about";
-        ViewBag.EditMode = false;
-    }
-
-    return View(viewModel);
-}
+            return View(viewModel);
+        }
 
 
         
@@ -210,6 +204,26 @@ namespace OgrenciKulupSistemi.Controllers
             await _context.SaveChangesAsync();
 
             // Tekrar kulüp detayına dön
+            return RedirectToAction("Details", new { id = clubId });
+        }
+
+        [HttpPost]
+        [Authorize] // Sadece giriş yapmış kullanıcılar kullanabilsin
+        public async Task<IActionResult> LeaveClub(int clubId)
+        {
+            var userId = _userManager.GetUserId(User);
+        
+            // Kullanıcının o kulüpteki üyeliğini buluyoruz
+            var membership = await _context.ClubMemberships
+                .FirstOrDefaultAsync(m => m.ClubId == clubId && m.ApplicationUserId == userId);
+        
+            if (membership != null)
+            {
+                _context.ClubMemberships.Remove(membership);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "You have successfully left the club.";
+            }
+        
             return RedirectToAction("Details", new { id = clubId });
         }
 

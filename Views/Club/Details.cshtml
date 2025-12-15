@@ -5,7 +5,11 @@
 
 @{
     var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    var isAdmin = currentUserId == Model.Club.AdminId; // isAdmin, giriş yapmış olan kullanıcının ilgili kulübün admini miolduğunu kontrol eder.
+    var isAdmin = currentUserId == Model.Club.AdminId;
+    
+    // 🔥 YENİ: Kullanıcı zaten üye mi kontrolü
+    // Model.Club.Memberships listesinin içinde benim ID'm var mı?
+    var isMember = Model.Club.Memberships.Any(m => m.ApplicationUserId == currentUserId);
 }
 
 <link rel="stylesheet" href="~/css/club.css">
@@ -21,34 +25,59 @@
             <div class="club-name-fixed">@Model.Club.Name</div>
         </div>
     </div>
-    <div class="club-buttons">
-        @if (isAdmin && !(Model.Club.AdminId == null))
-        {
-            <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
-        }
-        @if (!isAdmin)
-        {
-            <form asp-controller="Club" asp-action="ClubJoin" method="post">
-                <input type="hidden" name="clubId" value="@Model.Club.Id" />
-                <button type="submit" class="join-btn-fixed">
-                    Join
-                </button>
-                @if (TempData["alreadyJoined"] != null)
+            <div class="club-buttons">
+            @if (isAdmin)
+            {
+                <a asp-controller="Club" asp-action="Edit" asp-route-id="@Model.Club.Id" class="edit-btn-fixed">Edit</a>
+            }
+            
+            @* Admin değilse butonları göster *@
+            @if (!isAdmin)
+            {
+                @* 🔥 EĞER ÜYE İSE -> LEAVE BUTONU GÖSTER *@
+                @if (isMember)
                 {
-                    <script> document.addEventListener("DOMContentLoaded", function () {
-                            showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C");
-                        }); </script>
+                    <form asp-controller="Club" asp-action="LeaveClub" method="post">
+                        <input type="hidden" name="clubId" value="@Model.Club.Id" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to leave this club?')">
+                            Leave Club
+                        </button>
+                    </form>
                 }
-                else if (TempData["Success"] != null)
+                @* 🔥 EĞER ÜYE DEĞİLSE -> JOIN BUTONU GÖSTER *@
+                else
                 {
-                    <script> document.addEventListener("DOMContentLoaded", function () {
-                            showJoinToast("@TempData["Success"]", "#048023");
-                        }); </script>
-                }
-            </form>
+                    <form asp-controller="Club" asp-action="ClubJoin" method="post">
+                        <input type="hidden" name="clubId" value="@Model.Club.Id" />
+                        <button type="submit" class="join-btn-fixed">
+                            Join
+                        </button>
 
-        }
-    </div>
+                    @if (TempData["alreadyJoined"] != null)
+                    {
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
+                            });
+                        </script>
+                    }
+    
+                    @if (TempData["Success"] != null)
+                    {
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                showJoinToast("@TempData["Success"]", "#048023");
+                            });
+                        </script>
+                    }
+
+
+
+
+                    </form>
+                }
+            }
+        </div>
 
 </div>
 
