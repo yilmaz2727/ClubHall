@@ -52,7 +52,28 @@
                         <button type="submit" class="join-btn-fixed">
                             Join
                         </button>
-                        @* Toast mesajları buradaydı, aynen kalabilir *@
+
+                    @if (TempData["alreadyJoined"] != null)
+                    {
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                showJoinToast("@TempData[key: "alreadyJoined"]", "#F76C6C"); // soft red
+                            });
+                        </script>
+                    }
+    
+                    @if (TempData["Success"] != null)
+                    {
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                showJoinToast("@TempData["Success"]", "#048023");
+                            });
+                        </script>
+                    }
+
+
+
+
                     </form>
                 }
             }
