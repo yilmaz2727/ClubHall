@@ -1,28 +1,42 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OgrenciKulupSistemi.Models;
+using Microsoft.AspNetCore.Identity;
+using OgrenciKulupSistemi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace OgrenciKulupSistemi.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+  
+    private readonly UserManager<ApplicationUser> _userManager;
+  private readonly ApplicationDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+        public HomeController(UserManager<ApplicationUser> userManager,ApplicationDbContext context)
+        {
+            _userManager = userManager;
+            _context =context;
+        }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+  public async Task<ActionResult> Index()
+{
+    var model = new HomeIndexViewModel();// get userid and upcoming event
+   model.UpcomingEvents = await _context.Events
+        .Where(e => e.StartDate >= DateTime.Today)
+        .OrderBy(e => e.StartDate)
+        .Take(6) //6 event
+        .ToListAsync();
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    model.ShowClub = await _context.Clubs // order by event 
+    .OrderBy(c => c.Name)
+    .Take(6)
+    .ToListAsync();   
 
+    return View(model);
+}
+
+  
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

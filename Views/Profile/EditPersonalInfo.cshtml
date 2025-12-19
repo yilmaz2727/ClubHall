@@ -1,0 +1,47 @@
+@model UserEditViewModel
+
+<div class="container mt-4 info-card">
+    <h3>Edit Personal Information</h3>
+
+    <form asp-action="EditProfile" method="post">
+
+        <div class="row mt-3">
+
+            <div class="col-md-6 mb-3">
+                <label>City</label>
+                <input asp-for="City" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>BirthDate</label>
+                <input asp-for="BirthDate" type="date" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>BirthPlace</label>
+                <input asp-for="BirthPlace" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Phone</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Gender</label>
+                <select asp-for="Gender" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+
+    </form>
+</div>

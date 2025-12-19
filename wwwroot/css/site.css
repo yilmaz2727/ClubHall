@@ -1,5 +1,102 @@
-html {
-  font-size: 14px;
+.body {
+   display: block;
+}
+
+a {
+  color: #0077cc;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* navbar */
+
+   .navbar-logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin-left: 150px;
+    padding-right: 230px;
+}
+
+/* STYLE OF NAVBAR */
+.navbar-custom {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+.navbar-custom .nav-link {
+    color: #4a5568;
+    font-weight: 500;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+
+.navbar-custom .nav-link:hover {
+    color: #667eea;
+}
+
+
+.navbar-custom .nav-link.active {
+    color: #667eea !important;
+}
+
+.navbar-custom .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover::after,
+.navbar-custom .nav-link.active::after {
+    width: 100%;
+}
+
+
+.navbar-toggler {
+    border: none !important;
+    padding: 6px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(102, 126, 234, 1)' stroke-linecap='round' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 @media (min-width: 768px) {
@@ -17,8 +114,17 @@ html {
   min-height: 100%;
 }
 
+
 body {
-  margin-bottom: 60px;
+    background-color: #f7faff;
+    color: #333;
+    font-family: Lexend Deca,sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.428571429;
+    overflow-x: hidden;
+    
+    
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -28,4 +134,450 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+.transition-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+.transition-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+  /*                               profile                                    */
+.profile-wrapper {
+    background-color: #f3f2f7;
+}
+
+/*                              Kapak alanı                                   */
+.profile-cover-mine {
+    height: 210px;
+    background: radial-gradient(circle at 0% 0%, #fce3ff 0, transparent 50%),
+                radial-gradient(circle at 100% 0%, #e4f0ff 0, transparent 50%),
+                radial-gradient(circle at 0% 100%, #f9f0ff 0, transparent 50%),
+                linear-gradient(135deg, #d6e3ff, #fbe6ff);
+    position: relative;
+}
+
+/*                                   EDİT BANNER PHOTO           */
+.cover-edit-btn {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    font-size: 0.85rem;
+    border-radius: 999px;
+}
+
+/*                              PROFILE                              */
+.profile-main-box {
+    background: #fff;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    margin-top: -60px;   
+    padding-bottom: 0.5rem;
+}
+
+
+.profile-header-row {
+    margin-top: -40px;   
+}
+
+.profile-avatar-big {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #fff;
+    background-color: #e5e7eb;
+    flex-shrink: 0;
+}
+
+.profile-avatar-big img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+.profile-name-text {
+    font-weight: 700;
+}
+
+.profile-tabs .nav-link {
+    font-size: 0.9rem;
+    padding: 0.75rem 1.1rem;
+    color: #2563eb;
+    font-weight: 600;
+    border-color: #2563eb #2563eb #ffffff; 
+}
+
+.profile-tab-content {
+    font-size: 0.9rem;
+}
+
+.info-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    margin-top: 1rem;
+}
+
+.info-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 1rem;
+}
+
+.info-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.info-value {
+    margin-top: 2px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111827;
+}
+  
+.list-group-item.detail-item {
+  /* Ensure proper spacing and border control */
+  padding: 1.2rem 1rem; /* Adjust padding for height */
+  border-left: none;
+  border-right: none;
+  
+  /* Flex container for Icon and Text Content */
+  display: flex;
+  align-items: flex-start; /* Aligns items to the top (Icon and Text block) */
+}
+
+.detail-item .icon-box {
+  /* Fixed space for the icon */
+  flex-shrink: 0; 
+  width: 30px; 
+  text-align: center;
+  margin-right: 15px;
+  font-size: 1.25rem; 
+  color: #0d6efd; /* Use Bootstrap's primary color for the icon */
+  margin-top: 2px; /* Slight adjustment to align with the first line of text */
+}
+
+.detail-item .content-stack {
+  /* Vertical stack for the title and data */
+  display: flex;
+  flex-direction: column;
+}
+
+.content-stack .detail-title {
+  /* Style matching "ETKİNLİK BAŞLANGIÇ" */
+  font-weight: 500;
+  color: #6c757d; /* Muted gray color */
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.content-stack .detail-data {
+  /* Style matching "02 December 2025 Tue 11:00" */
+  font-weight: 600; /* Bolder */
+  color: #343a40; /* Darker text */
+  font-size: 0.95rem;
+}
+/*    Home Index   */
+/* Sol profil kartı */
+.profile-sidebar-card {
+    background-color: #f3f6ff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.profile-sidebar-header {
+    padding-bottom: 8px;
+}
+
+.profile-avatar-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #424249, #202027);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.profile-sidebar-stats .stat-number {
+    font-weight: 600;
+}
+
+.profile-sidebar-stats .stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.sidebar-links li + li {
+    margin-top: 6px;
+}
+
+.sidebar-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.sidebar-links a:hover {
+    color: #0d6efd;
+}
+
+/* Orta ve sağ kartlar */
+.main-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+/*///////////////////////DISCOVER////////////////////////////*/
+.discover-section {
+    padding: 60px 0 50px;         
+    background: #f7faff;        
+}
+
+.discover-card {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 24px;           
+    padding: 32px 40px;
+    box-shadow: 0 18px 45px rgba(15, 52, 96, 0.08); 
+    border: 1px solid rgba(141, 57, 250, 0.06);    
+}
+
+.discover-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #5fa3f0, #7619ef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;             
+}
+
+.discover-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #4c4f5a;              
+    margin: 0;
+}
+.eventlist-for-home{
+        padding: 60px 0 80px;         
+    background: #f7faff;    
+    text-align: center;
+}
+.eventlist-title{
+     font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #5fa3f0, #7619ef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/*                         HERO BANNER                    */
+
+@media (max-width: 991px) {
+    .c-main-header {
+        margin-top: 0 !important;
+        padding: 25px 0;
+    }
+}
+.hero-banner {
+   -webkit-align-items: center;
+   background: url('../images/Banner.png') no-repeat center center / cover;
+    display: flex;
+    height: 600px;
+     min-height: 450px; 
+    position: relative;
+    width: 100%;
+    -ms-flex-align: center;
+    align-items: center;
+     padding: 120px 0 950px;
+     overflow: visible;  
+
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #8D39FA  ;
+}
+
+.hero-subtitle {
+    max-width: 560px;
+    font-size: 2rem;
+    opacity: 0.9;
+    margin: 0 auto 24px auto;
+   
+    color: #0097ee;
+}
+.buttonActivities {
+    display: inline-block;
+
+    padding: 10px 24px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #4d9fff, #8d39fa);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.buttonActivities:hover {
+    opacity: .9;
+}
+.buttonActivities-Profile{
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 99px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    background: linear-gradient(90deg, #4d9fff, #8d39fa);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.buttonActivities-Profile:hover {
+    opacity: .9;
+}
+
+@media (min-width: 992px) {
+    .hero-subtitle {
+        margin-left: 0;
+    }
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 26px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #0097ee;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hero-btn:hover {
+    color: #013f99;
+    text-decoration: none;
+}
+
+
+
+
+
+.h-Club-top {
+    background: #ffff;
+    padding-bottom: auto;
+    padding-top: auto;
+    width: 100%;
+}
+
+
+.Club-Add {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: auto;
+    padding-right: auto;
+text-align: center;
+}
+
+
+/*                         MyEvents                    */
+.TittleEvent{
+    text-align: center;
+    color: #0097ee;
+    
+}
+/*                      Toast                    */
+.custom-toast {
+    border-radius: 18px !important;
+    padding: 0 !important;
+    border: none !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+.custom-toast .toast-header {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom: none !important;
+    background: #fff !important;
+}
+
+.custom-toast .toast-body {
+    padding: 16px 20px !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.custom-toast .btn-close {
+    filter: invert(1);
+}
+/*                       footer                            */
+.clubhall-footer {
+    background-color:   #ffffff;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.footer-link:hover {
+    color: #2f404a;
+}
+
+.footer-social {
+    font-size: 1.3rem;
+    color:#1b6ec2;
+    transition: 0.2s;
+}
+
+.footer-social:hover {
+    color: #8D39FA;
+}
+.fw-bold{
+  color:#8D39FA;
+}
+.list-unstyled{
+  color:#000000;
+}
+/*                         Club/Details                          */
+.No-Event-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    
+}
+
+.No-Event-icon {
+    font-size: 42px;
+    opacity: 0.8;
 }

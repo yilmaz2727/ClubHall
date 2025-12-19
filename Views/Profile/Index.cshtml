@@ -1,20 +1,109 @@
-burasi profile index, bu sayfada kısaca kullanıcı bilgilerini göstereceğiz (ad, soyad, email, phone)
-kullanıcı aşağıdaki linklere tıkladığında kayıt olduğu kulüpler, daha önceden kayıt olduğu etkinlikler gösterileeck
-
-<div>
-    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="">Hesap Ayarları</a> <!-- burası şuan çalışıyor. -->
-</div>
+@using Microsoft.AspNetCore.Identity
+@model ApplicationUser
 
 
-<div>
-    <a href="#" class="">Üyeliklerim</a> <!-- ileride kullanıcı kulüplere kayıt olabildiğinde bu kısımları güncelleyeceğiz. şuanlık burada yapılacak bir şey yok. -->
-</div>
 
-<div>
-    <a href="#" class="">Etkinliklerim</a>
-</div>
 
-<div>
-    <a href="#">Profili Düzenle</a> <!-- burada Profile/Edit sayfasına yönelndirmelisin. kullanıcı firstname lastname gibi bilgilerni düzenleyebilmeli -->
-</div>
 
+<div class="profile-wrapper">
+
+   
+    <div class="profile-cover-mine">
+
+    </div>
+
+   
+    <div class="profile-main-box container">
+
+      
+        <div class="d-flex align-items-end position-relative profile-header-row">
+
+           
+            <div class="profile-avatar-big">
+                 <img src="https://ui-avatars.com/api/?name=@Model.FirstName+@Model.LastName"
+                            class="rounded-circle me-2" width="35" />
+            </div>
+
+           
+            <div class="ms-4 mb-3">
+                <h2 class="mb-1 profile-name-text">
+                    @Model.FirstName @Model.LastName
+                </h2>
+
+
+            </div>
+
+         
+            <div class="ms-auto mb-3 d-flex gap-2">
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-primary">
+                    <i class="bi bi-gear"></i> Edit
+                </a>
+
+            </div>
+        </div>
+
+      
+        <ul class="nav nav-tabs profile-tabs mt-3">
+            <li class="nav-item">
+                <a class="buttonActivities-Profile" asp-action="MyEvents">My Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="buttonActivities-Profile" asp-action="MyMemberships">My Memberships</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="container mt-4">
+
+        <div class="info-card">
+
+            <h3 class="info-title">Personal Information</h3>
+            <div class="ms-auto mb-3 d-flex gap-2">
+                <a  asp-action="EditPersonalInfo" class="btn btn-outline-primary ">
+                    <i class="bi bi-gear"></i> Edit
+                </a>
+
+            </div>
+           <div class="row mt-4">
+
+                <div class="col-md-6 mb-4">
+                    <div class="info-label">Place of residence</div>
+                    <div class="info-value">@Model.City</div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="info-label">Mobile Phone</div>
+
+                    <div class="info-value">@Model.PhoneNumber</div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">@Model.Email</div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="info-label">Date of birth</div>
+                    <div class="info-value">@Model.BirthDate?.ToShortDateString()</div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="info-label">Birthplace</div>
+                    <div class="info-value">@Model.BirthPlace</div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="info-label">Gender</div>
+                    <div class="info-value">@Model.Gender</div>
+                </div>
+
+
+
+            </div>
+
+
+
+
+        </div>
+    </div>

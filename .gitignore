@@ -419,3 +419,18 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# SQLite Veritabanı Dosyaları
+# Bu satırlar, .db, .sqlite veya .sqlite3 uzantılı tüm dosyaları ignore eder.
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+
+wwwroot/img/clubs/
+wwwroot/img/club-gallery/
+wwwroot/img/events/
+!wwwroot/img/clubs/.gitkeep
+wwwroot/eventPhotos/

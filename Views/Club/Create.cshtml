@@ -1,0 +1,40 @@
+@using OgrenciKulupSistemi.ViewModels
+@model ClubCreateViewModel
+
+<div class="row">
+    <div class="col-md-4">
+
+        <form method="post" enctype="multipart/form-data"> @*method="post": Sends a POST request to the Create action.
+                                                            enctype="multipart/form-data": Required for file upload (Logo/Cover).*@
+            <h2>Create a new club</h2>
+            <hr />
+
+            <div class="form-group mb-3">
+                <input asp-for="Name" class="form-control" placeholder="Club Name" />
+                <label asp-for="Name"></label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <input asp-for="Description" class="form-control" placeholder="Write a description" />
+                <label asp-for="Description">Description</label>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <input type="file" asp-for="LogoImage" class="form-control" accept="image/*"/> @*type="file" + accept="image/*": for image selection only*@
+                <label asp-for="LogoImage">Logo</label>
+                <span asp-validation-for="LogoImage" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <input type="file" asp-for="CoverPhoto" class="form-control" accept="image/*" />
+                <label asp-for="CoverPhoto"></label>
+                <span asp-validation-for="CoverPhoto" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create</button> @*Submit: Triggers a POST request.*@
+        
+        </form>
+    </div>
+</div>

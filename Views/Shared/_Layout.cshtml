@@ -1,58 +1,112 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OgrenciKulupSistemi</title>
+    <title>@ViewData["Title"] - Clubhall</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/club.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OgrenciKulupSistemi.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+        <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OgrenciKulupSistemi</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-logo" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/ClubHall.png" alt="">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Club" asp-action="Index">Club</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Club" asp-action="Index">Clubs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Index">Event</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Event"
+                                asp-action="Index">Events</a>
                         </li>
-
                     </ul>
-
-                    <partial name="_LoginPartial" />    
+                    <partial name="_LoginPartial" />
                 </div>
-
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - OgrenciKulupSistemi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main role="main">
+        @RenderSection("Hero", required: false)
+        <div class="container my-4">
+            @RenderBody()
         </div>
+    </main>
+
+
+    <footer class="clubhall-footer mt-auto text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">ClubHall</h5>
+                    <p class="list-unstyled">The Club and event platform that makes campus life easier</p>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">Menu</h5>
+                    <ul class="list-unstyled">
+                        <li><a  asp-controller="Event" asp-action="Index" class="footer-link">Events</a></li>
+                        <li><a  asp-controller="Club"  asp-action="Index" class="footer-link">Clubs</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold">Communication</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-envelope"></i> info@clubhall.com</li>
+                        <li><i class="bi bi-geo-alt"></i> Sakarya Universty</li>
+                    </ul>
+
+                </div>
+                <div class="d-flex gap-3 mt-2">
+                    <a href="#" class="footer-social"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="footer-social"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="footer-social"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="text-center small">
+                © 2025 ClubHall — All rights reserved.
+            </div>
+
+        </div>
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2000">
+            <div id="joinToast" class="toast custom-toast" role="alert">
+                <div class="toast-header">
+                    <strong class="me-auto">Information For You</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body" id="toastBody"></div>
+            </div>
+        </div>
+
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

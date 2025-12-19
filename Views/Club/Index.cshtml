@@ -1,21 +1,31 @@
-burasi club index
+@using OgrenciKulupSistemi.Models
+@using System.Security.Claims
+@using System.Linq
+
+<h2 style="color:black">Discover All Clubs</h2>
+<hr>
 
 
-burada bootstrap kart düzeniyle kulüpler listelenecek, yapısı şu şekilde olmalı:
+@model List<Club>
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);  // UserId of the logged-in user (will be null if not logged in)
+    var isUserAdmin = Model.Any(c=>c.AdminId==currentUserId); // Is the user an admin of any club?Returns true if AdminId == currentUserId in at least one club.
+}
 
-foto
-kulüp adı
-kısa açıklama
+<div class="text-center">
+    <div class="row">
+        @foreach (var club in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                @*The card design for each club comes from Partial View. This prevents code repetition and results in a cleaner view.*@
+                @await Html.PartialAsync("_ClubCard", club)
+            </div>
+        }
+        
+        @*The "Create Club" button is displayed if the user is logged in and is not an admin of any club.*@
+        @if (User.Identity.IsAuthenticated && !isUserAdmin) {
+            <a class="btn btn-primary" asp-action="Create" asp-controller="Club">Create Club</a>
+        }
 
-kartın üzerine tıklandığında kulübün detay sayfasına yönlendirecek (Club/Details)
-
-detay sayfasında 
-hakkımızda ve etkinlikler butonları seçenekleri olmalı.
-
-!!! etkinlikler butonuna tıklandığında ilgili kulübün düzenlemiş olduğu etkinlikler listelenmeli
-
-bir etkinliğin üzerine tıklandığında o etkinliğin detay sayfasına yönlendirmeli (Event/Details)
-
-katıl butonu oluştur, şuanlık çalışmayacak.
-
-
+    </div>
+</div>

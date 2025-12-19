@@ -1,6 +1,8 @@
 ﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
+.body {
+   display: block;
+}
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -39,10 +41,57 @@ button.accept-policy {
   line-height: inherit;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+.clubhall-footer {
+    background-color:   #ffffff;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.footer-link:hover {
+    color: #2f404a;
+}
+
+.footer-social {
+    font-size: 1.3rem;
+    color:#1b6ec2;
+    transition: 0.2s;
+}
+
+.footer-social:hover {
+    color: #8D39FA;
+}
+.fw-bold{
+  color:#8D39FA;
+}
+.list-unstyled{
+  color:#000000;
+}
+/*Toast*/
+.custom-toast {
+    border-radius: 18px !important;
+    padding: 0 !important;
+    border: none !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+.custom-toast .toast-header {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom: none !important;
+    background: #fff !important;
+}
+
+.custom-toast .toast-body {
+    padding: 16px 20px !important;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.custom-toast .btn-close {
+    filter: invert(1);
 }

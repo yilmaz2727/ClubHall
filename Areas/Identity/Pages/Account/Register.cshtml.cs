@@ -111,6 +111,27 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Phone]
+            [Display(Name = "Telefon Numarası")]
+            public string PhoneNumber { get; set; }
+
+
+            [Display(Name = "Birth Place")]
+            public string BirthPlace { get; set; }
+
+
+            [Display(Name = "Birth Date")]
+            [DataType(DataType.Date)]
+            public DateTime BirthDate { get; set; }
+
+            [Required]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
+
+            [Display(Name = "City")]
+            public string City { get; set; }
+
         }
 
 
@@ -130,6 +151,11 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
 
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
+                user.BirthPlace = Input.BirthPlace;
+                user.BirthDate = Input.BirthDate;
+                user.City = Input.City;
+                user.Gender = Input.Gender;
+                user.PhoneNumber = Input.PhoneNumber;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -157,15 +183,10 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    // return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Home", new { area = "" });
+
                 }
                 foreach (var error in result.Errors)
                 {

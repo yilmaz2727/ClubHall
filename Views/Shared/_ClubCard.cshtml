@@ -1,0 +1,28 @@
+@model OgrenciKulupSistemi.Models.Club
+
+
+<div class="club-card">
+    
+    <div class="club-cover-wrapper">
+        <img src="@Model.CoverPhotoUrl" class="club-cover-photo" alt="@Model.Name Cover">
+    </div>
+
+    <div class="club-logo-wrapper">
+        <img src="@Model.LogoImageUrl" class="club-logo" alt="@Model.Name Logo">
+    </div>
+
+    <div class="club-card-body">
+        <h5 class="club-title">@Model.Name</h5>
+        
+        <p class="club-desc">@Model.Description</p>
+
+        <div class="club-action">
+            <a asp-controller="Club" 
+               asp-action="Details" 
+               asp-route-id="@Model.Id" 
+               class="btn-custom-details stretched-link">
+               Details
+            </a>
+        </div>
+    </div>
+</div>

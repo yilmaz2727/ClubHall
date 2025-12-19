@@ -1,8 +1,93 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@using System.Security.Cryptography
+@model OgrenciKulupSistemi.Models.HomeIndexViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!--             BANNER                 -->
+@section Hero {
+    <section class="hero-banner u-text-center">
+        <div class="container h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-lg-8 text-center text-lg-start hero-text">
+                    <h1 class="hero-title">
+                        More from <br /> Campus Life
+                    </h1>
+                    <p class="hero-subtitle">
+                        Discover clubs, attend events, meet new people, and create opportunities for yourself.
+                    </p>
+                    <a asp-controller="Event" asp-action="Index" class="hero-btn">
+                        LET'S START
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<!--             Discover Clubs                 -->
+<section class="discover-section">
+    <div class="container">
+        <div class="discover-card">
+            <h2 class="discover-title">Discover Clubs</h2>
+            <p class="discover-text">
+                Discover more than @Model.ShowClub.Count() clubs you'd like to join, meet their teams, experience their culture
+                and take your career journey to the next level.
+            </p>
+        </div>
+
+        <br>
+        @if (Model.ShowClub != null && Model.ShowClub.Any())
+        {
+            <div class="row">
+                @foreach (var e in Model.ShowClub)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                        @await Html.PartialAsync("_ClubCard", e)
+                    </div>
+                }
+            </div>
+        }                
+        <div class="text-center my-4">
+            <a asp-action="Index" asp-controller="Club" class="buttonActivities">
+                Review All Club
+            </a>    
+        </div>
+    </div>
+</section>
+
+
+<!--             Upcoming Events                 -->
+
+<section class="eventlist-for-home">
+    <div class="container">
+        <div class="discover-card">
+            <h2 class="eventlist-title">Upcoming Events</h2>
+        </div>
+        <br>
+        @if (Model.UpcomingEvents != null && Model.UpcomingEvents.Any())
+        {
+            <div class="row">
+                @foreach (var ev in Model.UpcomingEvents)
+                {
+                    <div class="col-md-4 mb-3 d-flex">
+                        <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
+                            <img class="card-img-top" src="@ev.EventPhotoUrl" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">@ev.Title</h5>
+                                <p class="card-text">@ev.Description</p>
+                                <p class="card-text">Event Date: @ev.StartDate</p>
+                                <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <h1></h1>
+        }
+        <!--            BUTTON                 -->
+        
+        <a asp-action="Index" asp-controller="Event" class="buttonActivities">
+            Review All Activities
+        </a>
+    </div>
+</section>

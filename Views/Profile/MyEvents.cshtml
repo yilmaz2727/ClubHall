@@ -1,0 +1,46 @@
+@model List<Event>
+<a class="hero-btn" asp-action="Index" asp-controller="Profile">Return Profile</a>
+<hr>
+<!--             My Events                 -->
+<div class="discover-card">
+    <h2 class="discover-title">My Events</h2>
+
+</div>
+<!--            MESSAGE                -->
+@if (!Model.Any())
+{
+    <br/>
+ 
+    <div class="discover-card">
+    <h2 class="discover-text">You have NOT joined any event yet</h2>
+
+</div>
+}
+<!--            ORDER USERS' EVENT                -->
+<section class="discover-section">
+    <div class="container">
+        
+        <div class="row">
+            @foreach (var e in Model)
+        {
+            <div class="col-md-4 mb-3 d-flex">
+                <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
+                    <img class="card-img-top" src="@e.EventPhotoUrl" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@e.Title</h5>
+                        <p class="card-text">@e.Description</p>
+                        <p class="card-text">Event Date: @e.StartDate</p>
+                        <a asp-controller="Event" asp-action="Details" asp-route-id="@e.Id" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+
+        <div class="text-center my-4">
+            <a asp-action="Index" asp-controller="Event" class="buttonActivities">
+                Review All Events
+            </a>
+        </div>
+    </div>
+</section>

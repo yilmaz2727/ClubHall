@@ -1,0 +1,56 @@
+[33mcommit 8a6c3b5014a0ab5a728820fbafb1911383248656[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m)[m
+Author: Huseyin Yilmaz <hy97556@gmail.com>
+Date:   Thu Nov 20 15:08:21 2025 +0300
+
+    Profile sayfaları eklendi, (myEvents)(MyMembership)
+
+[33mcommit 9ffb0fc3baf79c9053d856703323f42744780ba0[m[33m ([m[1;31morigin/develop[m[33m)[m
+Merge: d93d685 c9f49b1
+Author: ahilmii <166316957+ahilmii@users.noreply.github.com>
+Date:   Tue Nov 18 11:59:16 2025 +0300
+
+    Merge pull request #2 from yilmaz2727/feature/events
+    
+    Initialized EventController
+
+[33mcommit c9f49b1c573a013a9bbba0f5c33eb16c7287412e[m[33m ([m[1;31morigin/feature/events[m[33m)[m
+Author: Ahmet Oğan <ahmetoganasd@gmail.com>
+Date:   Tue Nov 18 11:46:36 2025 +0300
+
+    chore: Add db files to gitignore
+
+[33mcommit acc400bc0f57a31c77aa9900094f1554d4689f0f[m
+Author: Ahmet Oğan <ahmetoganasd@gmail.com>
+Date:   Tue Nov 18 11:42:33 2025 +0300
+
+    style: Apply card element for event
+
+[33mcommit 42ba3c15790168bd354187977964077b228ec679[m
+Author: Ahmet Oğan <ahmetoganasd@gmail.com>
+Date:   Mon Nov 17 18:49:50 2025 +0300
+
+    feat: Implement EventController to get events from database
+
+[33mcommit d93d685815272908f1a0321c390ef48a178e3f12[m
+Author: ahilmii <ahmet1905hilmi@gmail.com>
+Date:   Fri Oct 31 17:15:48 2025 +0300
+
+    initial project setup
+
+[33mcommit 0527dec0432907fd2f44f2b7a358dd4c2a1f9359[m[33m ([m[1;32mmain[m[33m)[m
+Author: Huseyin Yilmaz <hy97556@gmail.com>
+Date:   Fri Oct 24 14:46:28 2025 +0300
+
+    Remove obj folder from Git tracking
+
+[33mcommit 6516253ddc47113f53ce5d7cb1228a1fa83ca0eb[m
+Author: Huseyin Yilmaz <hy97556@gmail.com>
+Date:   Fri Oct 24 14:39:38 2025 +0300
+
+    İlk commit: öğrenci kulüp sistemi eklendi
+
+[33mcommit ef69df958f32417727a89d0548e7439fbe586c0f[m
+Author: Hüseyin Yılmaz <hy97556@gmail.com>
+Date:   Fri Oct 24 14:36:19 2025 +0300
+
+    Initial commit

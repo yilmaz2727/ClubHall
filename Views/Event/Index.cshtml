@@ -1,20 +1,72 @@
-burasi event index
+@model IEnumerable<Event>
 
-burada bootstrao kart düzeniyle etkinlikler listelenecek. kart yapısı şu şekilde olmalı:
+<form asp-action="Index" method="get" class="mb-3 d-flex gap-2">
 
-foto
-kulüp adı
-etkinlik adı
-kısa etkinlik metni
-kartın üzerine tıklandığında etkinliğin detay sayfasına yönlendirmeli (Event/Details)
+    <!-- event search text box -->
+    <input type="search"
+           name="eventSearchString"
+           value="@ViewData["EventSearchString"]"
+           class="form-control"
+           placeholder="Search event name" />
+
+    <!-- event types selection -->
+    <select name="eventType" class="form-select">
+        <option value="">All Categories</option> <!-- This is default options that does not filt-->
+
+        @if (ViewData["EventTypes"] is List<string> eventTypes)
+        {
+            string selectedEventType = ViewData["SelectedEventType"] as string;
+
+            foreach (var type in eventTypes)
+            {
+                <option value="@type" selected="@(!string.IsNullOrEmpty(selectedEventType) && type == selectedEventType)">
+                    @type
+                </option>
+            }
+        }
+    </select>
 
 
-detay sayfasında 
-etkinliği düzenleyen kulüp adı (üzerine tıklandığında ilgili kulübe yönlendirmeli --> (Club/Details) )
-etkinlik adı,
-açıklama,
-tarih, 
-konum,
-etkinlik fotosu olmalı
+    <!-- clubs selection -->
+    <select name="clubName" class="form-select">
+        <option value="">All Clubs</option> <!-- This is default options that does not filt-->
 
-!! katıl butonu olmalı, şuanlık çalışmayacak.
+        @if (ViewData["Clubs"] is List<string> clubs)
+        {
+            string selectedClub = ViewData["SelectedClub"] as string;
+
+            foreach (var club in clubs)
+            {
+                <option value="@club" selected="@(!string.IsNullOrEmpty(selectedClub) && club == selectedClub)">
+                    @club
+                </option>
+            }
+        }
+    </select>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-action="Index" class="btn btn-danger">Clear</a>
+
+</form>
+
+
+<div class="text-center">
+    <div class="row">
+    @foreach(var e in Model)
+    {
+    <div class="col-md-4 mb-3 d-flex">
+        <div class="card border-0 shadow-sm rounded-3 transition-card flex-fill" style="width: 100%;">
+            <img class="card-img-top" src="@e.EventPhotoUrl" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@e.Title</h5>
+                <p class="card-text">@e.Description</p>
+                <p class="card-text">Event Date: @e.StartDate</p>
+                <a asp-controller="Event" asp-action="Details" asp-route-id="@e.Id" class="stretched-link"></a>
+            </div>
+        </div>
+    </div>        
+    }
+    </div>
+</div>
+
+    

@@ -1,0 +1,38 @@
+@model List<Club>
+<a class="hero-btn" asp-action="Index" asp-controller="Profile">Return Profile</a>
+<hr>
+<!--            My Memberships                -->
+<div class="discover-card">
+    <h2 class="discover-title">My Memberships</h2>
+
+</div>
+<!--            NOT MESSAGE                -->
+@if (!Model.Any())
+{
+    <br />
+
+    <div class="discover-card">
+        <h2 class="discover-text">You are not a member of any Club yet.</h2>
+
+    </div>
+}
+<!--            ORDER CLUB                -->
+<section class="discover-section">
+    <div class="container">
+
+        <div class="row">
+            @foreach (var e in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
+                    @await Html.PartialAsync("_ClubCard", e)
+                </div>
+            }
+        </div>
+
+        <div class="text-center my-4">
+            <a asp-action="Index" asp-controller="Club" class="buttonActivities">
+                Review All Clubs
+            </a>
+        </div>
+    </div>
+</section>

@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using OgrenciKulupSistemi.Models;
+using OgrenciKulupSistemi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
 {
@@ -22,11 +24,13 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         /// <summary>
@@ -116,6 +120,20 @@ namespace OgrenciKulupSistemi.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+
+                    if (user != null)
+                    {
+                        var adminClub = _context.Clubs.FirstOrDefault(c => c.AdminId == user.Id);
+
+                        if (adminClub != null)
+                        {
+                            // Admin ise kendi kulübüne yönlendir
+                            return RedirectToAction("Details", "Club", new { id = adminClub.Id, area = "" });
+                        }
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
